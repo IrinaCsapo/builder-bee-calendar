@@ -1,6 +1,6 @@
 import { Header } from './components/Header/Header';
-import { Hero } from './components/Hero/Hero';
 import { Footer } from './components/Footer/Footer';
+import { HomePage } from './pages/HomePage';
 
 export function App() {
   return (
@@ -10,10 +10,7 @@ export function App() {
       </a>
       <Header />
       <main id="main" tabIndex={-1}>
-        <Hero />
-        <div className="container">
-          <p>Events list arrives in step 2.</p>
-        </div>
+        <HomePage />
       </main>
       <Footer />
     </>

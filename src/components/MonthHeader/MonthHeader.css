@@ -1,0 +1,16 @@
+.month-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-4);
+  border-bottom: 2px solid var(--color-honey);
+  font-size: var(--text-xl);
+  color: var(--color-plum);
+}
+.month-header__count {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-muted);
+}
