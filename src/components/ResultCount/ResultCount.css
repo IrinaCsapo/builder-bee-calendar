@@ -1,0 +1,2 @@
+.result-count { color: var(--color-muted); font-weight: 600; }
+.result-count strong { color: var(--color-plum); font-size: var(--text-lg); }

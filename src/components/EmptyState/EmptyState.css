@@ -1,0 +1,10 @@
+.empty-state {
+  padding: var(--space-7) var(--space-4);
+  text-align: center;
+  background: var(--color-surface);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+}
+.empty-state__icon { font-size: 2.5rem; }
+.empty-state__title { margin-block: var(--space-2); font-size: var(--text-xl); color: var(--color-plum); }
+.empty-state a, .empty-state .link-button { font-weight: 700; }

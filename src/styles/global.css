@@ -62,3 +62,19 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
     scroll-behavior: auto !important;
   }
 }
+
+/* A button that looks like a link (for actions, e.g. "Clear all") */
+.link-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-link);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
