@@ -74,4 +74,5 @@ if (errors.length) {
   console.error('');
   process.exit(1);
 }
-console.log(`✓ events.json is valid (${(data as unknown[]).length} events)`);
+const n = (data as unknown[]).length;
+console.log(`✓ events.json is valid (${n} ${n === 1 ? "event" : "events"})`);
