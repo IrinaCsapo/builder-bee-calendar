@@ -1,0 +1,55 @@
+/*
+ * Builder Bee Calendar — design tokens
+ *
+ * Brand colours (WCAG contrast, checked):
+ *   Plum  #4A1D6B  on page bg 12.11:1, on white 12.51:1, on honey 7.10:1
+ *   Honey #F6B93B  background/accent only. Ink on honey 9.68:1.
+ *   Never use honey as text on a light background (1.71:1).
+ */
+:root {
+  /* Brand */
+  --color-plum: #4a1d6b;
+  --color-plum-strong: #351350;
+  --color-honey: #f6b93b;
+  --color-honey-soft: #fdebc4;
+
+  /* Neutrals */
+  --color-ink: #1f1a24;        /* body text, 16.51:1 on bg */
+  --color-muted: #5e5668;      /* secondary text, 6.76:1 on bg */
+  --color-bg: #fffbf2;
+  --color-surface: #ffffff;
+  --color-border: #e4dcea;
+
+  /* Semantic */
+  --color-text: var(--color-ink);
+  --color-link: var(--color-plum);
+  --color-focus: var(--color-plum);
+
+  /* Type */
+  --font-sans: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.75rem;
+  --text-2xl: clamp(2rem, 5vw + 1rem, 3.25rem);
+  --leading-tight: 1.15;
+  --leading-normal: 1.55;
+
+  /* Spacing scale (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* Shape & size */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
+  --tap-target: 44px;
+  --content-width: 72rem;
+  --focus-ring: 3px solid var(--color-focus);
+}

@@ -1,0 +1,19 @@
+.hero {
+  padding-block: var(--space-7) var(--space-6);
+}
+.hero__title {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--color-plum);
+  max-width: 18ch;
+}
+.hero__highlight {
+  background: linear-gradient(transparent 60%, var(--color-honey) 60%);
+  padding-inline: 0.1em;
+}
+.hero__lede {
+  margin-top: var(--space-4);
+  font-size: var(--text-lg);
+  color: var(--color-muted);
+  max-width: 40ch;
+}
