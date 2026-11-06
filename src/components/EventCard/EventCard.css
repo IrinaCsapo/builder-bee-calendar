@@ -1,0 +1,49 @@
+.event-card {
+  position: relative;
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+.event-card:hover {
+  border-color: var(--color-plum);
+  box-shadow: 0 4px 0 var(--color-honey);
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .event-card:hover { transform: none; }
+}
+.event-card:focus-within {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.event-card__body { flex: 1; min-width: 0; }
+
+.event-card__title { font-size: var(--text-lg); }
+.event-card__link {
+  color: var(--color-ink);
+  text-decoration: none;
+}
+.event-card__link:hover { text-decoration: underline; text-decoration-color: var(--color-honey); text-decoration-thickness: 3px; }
+/* Whole card is the tap target; the ring is drawn on the card via :focus-within */
+.event-card__link::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-md); }
+.event-card__link:focus-visible { outline: none; }
+
+.event-card__organiser {
+  margin-top: var(--space-1);
+  color: var(--color-muted);
+}
+
+.event-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}

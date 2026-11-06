@@ -6,11 +6,6 @@
   margin: 0;
   padding: 0;
 }
-.event-list__row {
-  padding: var(--space-4);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+@media (min-width: 60rem) {
+  .event-list__items { grid-template-columns: repeat(2, 1fr); }
 }
-.event-list__row h3 { font-size: var(--text-lg); }
-.event-list__row p { color: var(--color-muted); }
