@@ -1,0 +1,175 @@
+# Event submission form. Fields mirror src/types/event.ts.
+# To approve: copy the answers into src/data/events.json, push, and close the issue.
+name: Submit an event
+description: Suggest a hackathon, meetup or tech event for women and non-binary builders.
+title: "[Event] "
+labels: ["event-submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for adding to the calendar! 🐝
+        We list events that welcome women and non-binary builders. We check every submission before it goes live, usually within a few days.
+
+  - type: input
+    id: title
+    attributes:
+      label: Event name
+      placeholder: FemmeHacks 2027
+    validations:
+      required: true
+
+  - type: input
+    id: organiser
+    attributes:
+      label: Organiser
+      placeholder: University of Pennsylvania
+    validations:
+      required: true
+
+  - type: dropdown
+    id: event_type
+    attributes:
+      label: Event type
+      options: [Hackathon, Buildathon, Meetup, Conference, Workshop, Bootcamp, Pitch night]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: format
+    attributes:
+      label: Format
+      options: [In person, Online, Hybrid]
+    validations:
+      required: true
+
+  - type: input
+    id: start_date
+    attributes:
+      label: Start date
+      description: Format YYYY-MM-DD
+      placeholder: "2027-03-27"
+    validations:
+      required: true
+
+  - type: input
+    id: end_date
+    attributes:
+      label: End date
+      description: Format YYYY-MM-DD. Same as the start date for one-day events.
+      placeholder: "2027-03-28"
+    validations:
+      required: true
+
+  - type: input
+    id: timezone
+    attributes:
+      label: Timezone
+      description: The event's local timezone, as a city name. See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+      placeholder: Europe/London
+    validations:
+      required: true
+
+  - type: input
+    id: city
+    attributes:
+      label: City
+      description: Leave empty for online events.
+      placeholder: Philadelphia
+
+  - type: input
+    id: country
+    attributes:
+      label: Country
+      placeholder: United States
+
+  - type: dropdown
+    id: region
+    attributes:
+      label: Region
+      description: Choose Global for online events open to everyone.
+      options: [Europe, North America, LatAm, Africa, Asia, Oceania, Global]
+    validations:
+      required: true
+
+  - type: input
+    id: venue
+    attributes:
+      label: Venue (optional)
+      placeholder: Houston Hall
+
+  - type: checkboxes
+    id: themes
+    attributes:
+      label: Themes
+      description: Tick any that apply.
+      options:
+        - label: AI
+        - label: Fintech
+        - label: Health
+        - label: Climate
+        - label: Web3
+        - label: Design
+        - label: No-code
+        - label: Hardware
+        - label: Social impact
+
+  - type: textarea
+    id: audience
+    attributes:
+      label: Who it's for
+      description: In the organiser's own words. We show this exactly as written.
+      placeholder: Students who identify as women or non-binary
+    validations:
+      required: true
+
+  - type: dropdown
+    id: level
+    attributes:
+      label: Level
+      options: [Beginner friendly, All levels, Experienced]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: cost
+    attributes:
+      label: Cost
+      options: [Free, Paid]
+    validations:
+      required: true
+
+  - type: input
+    id: registration_url
+    attributes:
+      label: Registration link
+      placeholder: https://femmehacks.io
+    validations:
+      required: true
+
+  - type: input
+    id: deadline
+    attributes:
+      label: Application deadline (optional)
+      description: Format YYYY-MM-DD
+      placeholder: "2027-03-01"
+
+  - type: input
+    id: image_url
+    attributes:
+      label: Image link (optional)
+      description: A banner or logo we can show on the event page.
+
+  - type: input
+    id: source
+    attributes:
+      label: Where did you find this event? (optional)
+      description: Are you the organiser? Or a link to where it's announced.
+
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Before you submit
+      options:
+        - label: This event is open to women and non-binary builders.
+          required: true

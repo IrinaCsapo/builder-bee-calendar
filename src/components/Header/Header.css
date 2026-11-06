@@ -42,3 +42,10 @@
 }
 .header__link:hover { text-decoration: underline; text-decoration-color: var(--color-honey); text-decoration-thickness: 2px; }
 .header :focus-visible { outline-color: var(--color-honey); }
+/* Current page: underline (shape) + honey colour, not colour alone */
+.header__link[aria-current='page'] {
+  text-decoration: underline;
+  text-decoration-color: var(--color-honey);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.35em;
+}

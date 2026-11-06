@@ -1,12 +1,16 @@
+import { useHashRoute } from '../../lib/useHashRoute';
 import './Header.css';
 
 const NAV = [
-  { href: '#/', label: 'Events' },
-  { href: '#/submit', label: 'Submit an event' },
-  { href: '#/about', label: 'About' },
+  { href: '#/', path: '/', label: 'Events' },
+  { href: '#/submit', path: '/submit', label: 'Submit an event' },
+  { href: '#/about', path: '/about', label: 'About' },
 ];
 
 export function Header() {
+  const { path } = useHashRoute();
+  // Event detail pages count as part of "Events"
+  const section = path.startsWith('/event/') ? '/' : path;
   return (
     <header className="header">
       <div className="container header__inner">
@@ -18,7 +22,9 @@ export function Header() {
           <ul className="header__nav">
             {NAV.map((item) => (
               <li key={item.href}>
-                <a className="header__link" href={item.href}>{item.label}</a>
+                <a className="header__link" href={item.href} aria-current={section === item.path ? 'page' : undefined}>
+                  {item.label}
+                </a>
               </li>
             ))}
           </ul>

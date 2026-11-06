@@ -1,0 +1,55 @@
+/* Shared layout for text pages (Submit, About) */
+.content-page { padding-block: var(--space-6) var(--space-7); max-width: 46rem; }
+.content-page h1 { font-size: var(--text-2xl); color: var(--color-plum); }
+.content-page__lede { margin-top: var(--space-4); font-size: var(--text-lg); color: var(--color-muted); }
+.content-page h2 { margin-top: var(--space-7); font-size: var(--text-xl); color: var(--color-plum); }
+.content-page p, .content-page ul, .content-page ol { margin-top: var(--space-3); }
+.content-page li + li { margin-top: var(--space-2); }
+
+.steps { list-style: none; padding: 0; counter-reset: step; display: grid; gap: var(--space-4); }
+.steps li {
+  counter-increment: step;
+  position: relative;
+  padding: var(--space-4) var(--space-4) var(--space-4) calc(var(--space-4) + 3rem);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.steps li + li { margin-top: 0; }
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: var(--space-4);
+  top: var(--space-4);
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--color-honey);
+  color: var(--color-plum); /* 7.10:1 */
+  font-weight: 800;
+}
+.steps strong { display: block; color: var(--color-plum); }
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 3.5rem;
+  margin-top: var(--space-5);
+  padding: 0 var(--space-6);
+  border-radius: var(--radius-pill);
+  background: var(--color-plum);
+  color: #fff;
+  font-size: var(--text-lg);
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 5px 0 var(--color-honey);
+}
+.cta:hover { background: var(--color-plum-strong); text-decoration: underline; text-decoration-color: var(--color-honey); }
+.content-page__small { font-size: var(--text-sm); color: var(--color-muted); }
+.cta { line-height: 1.2; padding-block: var(--space-3); }
+@media (max-width: 30rem) {
+  .cta { display: flex; justify-content: center; text-align: center; padding-inline: var(--space-4); }
+}

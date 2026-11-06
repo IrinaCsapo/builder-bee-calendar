@@ -4,6 +4,7 @@ import { Footer } from './components/Footer/Footer';
 import { HomePage } from './pages/HomePage';
 import { EventPage } from './pages/EventPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { SubmitPage } from './pages/SubmitPage';
 import { useHashRoute } from './lib/useHashRoute';
 
 export function App() {
@@ -13,6 +14,7 @@ export function App() {
   let page;
   if (path === '/') page = <HomePage />;
   else if (eventMatch) page = <EventPage id={eventMatch[1]} />;
+  else if (path === '/submit') page = <SubmitPage />;
   else page = <NotFoundPage />;
 
   // On page change (not on filter changes): scroll to top and move focus to
