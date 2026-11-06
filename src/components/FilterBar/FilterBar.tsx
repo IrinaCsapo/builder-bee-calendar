@@ -1,7 +1,9 @@
-import { FORMATS } from '../../types/event';
+import { EVENT_TYPES, FORMATS, REGIONS, THEMES } from '../../types/event';
+import type { EventType, Region, Theme } from '../../types/event';
 import type { Filters } from '../../lib/filters';
 import { hasActiveFilters, toggleInList } from '../../lib/filters';
 import { ToggleButton } from '../ToggleButton/ToggleButton';
+import { Select } from '../Select/Select';
 import { ResultCount } from '../ResultCount/ResultCount';
 import './FilterBar.css';
 
@@ -10,10 +12,22 @@ interface FilterBarProps {
   onChange: (next: Filters) => void;
   onClear: () => void;
   resultCount: number;
+  /** Countries that have upcoming events, keyed by region, for the country dropdown */
+  countriesByRegion: Record<string, string[]>;
 }
 
-export function FilterBar({ filters, onChange, onClear, resultCount }: FilterBarProps) {
+export function FilterBar({ filters, onChange, onClear, resultCount, countriesByRegion }: FilterBarProps) {
   const set = (patch: Partial<Filters>) => onChange({ ...filters, ...patch });
+
+  // Country list narrows to the chosen region.
+  const countries = filters.region
+    ? countriesByRegion[filters.region] ?? []
+    : [...new Set(Object.values(countriesByRegion).flat())].sort();
+
+  const setRegion = (region: string) => {
+    const keepCountry = !region || (countriesByRegion[region] ?? []).includes(filters.country);
+    set({ region: region as Region | '', country: keepCountry ? filters.country : '' });
+  };
 
   return (
     <section className="filter-bar" aria-labelledby="filter-heading">
@@ -46,6 +60,17 @@ export function FilterBar({ filters, onChange, onClear, resultCount }: FilterBar
             </ToggleButton>
           </div>
         </fieldset>
+      </div>
+
+      <div className="filter-bar__selects">
+        <Select id="filter-type" label="Type" allLabel="All types" options={EVENT_TYPES}
+          value={filters.type} onChange={(v) => set({ type: v as EventType | '' })} />
+        <Select id="filter-region" label="Region" allLabel="All regions" options={REGIONS}
+          value={filters.region} onChange={setRegion} />
+        <Select id="filter-country" label="Country" allLabel="All countries" options={countries}
+          value={filters.country} onChange={(v) => set({ country: v })} />
+        <Select id="filter-theme" label="Theme" allLabel="All themes" options={THEMES}
+          value={filters.theme} onChange={(v) => set({ theme: v as Theme | '' })} />
       </div>
 
       <div className="filter-bar__footer">

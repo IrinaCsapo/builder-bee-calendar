@@ -30,3 +30,11 @@
   padding-top: var(--space-3);
   border-top: 1px solid var(--color-border);
 }
+.filter-bar__selects {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+@media (min-width: 30rem) { .filter-bar__selects { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 56rem) { .filter-bar__selects { grid-template-columns: repeat(4, 1fr); } }
