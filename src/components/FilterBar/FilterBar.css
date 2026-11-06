@@ -1,14 +1,12 @@
+/* Mobile first: Format toggles, a "More filters" disclosure, then the count. */
 .filter-bar {
+  display: grid;
+  gap: var(--space-3);
   padding: var(--space-4);
   margin-bottom: var(--space-6);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-}
-.filter-bar__rows {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4) var(--space-6);
 }
 .filter-bar__group { border: 0; margin: 0; padding: 0; min-width: 0; }
 .filter-bar__legend {
@@ -21,20 +19,62 @@
   letter-spacing: 0.06em;
 }
 .filter-bar__chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+.filter-bar__more {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--tap-target);
+  padding: 0 var(--space-3);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--color-plum);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.filter-bar__more:hover { border-color: var(--color-plum); }
+.filter-bar__more-icon { width: 1em; font-size: 1.25rem; line-height: 1; }
+.filter-bar__more-count {
+  margin-left: auto;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-plum);
+  color: #fff;
+  font-size: var(--text-sm);
+}
+
+/* Collapsed on phones: display:none also removes it from keyboard order */
+.filter-bar__more-panel { display: none; gap: var(--space-4); }
+.filter-bar__more-panel.is-open { display: grid; }
+
+.filter-bar__selects { display: grid; grid-template-columns: 1fr; gap: var(--space-3); }
+@media (min-width: 30rem) { .filter-bar__selects { grid-template-columns: repeat(2, 1fr); } }
+
 .filter-bar__footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  margin-top: var(--space-4);
   padding-top: var(--space-3);
   border-top: 1px solid var(--color-border);
 }
-.filter-bar__selects {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-3);
-  margin-top: var(--space-4);
+
+/* Tablet and up: no disclosure, everything visible.
+   Format and Show only share a row; dropdowns underneath. */
+@media (min-width: 48rem) {
+  .filter-bar {
+    grid-template-columns: auto 1fr;
+    column-gap: var(--space-6);
+    row-gap: var(--space-4);
+  }
+  .filter-bar__more { display: none; }
+  .filter-bar__more-panel,
+  .filter-bar__more-panel.is-open { display: contents; }
+  .filter-bar__selects, .filter-bar__footer { grid-column: 1 / -1; }
 }
-@media (min-width: 30rem) { .filter-bar__selects { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 56rem) { .filter-bar__selects { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 56rem) {
+  .filter-bar__selects { grid-template-columns: repeat(4, 1fr); }
+}
