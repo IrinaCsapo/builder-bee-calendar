@@ -7,6 +7,7 @@ import { allEvents } from '../lib/events';
 import { getUpcoming } from '../lib/dates';
 import { applyFilters, EMPTY_FILTERS, filtersFromQuery, filtersToQuery, type Filters } from '../lib/filters';
 import { parseHash, replaceHashQuery } from '../lib/useHashRoute';
+import { useDocumentTitle } from '../lib/useDocumentTitle';
 
 const upcoming = getUpcoming(allEvents);
 
@@ -19,6 +20,7 @@ for (const e of upcoming) {
 Object.values(countriesByRegion).forEach((list) => list.sort());
 
 export function HomePage() {
+  useDocumentTitle();
   // Filters live in the URL (#/?format=Online&region=Europe) so a filtered view can be shared.
   const [filters, setFilters] = useState<Filters>(() => filtersFromQuery(parseHash().query));
   useEffect(() => replaceHashQuery(filtersToQuery(filters)), [filters]);

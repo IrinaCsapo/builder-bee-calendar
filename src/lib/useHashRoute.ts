@@ -30,4 +30,11 @@ export function replaceHashQuery(query: string) {
   const { path } = parseHash();
   const next = `#${path}${query ? `?${query}` : ''}`;
   if (next !== window.location.hash) history.replaceState(null, '', next);
+  if (path === '/') rememberListHash();
 }
+
+// Remembers the last filtered list URL, so "Back to all events" on a detail
+// page returns to the same filters even if the visitor arrived some other way.
+let lastListHash = '#/';
+export const rememberListHash = () => { lastListHash = window.location.hash || '#/'; };
+export const getListHash = () => lastListHash;
