@@ -124,5 +124,6 @@ Built with WCAG 2.2 AA in mind, and checked page by page:
 - Tap targets are at least 44×44px
 - Landmarks, one `h1` per page, no skipped heading levels, skip link, focus moves to the new page's heading
 - Respects `prefers-reduced-motion`
+- The featured carousel has a Pause button, pauses on hover and keyboard focus, never auto-rotates with reduced motion, and only announces slides the visitor changes
 
 If you change colours in `tokens.css`, re-check contrast. The ratios are noted in the file.

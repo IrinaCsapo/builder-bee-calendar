@@ -9,6 +9,7 @@ import { getDeviceLocation, getRemembered, guessFromTimezone, remember, type Ori
 import { SortBar, type LocateStatus } from '../components/SortBar/SortBar';
 import { ViewSwitch, type View } from '../components/ViewSwitch/ViewSwitch';
 import { CalendarView } from '../components/CalendarView/CalendarView';
+import { FeaturedCarousel } from '../components/FeaturedCarousel/FeaturedCarousel';
 import { isMonthKey } from '../lib/calendar';
 import { todayISO } from '../lib/dates';
 import { applyFilters, EMPTY_FILTERS, filtersFromQuery, filtersToQuery, type Filters } from '../lib/filters';
@@ -16,6 +17,9 @@ import { parseHash, replaceHashQuery } from '../lib/useHashRoute';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 
 const upcoming = getUpcoming(allEvents);
+
+// Featured: the next 6 upcoming events that have a photo
+const featured = upcoming.filter((e) => e.image_url).slice(0, 6);
 
 // Calendar view can go from this month to the month of the last upcoming event.
 const MIN_MONTH = todayISO().slice(0, 7);
@@ -105,6 +109,7 @@ export function HomePage() {
         }}
       />
       <div className="container">
+        <FeaturedCarousel events={featured} />
         <FilterBar
           filters={filters}
           onChange={setFilters}
