@@ -1,9 +1,9 @@
 .event-card {
   position: relative;
   display: flex;
-  gap: var(--space-4);
-  align-items: flex-start;
-  padding: var(--space-4);
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -22,7 +22,15 @@
   outline-offset: 3px;
 }
 
+.event-card__content {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  padding: var(--space-4);
+}
 .event-card__body { flex: 1; min-width: 0; }
+/* the date block sits half over the image, like a ticket stub */
+.event-card__content .date-block { margin-top: calc(-1 * var(--space-6)); position: relative; box-shadow: 0 0 0 3px var(--color-surface); }
 
 .event-card__title { font-size: var(--text-lg); }
 .event-card__link {

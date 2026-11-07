@@ -46,6 +46,10 @@ Follow `src/types/event.ts` exactly. Allowed values are listed there; the README
 - `source`: the URL of the page where you confirmed the details
 - `lat`/`lng`: **required** for in-person and hybrid events. Use the city centre's coordinates (4 decimal places is plenty),
   e.g. Manchester `53.4808`, `-2.2426`. Leave them out for online events. They power "Nearest first" on the site.
+- `image_url`: the official page's preview image (its `og:image` meta tag), only if it's a full `https://` link that loads.
+  Never use images from other sites. Leave it out if there isn't one.
+  For Luma events, don't use the `og:image` (it's an auto-generated share card): use the page's `"cover_url"`,
+  as `https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,width=800,height=400/<path after images.lumacdn.com/>`.
 - Leave out other optional fields you can't confirm.
 
 ## 5. Finish

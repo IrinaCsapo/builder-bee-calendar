@@ -54,7 +54,8 @@ Then open http://localhost:5173/builder-bee-calendar/
 | `level` | yes | Beginner friendly, All levels, Experienced |
 | `cost` | yes | Free, Paid |
 | `registration_url` | yes | Full `https://` link |
-| `deadline`, `image_url` | no | `2027-03-01`, full `https://` link |
+| `deadline` | no | `2027-03-01` |
+| `image_url` | no | The official page's preview image, loaded from the organiser's host (not copied into the repo). Events without one get a branded placeholder |
 | `source` | yes | Where it came from, or `placeholder` |
 
 The allowed values live in [`src/types/event.ts`](src/types/event.ts). To add a new theme or type, add it there and to the issue form in [`.github/ISSUE_TEMPLATE/submit-event.yml`](.github/ISSUE_TEMPLATE/submit-event.yml).

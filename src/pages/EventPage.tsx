@@ -5,6 +5,7 @@ import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { Badge } from '../components/Badge/Badge';
 import { Chip } from '../components/Chip/Chip';
 import { DateBlock } from '../components/DateBlock/DateBlock';
+import { EventImage } from '../components/EventImage/EventImage';
 import { DetailList } from '../components/DetailList/DetailList';
 import { ShareLink } from '../components/ShareLink/ShareLink';
 import { AddToCalendar } from '../components/AddToCalendar/AddToCalendar';
@@ -52,10 +53,7 @@ export function EventPage({ id }: { id: string }) {
         </div>
       </header>
 
-      {event.image_url && (
-        // The title is already the h1, so the banner is decorative.
-        <img className="event-page__image" src={event.image_url} alt="" loading="lazy" />
-      )}
+      {event.image_url && <EventImage src={event.image_url} type={event.event_type} variant="banner" />}
 
       <div className="event-page__layout">
         <aside className="event-page__actions" aria-label="Register and share">

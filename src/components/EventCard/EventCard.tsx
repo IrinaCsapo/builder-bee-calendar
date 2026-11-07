@@ -2,6 +2,7 @@ import type { CalendarEvent } from '../../types/event';
 import { Chip } from '../Chip/Chip';
 import { Badge } from '../Badge/Badge';
 import { DateBlock } from '../DateBlock/DateBlock';
+import { EventImage } from '../EventImage/EventImage';
 import './EventCard.css';
 
 interface EventCardProps {
@@ -14,6 +15,8 @@ export function EventCard({ event }: EventCardProps) {
 
   return (
     <article className="event-card">
+      <EventImage src={event.image_url} type={event.event_type} />
+      <div className="event-card__content">
       <DateBlock start={event.start_date} end={event.end_date} />
       <div className="event-card__body">
         <h3 className="event-card__title">
@@ -30,6 +33,7 @@ export function EventCard({ event }: EventCardProps) {
           {isFree && <li><Badge>Free</Badge></li>}
           {isBeginner && <li><Badge variant="plum">Beginner friendly</Badge></li>}
         </ul>
+      </div>
       </div>
     </article>
   );
