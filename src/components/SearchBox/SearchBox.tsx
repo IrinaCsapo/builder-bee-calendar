@@ -1,17 +1,25 @@
-import { useRef } from 'react';
+import { useRef, type FormEvent } from 'react';
 import './SearchBox.css';
 
 interface SearchBoxProps {
   value: string;
   onChange: (value: string) => void;
+  /** Called when the visitor presses Enter or the Search button. */
+  onSubmit?: () => void;
 }
 
-/** Visible label, a real <input type="search">, and a clear button that returns focus to the input. */
-export function SearchBox({ value, onChange }: SearchBoxProps) {
+/**
+ * Pill search bar with a dark Search button. Results filter as you type;
+ * Search / Enter jumps to the results.
+ */
+export function SearchBox({ value, onChange, onSubmit }: SearchBoxProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const submit = (e: FormEvent) => { e.preventDefault(); onSubmit?.(); };
+
   return (
-    <div className="search-box" role="search">
-      <label htmlFor="event-search" className="search-box__label">Search</label>
+    <form className="search-box" role="search" onSubmit={submit}>
+      {/* Visually hidden but announced; the icon, placeholder and Search button make the purpose clear on screen */}
+      <label htmlFor="event-search" className="visually-hidden">Search events</label>
       <div className="search-box__field">
         <span className="search-box__icon" aria-hidden="true">🔍</span>
         <input
@@ -38,8 +46,9 @@ export function SearchBox({ value, onChange }: SearchBoxProps) {
             <span className="visually-hidden">Clear search</span>
           </button>
         )}
+        <button type="submit" className="search-box__submit">Search</button>
       </div>
       <p id="event-search-hint" className="visually-hidden">Results update as you type.</p>
-    </div>
+    </form>
   );
 }

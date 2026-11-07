@@ -88,13 +88,22 @@ export function HomePage() {
   const clear = () => {
     setFilters(EMPTY_FILTERS);
     // The button that was clicked disappears once filters are cleared,
-    // so put keyboard focus somewhere sensible: the search box.
-    requestAnimationFrame(() => document.querySelector<HTMLElement>('#event-search')?.focus());
+    // so put keyboard focus somewhere sensible: the first filter.
+    requestAnimationFrame(() => document.querySelector<HTMLElement>('.filter-bar button')?.focus());
   };
 
   return (
     <>
-      <Hero />
+      <Hero
+        query={filters.query}
+        onQueryChange={(query) => setFilters((f) => ({ ...f, query }))}
+        onSearch={() => {
+          // Jump to the results and move focus to the count, so it's read out
+          const count = document.getElementById('result-count');
+          count?.closest('.filter-bar')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+          count?.focus({ preventScroll: true });
+        }}
+      />
       <div className="container">
         <FilterBar
           filters={filters}

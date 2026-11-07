@@ -5,7 +5,6 @@ import type { Filters } from '../../lib/filters';
 import { hasActiveFilters, toggleInList } from '../../lib/filters';
 import { ToggleButton } from '../ToggleButton/ToggleButton';
 import { Select } from '../Select/Select';
-import { SearchBox } from '../SearchBox/SearchBox';
 import { ResultCount } from '../ResultCount/ResultCount';
 import './FilterBar.css';
 
@@ -42,9 +41,6 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
     <section className="filter-bar" aria-labelledby="filter-heading">
       <h2 id="filter-heading" className="visually-hidden">Filter events</h2>
 
-      <div className="filter-bar__search">
-        <SearchBox value={filters.query} onChange={(query) => set({ query })} />
-      </div>
 
       <fieldset className="filter-bar__group filter-bar__format">
         <legend className="filter-bar__legend">Format</legend>
@@ -99,7 +95,7 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
       </div>
 
       <div className="filter-bar__footer">
-        <ResultCount count={resultCount} />
+        <ResultCount id="result-count" count={resultCount} />
         {hasActiveFilters(filters) && (
           <button type="button" className="link-button" onClick={onClear}>Clear all</button>
         )}

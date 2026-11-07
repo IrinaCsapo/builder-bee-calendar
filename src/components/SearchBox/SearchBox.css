@@ -1,32 +1,35 @@
-.search-box { display: grid; gap: var(--space-1); }
-.search-box__label {
-  font-size: var(--text-sm);
-  font-weight: 700;
-  color: var(--color-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-.search-box__field { position: relative; display: flex; align-items: center; }
-.search-box__icon { position: absolute; left: var(--space-3); font-size: 1rem; pointer-events: none; }
-.search-box__input {
-  width: 100%;
-  min-height: 3rem;
-  padding: 0 calc(var(--tap-target) + var(--space-2)) 0 calc(var(--space-3) + 1.75rem);
-  border: 2px solid var(--color-field-border);
+.search-box { width: 100%; }
+.search-box__field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 3.75rem;
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-4);
+  border: 2px solid var(--color-field-border);   /* 3.50:1 */
   border-radius: var(--radius-pill);
-  background: var(--color-bg);
+  background: var(--color-surface);
+  box-shadow: 0 6px 24px -12px rgba(31, 26, 36, 0.35);
+}
+.search-box__field:hover { border-color: var(--color-plum); }
+/* The whole pill shows focus, so the ring isn't clipped by the rounded edge */
+.search-box__field:focus-within { outline: var(--focus-ring); outline-offset: 3px; border-color: var(--color-plum); }
+.search-box__icon { flex: none; font-size: 1.1rem; }
+.search-box__input {
+  flex: 1;
+  min-width: 0;
+  min-height: var(--tap-target);
+  padding: 0 var(--space-2);
+  border: 0;
+  background: transparent;
   color: var(--color-ink);
   font: inherit;
-  font-size: var(--text-base); /* 16px+ stops iOS zooming in on focus */
+  font-size: max(1rem, 16px); /* stops iOS zooming in on focus */
 }
-.search-box__input::placeholder { color: var(--color-muted); opacity: 1; } /* 6.76:1 on bg */
-.search-box__input:hover { border-color: var(--color-plum); }
-.search-box__input:focus-visible { outline: var(--focus-ring); outline-offset: 2px; border-color: var(--color-plum); }
-/* We draw our own clear button so it's big enough and works the same everywhere */
+.search-box__input:focus-visible { outline: none; } /* ring drawn on the pill above */
+.search-box__input::placeholder { color: var(--color-muted); opacity: 1; } /* 6.98:1 on white */
 .search-box__input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
 .search-box__clear {
-  position: absolute;
-  right: 2px;
+  flex: none;
   display: grid;
   place-items: center;
   width: var(--tap-target);
@@ -40,3 +43,21 @@
   cursor: pointer;
 }
 .search-box__clear:hover { background: var(--color-honey-soft); }
+.search-box__submit {
+  flex: none;
+  min-height: 3rem;
+  padding: 0 var(--space-5);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-plum);   /* white on plum: 12.51:1 */
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.search-box__submit:hover { background: var(--color-plum-strong); text-decoration: underline; text-decoration-color: var(--color-honey); }
+.search-box__submit:focus-visible { outline: 3px solid var(--color-honey); outline-offset: 2px; }
+@media (max-width: 30rem) {
+  .search-box__submit { padding: 0 var(--space-4); }
+  .search-box__icon { display: none; }
+}
