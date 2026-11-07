@@ -68,8 +68,8 @@ export function HomePage() {
   const clear = () => {
     setFilters(EMPTY_FILTERS);
     // The button that was clicked disappears once filters are cleared,
-    // so put keyboard focus somewhere sensible: the first filter.
-    requestAnimationFrame(() => document.querySelector<HTMLButtonElement>('.filter-bar button')?.focus());
+    // so put keyboard focus somewhere sensible: the search box.
+    requestAnimationFrame(() => document.querySelector<HTMLElement>('#event-search')?.focus());
   };
 
   return (

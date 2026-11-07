@@ -73,7 +73,7 @@
   .filter-bar__more { display: none; }
   .filter-bar__more-panel,
   .filter-bar__more-panel.is-open { display: contents; }
-  .filter-bar__selects, .filter-bar__footer { grid-column: 1 / -1; }
+  .filter-bar__search, .filter-bar__selects, .filter-bar__footer { grid-column: 1 / -1; }
 }
 @media (min-width: 56rem) {
   .filter-bar__selects { grid-template-columns: repeat(4, 1fr); }

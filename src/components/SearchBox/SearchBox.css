@@ -1,0 +1,42 @@
+.search-box { display: grid; gap: var(--space-1); }
+.search-box__label {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.search-box__field { position: relative; display: flex; align-items: center; }
+.search-box__icon { position: absolute; left: var(--space-3); font-size: 1rem; pointer-events: none; }
+.search-box__input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0 calc(var(--tap-target) + var(--space-2)) 0 calc(var(--space-3) + 1.75rem);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: var(--text-base); /* 16px+ stops iOS zooming in on focus */
+}
+.search-box__input::placeholder { color: var(--color-muted); opacity: 1; } /* 6.76:1 on bg */
+.search-box__input:hover { border-color: var(--color-plum); }
+.search-box__input:focus-visible { outline: var(--focus-ring); outline-offset: 2px; border-color: var(--color-plum); }
+/* We draw our own clear button so it's big enough and works the same everywhere */
+.search-box__input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+.search-box__clear {
+  position: absolute;
+  right: 2px;
+  display: grid;
+  place-items: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--color-plum);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.search-box__clear:hover { background: var(--color-honey-soft); }
