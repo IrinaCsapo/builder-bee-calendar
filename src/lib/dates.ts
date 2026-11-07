@@ -1,4 +1,5 @@
 import type { CalendarEvent } from '../types/event';
+import { distanceKm, formatDistance, type Origin } from './location';
 
 // Dates in events.json are plain calendar dates (YYYY-MM-DD). We treat them as
 // UTC midnight everywhere so formatting never shifts a day in other timezones.
@@ -22,6 +23,7 @@ export function getUpcoming(events: CalendarEvent[], today = todayISO()): Calend
 export interface MonthGroup {
   key: string;          // "2026-11"
   label: string;        // "November 2026"
+  detail?: string;
   events: CalendarEvent[];
 }
 
@@ -55,3 +57,35 @@ export function formatRange(start: string, end: string): string {
   if (start === end) return formatFull(start);
   return `${formatFull(start)} to ${formatFull(end)}`;
 }
+
+// ---- Group by place, nearest first (for "Events near me") -------------
+
+
+export interface EventGroup {
+  key: string;
+  label: string;
+  detail?: string;
+  events: CalendarEvent[];
+}
+
+/** Online events first, then one group per "City, Country", nearest first. */
+export function groupByPlace(events: CalendarEvent[], origin: Origin): EventGroup[] {
+  const online = events.filter((e) => e.format === 'Online');
+  const places = new Map<string, { label: string; km: number; events: CalendarEvent[] }>();
+  for (const e of events) {
+    if (e.format === 'Online' || e.lat === undefined || e.lng === undefined) continue;
+    const key = `${e.city}|${e.country}`;
+    if (!places.has(key)) {
+      places.set(key, { label: [e.city, e.country].filter(Boolean).join(', '), km: distanceKm(origin, { lat: e.lat, lng: e.lng }), events: [] });
+    }
+    places.get(key)!.events.push(e);
+  }
+  const groups: EventGroup[] = [];
+  if (online.length) groups.push({ key: 'online', label: 'Online', detail: 'Join from anywhere', events: online });
+  for (const [key, p] of [...places.entries()].sort((a, b) => a[1].km - b[1].km)) {
+    groups.push({ key: slug(key), label: p.label, detail: formatDistance(p.km, origin), events: p.events });
+  }
+  return groups;
+}
+
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');

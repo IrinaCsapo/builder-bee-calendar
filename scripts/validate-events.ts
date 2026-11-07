@@ -65,6 +65,10 @@ if (!Array.isArray(data)) {
     if (!isUrl(e.registration_url)) fail('registration_url must be a full http(s) URL');
     if (e.image_url !== undefined && !isUrl(e.image_url)) fail('image_url must be a full http(s) URL');
     for (const k of ['lat', 'lng']) if (e[k] !== undefined && typeof e[k] !== 'number') fail(`${k} must be a number`);
+    if (e.format !== 'Online' && (e.lat === undefined || e.lng === undefined))
+      fail('lat and lng are required for in-person and hybrid events (city centre is fine), for "Events near me"');
+    if (typeof e.lat === 'number' && (e.lat < -90 || e.lat > 90)) fail('lat must be between -90 and 90');
+    if (typeof e.lng === 'number' && (e.lng < -180 || e.lng > 180)) fail('lng must be between -180 and 180');
   });
 }
 

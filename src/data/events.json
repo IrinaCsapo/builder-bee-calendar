@@ -12,6 +12,8 @@
     "country": "United States",
     "region": "North America",
     "venue": "Louisville Public Library, First Floor Meeting Room, 951 Spruce St",
+    "lat": 39.978,
+    "lng": -105.132,
     "themes": [
       "AI"
     ],
@@ -34,6 +36,8 @@
     "country": "Canada",
     "region": "North America",
     "venue": "U of T: Schwartz Reisman Innovation Campus, 108 College St",
+    "lat": 43.6532,
+    "lng": -79.3832,
     "themes": [
       "AI"
     ],
@@ -74,6 +78,8 @@
     "city": "Helsinki",
     "country": "Finland",
     "region": "Europe",
+    "lat": 60.1699,
+    "lng": 24.9384,
     "themes": [
       "AI",
       "No-code"
@@ -97,6 +103,8 @@
     "country": "Nigeria",
     "region": "Africa",
     "venue": "Miva Open University - Lagos Study Centre, 376 Herbert Macaulay Way, Lagos Mainland",
+    "lat": 6.5244,
+    "lng": 3.3792,
     "themes": [
       "AI"
     ],
@@ -118,6 +126,8 @@
     "city": "San Francisco",
     "country": "United States",
     "region": "North America",
+    "lat": 37.7749,
+    "lng": -122.4194,
     "themes": [
       "AI"
     ],
@@ -140,6 +150,8 @@
     "country": "Germany",
     "region": "Europe",
     "venue": "Merantix AI Campus, Max-Urich-Straße 3",
+    "lat": 52.52,
+    "lng": 13.405,
     "themes": [
       "AI"
     ],
@@ -161,6 +173,8 @@
     "city": "London",
     "country": "United Kingdom",
     "region": "Europe",
+    "lat": 51.5074,
+    "lng": -0.1278,
     "themes": [
       "AI"
     ],
@@ -183,6 +197,8 @@
     "country": "India",
     "region": "Asia",
     "venue": "Echelon Institute of Technology",
+    "lat": 28.4089,
+    "lng": 77.3178,
     "themes": [
       "AI",
       "Web3"
@@ -206,6 +222,8 @@
     "city": "Nairobi",
     "country": "Kenya",
     "region": "Africa",
+    "lat": -1.2921,
+    "lng": 36.8219,
     "themes": [],
     "audience": "an evening curated for women in tech — whether you're writing your first line of code or you're already building in Software, AI, and Cybersecurity",
     "level": "Beginner friendly",
@@ -226,6 +244,8 @@
     "country": "Denmark",
     "region": "Europe",
     "venue": "Djøf, Gothersgade 133",
+    "lat": 55.6761,
+    "lng": 12.5683,
     "themes": [
       "AI"
     ],
@@ -247,6 +267,8 @@
     "city": "Seattle",
     "country": "United States",
     "region": "North America",
+    "lat": 47.6062,
+    "lng": -122.3321,
     "themes": [
       "AI"
     ],
@@ -269,6 +291,8 @@
     "country": "United Kingdom",
     "region": "Europe",
     "venue": "GM Digital Security Hub (DiSH), 47 Lloyd Street, Manchester M2 5LE",
+    "lat": 53.4808,
+    "lng": -2.2426,
     "themes": [
       "AI"
     ],
@@ -291,6 +315,8 @@
     "country": "Finland",
     "region": "Europe",
     "venue": "Supercell, Jätkäsaarenlaituri 1, 00180 Helsinki",
+    "lat": 60.1699,
+    "lng": 24.9384,
     "themes": [
       "AI"
     ],
@@ -313,6 +339,8 @@
     "country": "Netherlands",
     "region": "Europe",
     "venue": "Equals, Keizersgracht 316",
+    "lat": 52.3676,
+    "lng": 4.9041,
     "themes": [
       "AI",
       "Social impact"
@@ -336,6 +364,8 @@
     "country": "United States",
     "region": "North America",
     "venue": "AWS Builder Loft, 525 Market St",
+    "lat": 37.7749,
+    "lng": -122.4194,
     "themes": [
       "AI"
     ],
@@ -358,6 +388,8 @@
     "country": "Spain",
     "region": "Europe",
     "venue": "ETSII - Universidad Politécnica de Madrid, C. de José Gutiérrez Abascal, 2",
+    "lat": 40.4168,
+    "lng": -3.7038,
     "themes": [],
     "audience": "Chicas y mujeres con interés en la tecnología, estés empezando o lleves años en el sector",
     "level": "Beginner friendly",
@@ -378,6 +410,8 @@
     "country": "India",
     "region": "Asia",
     "venue": "Karnataka Trade Promotion Organisation (KTPO), Whitefield",
+    "lat": 12.9716,
+    "lng": 77.5946,
     "themes": [],
     "audience": "Asia's largest gathering of women and allies, building the future of technology",
     "level": "All levels",
@@ -398,6 +432,8 @@
     "country": "United States",
     "region": "North America",
     "venue": "Purdue University",
+    "lat": 40.4259,
+    "lng": -86.9081,
     "themes": [],
     "audience": "A women-centric hackathon hosted at Purdue University",
     "level": "Beginner friendly",
@@ -417,6 +453,8 @@
     "city": "Cagayan de Oro",
     "country": "Philippines",
     "region": "Asia",
+    "lat": 8.4542,
+    "lng": 124.6319,
     "themes": [],
     "audience": "Free programming workshop for women",
     "level": "Beginner friendly",
@@ -438,6 +476,8 @@
     "country": "United States",
     "region": "North America",
     "venue": "Gaylord Rockies Resort & Convention Center",
+    "lat": 39.7294,
+    "lng": -104.8319,
     "themes": [],
     "audience": "Women and allies in cybersecurity from academia, research, government, and industry",
     "level": "All levels",

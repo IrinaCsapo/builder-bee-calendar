@@ -1,0 +1,7 @@
+.place-header { align-items: flex-end; }
+.place-header__title { font-size: inherit; display: flex; flex-direction: column; gap: var(--space-1); }
+.place-header__detail {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-muted);
+}

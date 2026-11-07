@@ -1,0 +1,91 @@
+// "Events near me". Everything here runs in the visitor's browser: their location
+// is never sent anywhere, never stored, and never put in the URL.
+
+export interface Origin {
+  lat: number;
+  lng: number;
+  label: string;                 // "London" or "your location"
+  source: 'timezone' | 'device'; // rough guess vs. browser location
+}
+
+/** Great-circle distance in km. */
+export function distanceKm(a: { lat: number; lng: number }, b: { lat: number; lng: number }): number {
+  const R = 6371;
+  const rad = (d: number) => (d * Math.PI) / 180;
+  const dLat = rad(b.lat - a.lat);
+  const dLng = rad(b.lng - a.lng);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+// IANA timezones are named after a city. Coordinates for the most common ones let us
+// make a rough guess with no permission prompt. Unlisted zones fall back to date order.
+const TZ_COORDS: Record<string, [number, number]> = {
+  'Europe/London': [51.51, -0.13], 'Europe/Dublin': [53.35, -6.26], 'Europe/Lisbon': [38.72, -9.14],
+  'Europe/Madrid': [40.42, -3.70], 'Europe/Paris': [48.86, 2.35], 'Europe/Brussels': [50.85, 4.35],
+  'Europe/Amsterdam': [52.37, 4.90], 'Europe/Berlin': [52.52, 13.40], 'Europe/Zurich': [47.38, 8.54],
+  'Europe/Rome': [41.90, 12.50], 'Europe/Vienna': [48.21, 16.37], 'Europe/Prague': [50.08, 14.44],
+  'Europe/Warsaw': [52.23, 21.01], 'Europe/Copenhagen': [55.68, 12.57], 'Europe/Stockholm': [59.33, 18.07],
+  'Europe/Oslo': [59.91, 10.75], 'Europe/Helsinki': [60.17, 24.94], 'Europe/Athens': [37.98, 23.73],
+  'Europe/Bucharest': [44.43, 26.10], 'Europe/Budapest': [47.50, 19.04], 'Europe/Kyiv': [50.45, 30.52],
+  'Europe/Kiev': [50.45, 30.52], 'Europe/Istanbul': [41.01, 28.98],
+  'America/New_York': [40.71, -74.01], 'America/Toronto': [43.65, -79.38], 'America/Chicago': [41.88, -87.63],
+  'America/Denver': [39.74, -104.99], 'America/Phoenix': [33.45, -112.07], 'America/Los_Angeles': [34.05, -118.24],
+  'America/Vancouver': [49.28, -123.12], 'America/Anchorage': [61.22, -149.90], 'Pacific/Honolulu': [21.31, -157.86],
+  'America/Halifax': [44.65, -63.57], 'America/Detroit': [42.33, -83.05], 'America/Indiana/Indianapolis': [39.77, -86.16],
+  'America/Mexico_City': [19.43, -99.13], 'America/Bogota': [4.71, -74.07], 'America/Lima': [-12.05, -77.04],
+  'America/Santiago': [-33.45, -70.67], 'America/Argentina/Buenos_Aires': [-34.60, -58.38], 'America/Sao_Paulo': [-23.55, -46.63],
+  'Africa/Lagos': [6.52, 3.38], 'Africa/Accra': [5.60, -0.19], 'Africa/Nairobi': [-1.29, 36.82],
+  'Africa/Johannesburg': [-26.20, 28.05], 'Africa/Cairo': [30.04, 31.24], 'Africa/Casablanca': [33.57, -7.59],
+  'Africa/Kigali': [-1.95, 30.06], 'Asia/Dubai': [25.20, 55.27], 'Asia/Kolkata': [22.57, 88.36], 'Asia/Calcutta': [22.57, 88.36],
+  'Asia/Karachi': [24.86, 67.01], 'Asia/Dhaka': [23.81, 90.41], 'Asia/Bangkok': [13.76, 100.50],
+  'Asia/Jakarta': [-6.21, 106.85], 'Asia/Singapore': [1.35, 103.82], 'Asia/Kuala_Lumpur': [3.14, 101.69],
+  'Asia/Manila': [14.60, 120.98], 'Asia/Hong_Kong': [22.32, 114.17], 'Asia/Shanghai': [31.23, 121.47],
+  'Asia/Taipei': [25.03, 121.57], 'Asia/Seoul': [37.57, 126.98], 'Asia/Tokyo': [35.68, 139.69],
+  'Australia/Perth': [-31.95, 115.86], 'Australia/Adelaide': [-34.93, 138.60], 'Australia/Melbourne': [-37.81, 144.96],
+  'Australia/Sydney': [-33.87, 151.21], 'Australia/Brisbane': [-27.47, 153.03], 'Pacific/Auckland': [-36.85, 174.76],
+};
+
+/** A rough location from the device's timezone setting. No prompt, no network. */
+export function guessFromTimezone(): Origin | null {
+  let tz = '';
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch { return null; }
+  const coords = TZ_COORDS[tz];
+  if (!coords) return null;
+  const label = tz.split('/').pop()!.replace(/_/g, ' ');
+  return { lat: coords[0], lng: coords[1], label, source: 'timezone' };
+}
+
+/** Asks the browser for the visitor's location. The browser shows its own permission prompt. */
+export function getDeviceLocation(): Promise<Origin> {
+  return new Promise((resolve, reject) => {
+    if (!('geolocation' in navigator)) { reject(new Error('unsupported')); return; }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude, label: 'your location', source: 'device' }),
+      (err) => reject(new Error(err.code === err.PERMISSION_DENIED ? 'denied' : 'unavailable')),
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 10 * 60 * 1000 },
+    );
+  });
+}
+
+// Miles for the US, UK, Liberia and Myanmar; km everywhere else.
+const MILES_REGIONS = new Set(['US', 'GB', 'LR', 'MM']);
+const useMiles = (() => {
+  try { return MILES_REGIONS.has(new Intl.Locale(navigator.language).maximize().region ?? ''); } catch { return false; }
+})();
+
+/** "12 km away", "about 260 mi from London" */
+export function formatDistance(km: number, origin: Origin): string {
+  const value = useMiles ? km * 0.621371 : km;
+  const unit = useMiles ? 'mi' : 'km';
+  const rounded = value < 10 ? Math.max(1, Math.round(value)) : value < 1000 ? Math.round(value / 10) * 10 : Math.round(value / 100) * 100;
+  const n = rounded.toLocaleString();
+  if (km < 25) return origin.source === 'device' ? 'Near you' : `Near ${origin.label}`;
+  return origin.source === 'device' ? `${n} ${unit} away` : `about ${n} ${unit} from ${origin.label}`;
+}
+
+// Remembered for this visit only (in memory), so it survives moving between pages
+// but is gone when the tab is closed or reloaded.
+let remembered: { origin: Origin | null; sortByDate: boolean } | null = null;
+export const getRemembered = () => remembered;
+export const remember = (origin: Origin | null, sortByDate: boolean) => { remembered = { origin, sortByDate }; };

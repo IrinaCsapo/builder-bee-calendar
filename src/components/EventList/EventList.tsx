@@ -1,27 +1,35 @@
-import type { CalendarEvent } from '../../types/event';
-import { groupByMonth } from '../../lib/dates';
+import type { EventGroup } from '../../lib/dates';
 import { MonthHeader } from '../MonthHeader/MonthHeader';
+import { PlaceHeader } from '../PlaceHeader/PlaceHeader';
 import { EventCard } from '../EventCard/EventCard';
 import './EventList.css';
 
 interface EventListProps {
-  events: CalendarEvent[];
+  groups: EventGroup[];
+  /** "month" for date order, "place" for nearest-first */
+  variant: 'month' | 'place';
 }
 
-export function EventList({ events }: EventListProps) {
-  const groups = groupByMonth(events);
+export function EventList({ groups, variant }: EventListProps) {
   return (
     <div className="event-list">
-      {groups.map((group) => (
-        <section key={group.key} className="event-list__month" aria-labelledby={`month-${group.key}`}>
-          <MonthHeader id={`month-${group.key}`} label={group.label} count={group.events.length} />
-          <ul className="event-list__items">
-            {group.events.map((event) => (
-              <li key={event.id}><EventCard event={event} /></li>
-            ))}
-          </ul>
-        </section>
-      ))}
+      {groups.map((group) => {
+        const headingId = `group-${group.key}`;
+        return (
+          <section key={group.key} className="event-list__month" aria-labelledby={headingId}>
+            {variant === 'month' ? (
+              <MonthHeader id={headingId} label={group.label} count={group.events.length} />
+            ) : (
+              <PlaceHeader id={headingId} label={group.label} detail={group.detail} count={group.events.length} />
+            )}
+            <ul className="event-list__items">
+              {group.events.map((event) => (
+                <li key={event.id}><EventCard event={event} /></li>
+              ))}
+            </ul>
+          </section>
+        );
+      })}
     </div>
   );
 }

@@ -47,7 +47,8 @@ Then open http://localhost:5173/builder-bee-calendar/
 | `timezone` | yes | IANA name: `Europe/London`, `America/New_York` |
 | `city`, `country` | yes | `""` (empty) for online events |
 | `region` | yes | Europe, North America, LatAm, Africa, Asia, Oceania, Global |
-| `venue`, `lat`, `lng` | no | |
+| `venue` | no | |
+| `lat`, `lng` | in person / hybrid | City-centre coordinates, e.g. `53.4808`, `-2.2426`. Used for "Nearest first" |
 | `themes` | yes | List from: AI, Fintech, Health, Climate, Web3, Design, No-code, Hardware, Social impact. Can be `[]` |
 | `audience` | yes | Shown exactly as the organiser writes it |
 | `level` | yes | Beginner friendly, All levels, Experienced |
@@ -59,6 +60,8 @@ Then open http://localhost:5173/builder-bee-calendar/
 The allowed values live in [`src/types/event.ts`](src/types/event.ts). To add a new theme or type, add it there and to the issue form in [`.github/ISSUE_TEMPLATE/submit-event.yml`](.github/ISSUE_TEMPLATE/submit-event.yml).
 
 **Typos fail the build.** `npm run build` runs [`scripts/validate-events.ts`](scripts/validate-events.ts) first. A misspelled type, an invalid date or timezone, a duplicate id or an unknown field stops the build with a message saying which event and which field. A broken event never reaches the live site.
+
+**Nearest first.** The list starts sorted by distance from a rough guess based on the visitor's timezone (no prompt). "Use my exact location" asks the browser for permission. The location is only used in the visitor's browser: never sent anywhere, stored, or put in the URL.
 
 Events disappear from the list automatically the day after their `end_date`. Their pages stay reachable, with an "ended" notice, so shared links keep working.
 

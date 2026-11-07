@@ -44,7 +44,9 @@ Follow `src/types/event.ts` exactly. Allowed values are listed there; the README
 - `level`: `Beginner friendly` only if the page says beginners/first-timers are welcome; otherwise `All levels`
 - `cost`: `Free` only if the page says it's free
 - `source`: the URL of the page where you confirmed the details
-- Leave out optional fields you can't confirm. Never guess `lat`/`lng`.
+- `lat`/`lng`: **required** for in-person and hybrid events. Use the city centre's coordinates (4 decimal places is plenty),
+  e.g. Manchester `53.4808`, `-2.2426`. Leave them out for online events. They power "Nearest first" on the site.
+- Leave out other optional fields you can't confirm.
 
 ## 5. Finish
 

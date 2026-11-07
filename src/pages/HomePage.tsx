@@ -4,7 +4,9 @@ import { FilterBar } from '../components/FilterBar/FilterBar';
 import { EventList } from '../components/EventList/EventList';
 import { EmptyState } from '../components/EmptyState/EmptyState';
 import { allEvents } from '../lib/events';
-import { getUpcoming } from '../lib/dates';
+import { getUpcoming, groupByMonth, groupByPlace } from '../lib/dates';
+import { getDeviceLocation, getRemembered, guessFromTimezone, remember, type Origin } from '../lib/location';
+import { SortBar, type LocateStatus } from '../components/SortBar/SortBar';
 import { applyFilters, EMPTY_FILTERS, filtersFromQuery, filtersToQuery, type Filters } from '../lib/filters';
 import { parseHash, replaceHashQuery } from '../lib/useHashRoute';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
@@ -36,6 +38,33 @@ export function HomePage() {
   }, []);
 
   const results = useMemo(() => applyFilters(upcoming, filters), [filters]);
+
+  // Nearest-first: starts from a rough timezone guess (no prompt). "Use my exact
+  // location" asks the browser. Location stays in memory only, never in the URL.
+  const [origin, setOrigin] = useState<Origin | null>(() => getRemembered()?.origin ?? guessFromTimezone());
+  const [sortByDate, setSortByDate] = useState(() => getRemembered()?.sortByDate ?? !origin);
+  const [locateStatus, setLocateStatus] = useState<LocateStatus>('idle');
+  useEffect(() => remember(origin, sortByDate), [origin, sortByDate]);
+
+  const locate = async () => {
+    setLocateStatus('locating');
+    try {
+      setOrigin(await getDeviceLocation());
+      setSortByDate(false);
+      setLocateStatus('idle');
+    } catch (err) {
+      setLocateStatus((err as Error).message === 'denied' ? 'denied' : 'unavailable');
+    }
+  };
+  const sortNearest = () => {
+    if (origin) { setSortByDate(false); setLocateStatus('idle'); }
+    else locate();
+  };
+  const nearest = !sortByDate && !!origin;
+  const groups = useMemo(
+    () => (nearest ? groupByPlace(results, origin!) : groupByMonth(results)),
+    [nearest, origin, results],
+  );
   const clear = () => {
     setFilters(EMPTY_FILTERS);
     // The button that was clicked disappears once filters are cleared,
@@ -54,7 +83,19 @@ export function HomePage() {
           resultCount={results.length}
           countriesByRegion={countriesByRegion}
         />
-        {results.length > 0 ? <EventList events={results} /> : <EmptyState onClear={clear} />}
+        <SortBar
+          nearest={nearest}
+          origin={origin}
+          status={locateStatus}
+          onSortByDate={() => { setSortByDate(true); setLocateStatus('idle'); }}
+          onSortNearest={sortNearest}
+          onLocate={locate}
+        />
+        {results.length > 0 ? (
+          <EventList groups={groups} variant={nearest ? 'place' : 'month'} />
+        ) : (
+          <EmptyState onClear={clear} />
+        )}
       </div>
     </>
   );
