@@ -1,0 +1,13 @@
+.ascii-garden { position: relative; isolation: isolate; }
+.ascii-garden__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  /* Grid and creatures fade out towards the edges of the stage */
+  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, #000 55%, transparent 100%);
+}
+.ascii-garden__content { position: relative; z-index: 1; padding-bottom: var(--space-2); }

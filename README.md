@@ -112,6 +112,10 @@ Each component is a folder with `Name.tsx` and `Name.css`. Styling is plain CSS 
 
 **Dependencies:** `react` and `react-dom` at runtime. For development: `vite` and `@vitejs/plugin-react` (dev server and build), `typescript` and `@types/*` (type checking), `tsx` (runs the TypeScript scripts).
 
+## Credits
+
+The ASCII bees and butterflies in the hero ([`src/ascii/`](src/ascii/)) use the cell-sampling technique from ascii-sharks by drewdi (MIT licence), rewritten for bees and butterflies.
+
 ## Accessibility
 
 Built with WCAG 2.2 AA in mind, and checked page by page:
@@ -124,6 +128,7 @@ Built with WCAG 2.2 AA in mind, and checked page by page:
 - Tap targets are at least 44×44px
 - Landmarks, one `h1` per page, no skipped heading levels, skip link, focus moves to the new page's heading
 - Respects `prefers-reduced-motion`
+- The ASCII bees and butterflies are decorative (`aria-hidden`, no pointer events), fly around text rather than over it, sit still with reduced motion, pause off screen, and are hidden on phones where they'd cover text
 - The featured carousel has a Pause button, pauses on hover and keyboard focus, never auto-rotates with reduced motion, and only announces slides the visitor changes
 
 If you change colours in `tokens.css`, re-check contrast. The ratios are noted in the file.

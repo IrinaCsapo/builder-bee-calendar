@@ -10,6 +10,7 @@ import { SortBar, type LocateStatus } from '../components/SortBar/SortBar';
 import { ViewSwitch, type View } from '../components/ViewSwitch/ViewSwitch';
 import { CalendarView } from '../components/CalendarView/CalendarView';
 import { FeaturedCarousel } from '../components/FeaturedCarousel/FeaturedCarousel';
+import { AsciiGarden } from '../components/AsciiGarden/AsciiGarden';
 import { isMonthKey } from '../lib/calendar';
 import { todayISO } from '../lib/dates';
 import { applyFilters, EMPTY_FILTERS, filtersFromQuery, filtersToQuery, type Filters } from '../lib/filters';
@@ -98,18 +99,22 @@ export function HomePage() {
 
   return (
     <>
-      <Hero
-        query={filters.query}
-        onQueryChange={(query) => setFilters((f) => ({ ...f, query }))}
-        onSearch={() => {
-          // Jump to the results and move focus to the count, so it's read out
-          const count = document.getElementById('result-count');
-          count?.closest('.filter-bar')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-          count?.focus({ preventScroll: true });
-        }}
-      />
+      <AsciiGarden>
+        <Hero
+          query={filters.query}
+          onQueryChange={(query) => setFilters((f) => ({ ...f, query }))}
+          onSearch={() => {
+            // Jump to the results and move focus to the count, so it's read out
+            const count = document.getElementById('result-count');
+            count?.closest('.filter-bar')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+            count?.focus({ preventScroll: true });
+          }}
+        />
+        <div className="container">
+          <FeaturedCarousel events={featured} />
+        </div>
+      </AsciiGarden>
       <div className="container">
-        <FeaturedCarousel events={featured} />
         <FilterBar
           filters={filters}
           onChange={setFilters}
