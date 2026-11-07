@@ -502,5 +502,29 @@
     "cost": "Paid",
     "registration_url": "https://www.wicys.org/events/wicys-2027/",
     "source": "https://www.wicys.org/events/wicys-2027/"
+  },
+  {
+    "id": "women-in-ai-thanksgiving-founders-table-2026",
+    "title": "Women in AI: Thanksgiving Founders Table",
+    "organiser": "Women in AI",
+    "event_type": "Meetup",
+    "format": "In person",
+    "start_date": "2026-11-19",
+    "end_date": "2026-11-19",
+    "timezone": "America/Los_Angeles",
+    "city": "San Francisco",
+    "country": "United States",
+    "region": "North America",
+    "lat": 37.7749,
+    "lng": -122.4194,
+    "themes": [
+      "AI"
+    ],
+    "audience": "A closed monthly gathering for women founders building in AI.",
+    "level": "All levels",
+    "cost": "Paid",
+    "registration_url": "https://luma.com/kenlmgt2",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,width=800,height=400/uploads/ax/b987703b-e438-4033-ac7d-8cd12c8f1587.png",
+    "source": "https://luma.com/kenlmgt2"
   }
 ]
