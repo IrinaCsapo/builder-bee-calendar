@@ -84,3 +84,6 @@
 }
 .event-page__register:hover { background: var(--color-plum-strong); text-decoration: underline; text-decoration-color: var(--color-honey); }
 .event-page__register-note { font-size: var(--text-sm); color: var(--color-muted); text-align: center; }
+/* Grid items default to min-width:auto, so the share URL input could push the
+   panel past the right margin on phones. */
+.event-page__details, .event-page__actions { min-width: 0; }

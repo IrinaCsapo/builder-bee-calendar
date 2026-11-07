@@ -7,6 +7,7 @@ import { Chip } from '../components/Chip/Chip';
 import { DateBlock } from '../components/DateBlock/DateBlock';
 import { DetailList } from '../components/DetailList/DetailList';
 import { ShareLink } from '../components/ShareLink/ShareLink';
+import { AddToCalendar } from '../components/AddToCalendar/AddToCalendar';
 import { NotFoundPage } from './NotFoundPage';
 import './EventPage.css';
 
@@ -71,6 +72,7 @@ export function EventPage({ id }: { id: string }) {
           <p className="event-page__register-note">
             Registration happens on the organiser’s site.
           </p>
+          {!hasEnded && <AddToCalendar event={event} />}
           <ShareLink title={event.title} />
         </aside>
 

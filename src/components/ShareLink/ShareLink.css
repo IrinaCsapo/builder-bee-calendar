@@ -27,3 +27,4 @@
   font-size: var(--text-sm);
 }
 .share-link__status { min-height: 1.5em; font-weight: 700; color: var(--color-plum); }
+.share-link__url { min-width: 0; }
