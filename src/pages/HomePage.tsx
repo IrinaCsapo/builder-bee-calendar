@@ -7,11 +7,21 @@ import { allEvents } from '../lib/events';
 import { getUpcoming, groupByMonth, groupByPlace } from '../lib/dates';
 import { getDeviceLocation, getRemembered, guessFromTimezone, remember, type Origin } from '../lib/location';
 import { SortBar, type LocateStatus } from '../components/SortBar/SortBar';
+import { ViewSwitch, type View } from '../components/ViewSwitch/ViewSwitch';
+import { CalendarView } from '../components/CalendarView/CalendarView';
+import { isMonthKey } from '../lib/calendar';
+import { todayISO } from '../lib/dates';
 import { applyFilters, EMPTY_FILTERS, filtersFromQuery, filtersToQuery, type Filters } from '../lib/filters';
 import { parseHash, replaceHashQuery } from '../lib/useHashRoute';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 
 const upcoming = getUpcoming(allEvents);
+
+// Calendar view can go from this month to the month of the last upcoming event.
+const MIN_MONTH = todayISO().slice(0, 7);
+const MAX_MONTH = upcoming.reduce((max, e) => (e.end_date.slice(0, 7) > max ? e.end_date.slice(0, 7) : max), MIN_MONTH);
+const clampMonth = (m: string | null) => (isMonthKey(m) ? (m < MIN_MONTH ? MIN_MONTH : m > MAX_MONTH ? MAX_MONTH : m) : MIN_MONTH);
+const viewFromQuery = (q: URLSearchParams): View => (q.get('view') === 'calendar' ? 'calendar' : 'list');
 
 const countriesByRegion: Record<string, string[]> = {};
 for (const e of upcoming) {
@@ -25,13 +35,23 @@ export function HomePage() {
   useDocumentTitle();
   // Filters live in the URL (#/?format=Online&region=Europe) so a filtered view can be shared.
   const [filters, setFilters] = useState<Filters>(() => filtersFromQuery(parseHash().query));
-  useEffect(() => replaceHashQuery(filtersToQuery(filters)), [filters]);
+  const [view, setView] = useState<View>(() => viewFromQuery(parseHash().query));
+  const [month, setMonth] = useState(() => clampMonth(parseHash().query.get('month')));
+  useEffect(() => {
+    const parts = [filtersToQuery(filters)];
+    if (view === 'calendar') parts.push('view=calendar');
+    if (view === 'calendar' && month !== MIN_MONTH) parts.push(`month=${month}`);
+    replaceHashQuery(parts.filter(Boolean).join('&'));
+  }, [filters, view, month]);
 
   // Someone pastes a new filtered link into the same tab
   useEffect(() => {
     const onHash = () => {
       const route = parseHash();
-      if (route.path === '/') setFilters(filtersFromQuery(route.query));
+      if (route.path !== '/') return;
+      setFilters(filtersFromQuery(route.query));
+      setView(viewFromQuery(route.query));
+      setMonth(clampMonth(route.query.get('month')));
     };
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
@@ -83,18 +103,25 @@ export function HomePage() {
           resultCount={results.length}
           countriesByRegion={countriesByRegion}
         />
-        <SortBar
-          nearest={nearest}
-          origin={origin}
-          status={locateStatus}
-          onSortByDate={() => { setSortByDate(true); setLocateStatus('idle'); }}
-          onSortNearest={sortNearest}
-          onLocate={locate}
-        />
-        {results.length > 0 ? (
-          <EventList groups={groups} variant={nearest ? 'place' : 'month'} />
+        <ViewSwitch view={view} onChange={setView} />
+        {view === 'calendar' ? (
+          <CalendarView month={month} minMonth={MIN_MONTH} maxMonth={MAX_MONTH} events={results} onMonthChange={setMonth} />
         ) : (
-          <EmptyState onClear={clear} />
+          <>
+            <SortBar
+              nearest={nearest}
+              origin={origin}
+              status={locateStatus}
+              onSortByDate={() => { setSortByDate(true); setLocateStatus('idle'); }}
+              onSortNearest={sortNearest}
+              onLocate={locate}
+            />
+            {results.length > 0 ? (
+              <EventList groups={groups} variant={nearest ? 'place' : 'month'} />
+            ) : (
+              <EmptyState onClear={clear} />
+            )}
+          </>
         )}
       </div>
     </>
