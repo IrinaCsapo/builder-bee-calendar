@@ -88,3 +88,15 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
 
 /* Elements we move focus to programmatically (page h1, main) don't need a ring */
 [tabindex='-1']:focus { outline: none; }
+
+/* View + Sort side by side above the results; wraps on small screens */
+.results-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-3) var(--space-6);
+  margin-bottom: var(--space-5);
+}
+.results-toolbar .view-switch,
+.results-toolbar .sort-bar { margin-bottom: 0; }
+.results-toolbar .sort-bar { flex: 1 1 26rem; }

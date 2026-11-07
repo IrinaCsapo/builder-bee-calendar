@@ -112,11 +112,9 @@ export function HomePage() {
           resultCount={results.length}
           countriesByRegion={countriesByRegion}
         />
-        <ViewSwitch view={view} onChange={setView} />
-        {view === 'calendar' ? (
-          <CalendarView month={month} minMonth={MIN_MONTH} maxMonth={MAX_MONTH} events={results} onMonthChange={setMonth} />
-        ) : (
-          <>
+        <div className="results-toolbar">
+          <ViewSwitch view={view} onChange={setView} />
+          {view === 'list' && (
             <SortBar
               nearest={nearest}
               origin={origin}
@@ -125,12 +123,16 @@ export function HomePage() {
               onSortNearest={sortNearest}
               onLocate={locate}
             />
-            {results.length > 0 ? (
-              <EventList groups={groups} variant={nearest ? 'place' : 'month'} />
-            ) : (
-              <EmptyState onClear={clear} />
-            )}
-          </>
+          )}
+        </div>
+        {view === 'calendar' ? (
+          <CalendarView month={month} minMonth={MIN_MONTH} maxMonth={MAX_MONTH} events={results} onMonthChange={setMonth} />
+        ) : (
+          results.length > 0 ? (
+            <EventList groups={groups} variant={nearest ? 'place' : 'month'} />
+          ) : (
+            <EmptyState onClear={clear} />
+          )
         )}
       </div>
     </>

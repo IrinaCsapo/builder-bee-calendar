@@ -30,10 +30,9 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
     set({ region: region as Region | '', country: keepCountry ? filters.country : '' });
   };
 
-  // On phones, "Show only" and the dropdowns fold away behind "More filters".
-  // On wider screens the toggle button is hidden and everything is always shown.
-  const moreActive = [filters.freeOnly, filters.beginnerOnly, filters.type, filters.region, filters.country, filters.theme]
-    .filter(Boolean).length;
+  // Only the most-used filters are always visible. Everything else is behind
+  // "More filters", on every screen size, so the bar stays calm.
+  const moreActive = [filters.beginnerOnly, filters.type, filters.region, filters.country, filters.theme].filter(Boolean).length;
   // Start open if a shared link already uses one of the folded-away filters
   const [moreOpen, setMoreOpen] = useState(() => moreActive > 0);
 
@@ -41,47 +40,51 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
     <section className="filter-bar" aria-labelledby="filter-heading">
       <h2 id="filter-heading" className="visually-hidden">Filter events</h2>
 
-
-      <fieldset className="filter-bar__group filter-bar__format">
-        <legend className="filter-bar__legend">Format</legend>
-        <div className="filter-bar__chips">
-          {FORMATS.map((format) => (
-            <ToggleButton
-              key={format}
-              pressed={filters.formats.includes(format)}
-              onToggle={() => set({ formats: toggleInList(filters.formats, format) })}
-            >
-              {format}
-            </ToggleButton>
-          ))}
-        </div>
-      </fieldset>
-
-      <button
-        type="button"
-        className="filter-bar__more"
-        aria-expanded={moreOpen}
-        aria-controls="more-filters"
-        onClick={() => setMoreOpen(!moreOpen)}
-      >
-        <span aria-hidden="true" className="filter-bar__more-icon">{moreOpen ? '−' : '+'}</span>
-        {moreOpen ? 'Fewer filters' : 'More filters'}
-        {moreActive > 0 && <span className="filter-bar__more-count">{moreActive} on</span>}
-      </button>
-
-      <div id="more-filters" className={`filter-bar__more-panel${moreOpen ? ' is-open' : ''}`}>
-        <fieldset className="filter-bar__group filter-bar__show-only">
-          <legend className="filter-bar__legend">Show only</legend>
+      <div className="filter-bar__main">
+        <fieldset className="filter-bar__group">
+          <legend className="visually-hidden">Format</legend>
           <div className="filter-bar__chips">
+            {FORMATS.map((format) => (
+              <ToggleButton
+                key={format}
+                pressed={filters.formats.includes(format)}
+                onToggle={() => set({ formats: toggleInList(filters.formats, format) })}
+              >
+                {format}
+              </ToggleButton>
+            ))}
+            <span className="filter-bar__divider" aria-hidden="true" />
             <ToggleButton pressed={filters.freeOnly} onToggle={() => set({ freeOnly: !filters.freeOnly })}>
               Free
-            </ToggleButton>
-            <ToggleButton pressed={filters.beginnerOnly} onToggle={() => set({ beginnerOnly: !filters.beginnerOnly })}>
-              Beginner friendly
             </ToggleButton>
           </div>
         </fieldset>
 
+        <button
+          type="button"
+          className="filter-bar__more"
+          aria-expanded={moreOpen}
+          aria-controls="more-filters"
+          onClick={() => setMoreOpen(!moreOpen)}
+        >
+          More filters
+          {moreActive > 0 && (
+            <span className="filter-bar__more-count">
+              {moreActive}<span className="visually-hidden"> on</span>
+            </span>
+          )}
+          <span className="filter-bar__chevron" aria-hidden="true">▾</span>
+        </button>
+
+        <div className="filter-bar__summary">
+          <ResultCount id="result-count" count={resultCount} />
+          {hasActiveFilters(filters) && (
+            <button type="button" className="link-button" onClick={onClear}>Clear all</button>
+          )}
+        </div>
+      </div>
+
+      <div id="more-filters" className="filter-bar__panel" hidden={!moreOpen}>
         <div className="filter-bar__selects">
           <Select id="filter-type" label="Type" allLabel="All types" options={EVENT_TYPES}
             value={filters.type} onChange={(v) => set({ type: v as EventType | '' })} />
@@ -92,13 +95,11 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
           <Select id="filter-theme" label="Theme" allLabel="All themes" options={THEMES}
             value={filters.theme} onChange={(v) => set({ theme: v as Theme | '' })} />
         </div>
-      </div>
-
-      <div className="filter-bar__footer">
-        <ResultCount id="result-count" count={resultCount} />
-        {hasActiveFilters(filters) && (
-          <button type="button" className="link-button" onClick={onClear}>Clear all</button>
-        )}
+        <div className="filter-bar__chips">
+          <ToggleButton pressed={filters.beginnerOnly} onToggle={() => set({ beginnerOnly: !filters.beginnerOnly })}>
+            Beginner friendly only
+          </ToggleButton>
+        </div>
       </div>
     </section>
   );
