@@ -3,7 +3,6 @@
 }
 .hero__title {
   font-size: var(--text-2xl);
-  font-weight: 800;
   color: var(--color-plum);
   max-width: 18ch;
 }

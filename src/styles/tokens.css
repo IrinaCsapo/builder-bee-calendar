@@ -2,7 +2,7 @@
  * Builder Bee Calendar — design tokens
  *
  * Brand colours (WCAG contrast, checked):
- *   Plum  #4A1D6B  on page bg 12.11:1, on white 12.51:1, on honey 7.10:1
+ *   Plum  #4A1D6B  on page bg 11.98:1, on white 12.51:1, on honey 7.10:1
  *   Honey #F6B93B  background/accent only. Ink on honey 9.68:1.
  *   Never use honey as text on a light background (1.71:1).
  */
@@ -14,11 +14,12 @@
   --color-honey-soft: #fdebc4;
 
   /* Neutrals */
-  --color-ink: #1f1a24;        /* body text, 16.51:1 on bg */
-  --color-muted: #5e5668;      /* secondary text, 6.76:1 on bg */
-  --color-bg: #fffbf2;
+  --color-ink: #1f1a24;        /* body text, 16.34:1 on bg */
+  --color-muted: #5e5668;      /* secondary text, 6.69:1 on bg */
+  --color-bg: #fcfaf4;          /* off-white, like paper */
   --color-surface: #ffffff;
-  --color-border: #e4dcea;
+  --color-border: #e6e0d4;      /* decorative lines and card edges */
+  --color-field-border: #8c8296; /* form field edges: 3.50:1 on bg (WCAG 1.4.11 needs 3:1) */
 
   /* Semantic */
   --color-text: var(--color-ink);
@@ -27,6 +28,7 @@
 
   /* Type */
   --font-sans: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif; /* headings only */
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-lg: 1.25rem;

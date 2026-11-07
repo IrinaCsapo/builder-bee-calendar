@@ -27,7 +27,7 @@ export function EventImage({ src, type, variant = 'card' }: EventImageProps) {
         <img
           src={src}
           alt=""
-          loading="lazy"
+          loading={variant === 'banner' ? 'eager' : 'lazy'}
           decoding="async"
           referrerPolicy="no-referrer"
           width={1200}

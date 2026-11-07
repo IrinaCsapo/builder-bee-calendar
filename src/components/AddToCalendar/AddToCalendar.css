@@ -8,12 +8,12 @@
   padding: 0 var(--space-4);
   border: 2px solid var(--color-plum);
   border-radius: var(--radius-pill);
-  background: var(--color-honey);   /* plum on honey: 7.10:1 */
-  color: var(--color-plum);
+  background: var(--color-plum);    /* white on plum: 12.51:1 */
+  color: #fff;
   font: inherit;
   font-weight: 800;
   cursor: pointer;
 }
-.add-to-calendar__button:hover { background: var(--color-honey-soft); }
+.add-to-calendar__button:hover { background: var(--color-plum-strong); text-decoration: underline; text-decoration-color: var(--color-honey); }
 .add-to-calendar__hint { font-size: var(--text-sm); color: var(--color-muted); text-align: center; }
 .add-to-calendar__status:not(:empty) { font-weight: 700; color: var(--color-plum); font-size: var(--text-sm); text-align: center; }

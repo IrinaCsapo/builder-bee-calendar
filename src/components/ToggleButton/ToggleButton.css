@@ -5,7 +5,7 @@
   min-height: var(--tap-target);
   min-width: var(--tap-target);
   padding: 0 var(--space-4);
-  border: 2px solid var(--color-border);
+  border: 2px solid var(--color-field-border);
   border-radius: var(--radius-pill);
   background: var(--color-surface);
   color: var(--color-ink);
