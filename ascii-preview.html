@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>ASCII bees and butterflies (preview)</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet" />
+  <style>
+    body { margin: 0; background: #fcfaf4; font-family: system-ui, sans-serif; color: #1f1a24; }
+    h1 { font: 400 40px 'DM Serif Display', serif; color: #4a1d6b; text-align: center; margin: 24px 0 4px; }
+    p { text-align: center; color: #5e5668; margin: 0 0 12px; }
+    canvas { display: block; width: 100%; height: 640px; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; }
+  </style>
+</head>
+<body>
+  <h1>ASCII bees &amp; butterflies</h1>
+  <p>Preview only. Sizes, flying directions and the three butterfly colours.</p>
+  <canvas id="c"></canvas>
+  <script type="module">
+    import { drawCreature, drawGrid } from '/src/ascii/creatures.ts';
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    const CW = 9, CH = 15;
+    let W = 0, H = 0;
+    function resize() {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize(); addEventListener('resize', resize);
+
+    const creatures = [
+      { kind: 'bee', x: 0.2, y: 150, heading: 0, size: 2.6, seed: 1 },
+      { kind: 'bee', x: 0.55, y: 140, heading: Math.PI, size: 2.0, seed: 2 },
+      { kind: 'bee', x: 0.85, y: 150, heading: -0.3, size: 1.5, seed: 3 },
+      { kind: 'butterfly', x: 0.18, y: 430, heading: -Math.PI / 2, size: 2.6, seed: 5, hue: 0 },
+      { kind: 'butterfly', x: 0.5, y: 430, heading: -Math.PI / 2 + 0.35, size: 2.2, seed: 6, hue: 1 },
+      { kind: 'butterfly', x: 0.82, y: 430, heading: -Math.PI / 2 - 0.3, size: 2.2, seed: 7, hue: 2 },
+    ].map((c) => ({ ...c, phase: c.seed }));
+
+    let last = performance.now();
+    function frame(now) {
+      const dt = Math.min(0.05, (now - last) / 1000); last = now;
+      const t = now / 1000;
+      ctx.clearRect(0, 0, W, H);
+      drawGrid(ctx, W, H, CW, CH);
+      ctx.font = `600 ${Math.round(CH * 0.72)}px ${getComputedStyle(canvas).fontFamily}`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      for (const c of creatures) {
+        c.phase += dt * (c.kind === 'bee' ? 38 : 5.5);
+        const bob = Math.sin(t * (c.kind === 'bee' ? 3 : 1.6) + c.seed) * (c.kind === 'bee' ? 4 : 8);
+        drawCreature(ctx, { ...c, x: c.x * W, y: c.y + bob }, CW, CH, t);
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  </script>
+</body>
+</html>
