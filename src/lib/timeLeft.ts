@@ -25,24 +25,21 @@ const span = (ms: number) => {
 };
 
 export interface TimeLeft {
-  label: string;     // "Registration closes in 2d 14h"
+  label: string;     // "Registration ends in 2d 14h"
   urgent: boolean;   // under 3 days
 }
 
 /**
- * Countdown shown on cards. Uses the event's own timezone:
+ * Countdown shown on cards: how long registration stays open, in the event's own timezone.
  * - a known deadline closes at the end of that day
- * - otherwise registration is assumed open until the event starts
+ * - otherwise registration is assumed to close when the event starts
  */
 export function timeLeft(e: CalendarEvent, now = Date.now()): TimeLeft {
   const start = zonedTime(e.start_date, '00:00:00', e.timezone);
   const end = zonedTime(e.end_date, '23:59:59', e.timezone);
-  if (e.deadline) {
-    const deadline = zonedTime(e.deadline, '23:59:59', e.timezone);
-    if (deadline > now) return { label: `Registration closes in ${span(deadline - now)}`, urgent: deadline - now < 3 * 86_400_000 };
-    if (start > now) return { label: 'Registration closed', urgent: false };
-  }
-  if (start > now) return { label: `Starts in ${span(start - now)}`, urgent: start - now < 3 * 86_400_000 };
+  const closes = e.deadline ? zonedTime(e.deadline, '23:59:59', e.timezone) : start;
+  if (closes > now) return { label: `Registration ends in ${span(closes - now)}`, urgent: closes - now < 3 * 86_400_000 };
+  if (start > now) return { label: 'Registration closed', urgent: false };
   if (end > now) return { label: 'Happening now', urgent: true };
   return { label: 'Ended', urgent: false };
 }

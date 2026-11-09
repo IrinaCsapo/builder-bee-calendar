@@ -89,3 +89,26 @@ export function groupByPlace(events: CalendarEvent[], origin: Origin): EventGrou
 }
 
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+// ---- Group by type (the main list: each event appears once) -----------
+
+const CATEGORIES: { key: string; label: string; types: CalendarEvent['event_type'][] }[] = [
+  { key: 'build', label: 'Hackathons & buildathons', types: ['Hackathon', 'Buildathon'] },
+  { key: 'meet', label: 'Meetups & talks', types: ['Meetup', 'Pitch night'] },
+  { key: 'learn', label: 'Workshops & bootcamps', types: ['Workshop', 'Bootcamp'] },
+  { key: 'conf', label: 'Conferences', types: ['Conference'] },
+];
+
+/**
+ * One row per category, in a fixed order. Inside a row: nearest first when we
+ * know roughly where the visitor is (online events count as "here"), otherwise soonest.
+ */
+export function groupByType(events: CalendarEvent[], origin: Origin | null): EventGroup[] {
+  const dist = (e: CalendarEvent) =>
+    e.format === 'Online' || e.lat === undefined || e.lng === undefined || !origin ? 0 : distanceKm(origin, { lat: e.lat, lng: e.lng });
+  return CATEGORIES.map((c) => {
+    const list = events.filter((e) => c.types.includes(e.event_type));
+    if (origin) list.sort((a, b) => dist(a) - dist(b) || a.start_date.localeCompare(b.start_date));
+    return { key: c.key, label: c.label, events: list };
+  }).filter((g) => g.events.length > 0);
+}

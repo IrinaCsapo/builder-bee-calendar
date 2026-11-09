@@ -4,7 +4,7 @@ import { FilterBar } from '../components/FilterBar/FilterBar';
 import { EventList } from '../components/EventList/EventList';
 import { EmptyState } from '../components/EmptyState/EmptyState';
 import { allEvents } from '../lib/events';
-import { getUpcoming, groupByMonth, groupByPlace } from '../lib/dates';
+import { getUpcoming, groupByType } from '../lib/dates';
 import { getDeviceLocation, getRemembered, guessFromTimezone, remember, type Origin } from '../lib/location';
 import { SortBar, type LocateStatus } from '../components/SortBar/SortBar';
 import { ViewSwitch, type View } from '../components/ViewSwitch/ViewSwitch';
@@ -12,17 +12,16 @@ import { CalendarView } from '../components/CalendarView/CalendarView';
 import { FeaturedCarousel } from '../components/FeaturedCarousel/FeaturedCarousel';
 import { isMonthKey } from '../lib/calendar';
 import { todayISO } from '../lib/dates';
-import { applyFilters, EMPTY_FILTERS, filtersFromQuery, filtersToQuery, type Filters } from '../lib/filters';
+import { applyFilters, EMPTY_FILTERS, filtersFromQuery, filtersToQuery, hasActiveFilters, type Filters } from '../lib/filters';
 import { parseHash, replaceHashQuery } from '../lib/useHashRoute';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { useNow } from '../lib/timeLeft';
-import { distanceKm } from '../lib/location';
-import { EventSection } from '../components/EventSection/EventSection';
 
 const upcoming = getUpcoming(allEvents);
 
-// Featured: the next 6 upcoming events that have a photo
-const featured = upcoming.filter((e) => e.image_url).slice(0, 6);
+// Featured in the hero: online (and hybrid) events only, soonest first
+const featured = upcoming.filter((e) => e.format !== 'In person').slice(0, 6);
+const featuredIds = new Set(featured.map((e) => e.id));
 
 // Calendar view can go from this month to the month of the last upcoming event.
 const MIN_MONTH = todayISO().slice(0, 7);
@@ -98,18 +97,15 @@ export function HomePage() {
   const nearest = !sortByDate && !!origin;
   const now = useNow();
 
-  // "Close to you": in-person and hybrid events, nearest first (or soonest if we can't guess a location)
-  const closeToYou = useMemo(() => {
-    const inPerson = upcoming.filter((e) => e.format !== 'Online' && e.lat !== undefined && e.lng !== undefined);
-    if (!origin) return inPerson.slice(0, 8);
-    return [...inPerson]
-      .sort((a, b) => distanceKm(origin, { lat: a.lat!, lng: a.lng! }) - distanceKm(origin, { lat: b.lat!, lng: b.lng! }))
-      .slice(0, 8);
-  }, [origin]);
-  const online = useMemo(() => upcoming.filter((e) => e.format === 'Online').slice(0, 8), []);
+  // Each event appears once on the page: events already featured in the hero
+  // aren't repeated below, unless the visitor is searching or filtering.
+  const listed = useMemo(
+    () => (hasActiveFilters(filters) ? results : results.filter((e) => !featuredIds.has(e.id))),
+    [filters, results],
+  );
   const groups = useMemo(
-    () => (nearest ? groupByPlace(results, origin!) : groupByMonth(results)),
-    [nearest, origin, results],
+    () => groupByType(listed, nearest ? origin : null),
+    [listed, nearest, origin],
   );
   const clear = () => {
     setFilters(EMPTY_FILTERS);
@@ -135,38 +131,12 @@ export function HomePage() {
         featured={<FeaturedCarousel events={featured} />}
       />
       <div className="container" id="events" tabIndex={-1} role="region" aria-label="Events">
-        <EventSection
-          id="close"
-          title={origin ? 'Close to you' : 'In person'}
-          intro={
-            <>
-              <span>
-                {origin?.source === 'device'
-                  ? 'Nearest to your location.'
-                  : origin
-                    ? `Nearest to ${origin.label}, a rough guess from your device's timezone.`
-                    : 'Soonest first.'}
-              </span>
-              {origin?.source !== 'device' && (
-                <button type="button" className="link-button" onClick={locate} disabled={locateStatus === 'locating'}>
-                  <span aria-hidden="true">📍</span>&nbsp;Use my exact location
-                </button>
-              )}
-              {locateStatus === 'denied' && <span role="status">Location access is blocked in your browser settings.</span>}
-            </>
-          }
-          events={closeToYou}
-          now={now}
-          empty="No in-person events coming up yet."
-        />
-        <EventSection id="online" title="Online" intro="Join from anywhere." events={online} now={now} empty="No online events coming up yet." />
-
         <h2 className="all-events__title" id="all-events">All events</h2>
         <FilterBar
           filters={filters}
           onChange={setFilters}
           onClear={clear}
-          resultCount={results.length}
+          resultCount={listed.length}
           countriesByRegion={countriesByRegion}
         />
         <div className="results-toolbar">
@@ -185,8 +155,8 @@ export function HomePage() {
         {view === 'calendar' ? (
           <CalendarView month={month} minMonth={MIN_MONTH} maxMonth={MAX_MONTH} events={results} onMonthChange={setMonth} />
         ) : (
-          results.length > 0 ? (
-            <EventList groups={groups} variant={nearest ? 'place' : 'month'} now={now} />
+          listed.length > 0 ? (
+            <EventList groups={groups} variant="month" now={now} />
           ) : (
             <EmptyState onClear={clear} />
           )

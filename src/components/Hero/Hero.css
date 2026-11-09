@@ -1,13 +1,17 @@
-.hero { --overlap: 11rem; padding-bottom: var(--space-7); }
-@media (max-width: 40rem) { .hero { --overlap: 7rem; } }
-
-/* Gradient background. It stops halfway down the featured card, like the mockup. */
-.hero__top {
-  padding: var(--space-8) 0 calc(var(--overlap) + var(--space-6));
+/* The gradient fills at least the whole first screen on every device,
+   behind the headline, the featured card and the search bar. */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-6);
+  min-height: calc(100vh - 61px);           /* older browsers */
+  min-height: calc(100svh - 61px);          /* minus the header; svh = visible height on phones */
+  padding-block: var(--space-8);
   background: #f7d6f2 var(--hero-bg) center / cover no-repeat;
 }
 @media (max-width: 40rem) {
-  .hero__top { background-image: var(--hero-bg-small); padding-top: var(--space-7); }
+  .hero { background-image: var(--hero-bg-small); padding-block: var(--space-6); gap: var(--space-5); }
 }
 
 .hero__inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
@@ -17,9 +21,9 @@
   font-size: clamp(2.75rem, 7vw + 0.5rem, 6rem);
   line-height: 1;
   letter-spacing: -0.02em;
-  color: #000;   /* ≥ 5.26:1 on the gradient, and large text only needs 3:1 */
+  color: #000;   /* ≥ 4.96:1 on the gradient (measured), large text needs 3:1 */
 }
-.hero__lede { margin-top: var(--space-4); font-size: 1.2rem; color: #000; max-width: 52ch; }
+.hero__lede { margin-top: var(--space-4); font-size: 1.2rem; color: #000; max-width: 62ch; }
 @media (max-width: 64rem) { .hero__break { display: none; } }
 
 .hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-3); margin-top: var(--space-6); }
@@ -43,5 +47,5 @@
 .hero__button--submit:hover { background: var(--color-purple-strong); text-decoration: underline; }
 .hero__button:focus-visible { outline: 3px solid #000; outline-offset: 3px; }
 
-.hero__featured { margin-top: calc(-1 * var(--overlap)); position: relative; }
-.hero__search { max-width: 48rem; margin-top: var(--space-6); }
+.hero__featured { position: relative; }
+.hero__search { max-width: 48rem; }

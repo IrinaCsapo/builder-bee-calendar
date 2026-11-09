@@ -15,12 +15,13 @@ interface HeroProps {
 
 export function Hero({ query, onQueryChange, onSearch, onBrowse, featured }: HeroProps) {
   return (
-    <section className="hero" aria-labelledby="hero-title">
-      <div
-        className="hero__top"
-        // Decorative background; the small file is used on phones (see Hero.css)
-        style={{ ['--hero-bg' as string]: `url(${heroBg})`, ['--hero-bg-small' as string]: `url(${heroBgSmall})` }}
-      >
+    <section
+      className="hero"
+      aria-labelledby="hero-title"
+      // Decorative background; the small file is used on phones (see Hero.css)
+      style={{ ['--hero-bg' as string]: `url(${heroBg})`, ['--hero-bg-small' as string]: `url(${heroBgSmall})` }}
+    >
+      <div className="hero__top">
         <div className="container hero__inner">
           <h1 id="hero-title" className="hero__title">Find your next hackathon</h1>
           <p className="hero__lede">

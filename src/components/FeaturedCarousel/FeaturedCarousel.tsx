@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CalendarEvent } from '../../types/event';
 import { formatRange } from '../../lib/dates';
+import { EventImage } from '../EventImage/EventImage';
 import './FeaturedCarousel.css';
 
 const INTERVAL_MS = 6000;
@@ -60,55 +61,44 @@ export function FeaturedCarousel({ events }: { events: CalendarEvent[] }) {
           aria-label={`${index + 1} of ${count}`}
         >
           <div className="featured__media">
-            {event.image_url && <img src={event.image_url} alt="" referrerPolicy="no-referrer" />}
+            <EventImage id={event.id} title={event.title} src={event.image_url} />
             <span className="featured__organiser">{event.organiser}</span>
           </div>
           <div className="featured__text">
             <p className="featured__pill">{event.format}</p>
-            <h3 className="featured__title">{event.title}</h3>
+            <h3 className="featured__title">
+              <a href={`#/event/${event.id}`}>{event.title}</a>
+            </h3>
             <p className="featured__meta">
               <time dateTime={event.start_date}>{formatRange(event.start_date, event.end_date)}</time>
               {' · '}{where}
             </p>
             <p className="featured__desc">{event.audience}</p>
-            <a className="featured__cta" href={`#/event/${event.id}`}>
-              View event<span className="visually-hidden">: {event.title}</span>
-            </a>
+            <div className="featured__actions">
+              <a className="featured__cta" href={event.registration_url} target="_blank" rel="noopener noreferrer">
+                Register <span aria-hidden="true">↗</span>
+                <span className="visually-hidden"> for {event.title} on the organiser's site (opens in a new tab)</span>
+              </a>
+              {count > 1 && (
+                <div className="featured__controls">
+                  <button type="button" className="featured__round" onClick={() => setPlaying(!playing)}>
+                    <span aria-hidden="true">{playing ? '❚❚' : '▶'}</span>
+                    <span className="visually-hidden">{playing ? 'Pause featured events' : 'Play featured events'}</span>
+                  </button>
+                  <button type="button" className="featured__round" onClick={() => go(index - 1)}>
+                    <span aria-hidden="true">←</span>
+                    <span className="visually-hidden">Previous featured event</span>
+                  </button>
+                  <button type="button" className="featured__round" onClick={() => go(index + 1)}>
+                    <span aria-hidden="true">→</span>
+                    <span className="visually-hidden">Next featured event</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-
-      {count > 1 && (
-        <div className="featured__controls">
-          <button type="button" className="featured__round" onClick={() => setPlaying(!playing)}>
-            <span aria-hidden="true">{playing ? '❚❚' : '▶'}</span>
-            <span className="visually-hidden">{playing ? 'Pause featured events' : 'Play featured events'}</span>
-          </button>
-          <button type="button" className="featured__round" onClick={() => go(index - 1)}>
-            <span aria-hidden="true">←</span>
-            <span className="visually-hidden">Previous featured event</span>
-          </button>
-          <p className="featured__counter" aria-hidden="true">{index + 1} / {count}</p>
-          <ul className="featured__dots">
-            {events.map((e, i) => (
-              <li key={e.id}>
-                <button
-                  type="button"
-                  className="featured__dot"
-                  aria-current={i === index ? 'true' : undefined}
-                  onClick={() => go(i)}
-                >
-                  <span className="visually-hidden">Show featured event {i + 1}: {e.title}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-          <button type="button" className="featured__round" onClick={() => go(index + 1)}>
-            <span aria-hidden="true">→</span>
-            <span className="visually-hidden">Next featured event</span>
-          </button>
-        </div>
-      )}
     </section>
   );
 }

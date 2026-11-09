@@ -35,16 +35,21 @@ export function EventImage({ id, title, src, variant = 'card' }: EventImageProps
   return (
     <div className={`event-image event-image--${variant}`} aria-hidden="true">
       {showImage ? (
-        <img
-          src={src}
-          alt=""
-          loading={variant === 'banner' ? 'eager' : 'lazy'}
-          decoding="async"
-          referrerPolicy="no-referrer"
-          width={1200}
-          height={900}
-          onError={() => setFailed(true)}
-        />
+        <>
+          {/* Soft blurred copy fills the space around the uncropped image */}
+          <img className="event-image__backdrop" src={src} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+          <img
+            className="event-image__img"
+            src={src}
+            alt=""
+            loading={variant === 'banner' ? 'eager' : 'lazy'}
+            decoding="async"
+            referrerPolicy="no-referrer"
+            width={1000}
+            height={1000}
+            onError={() => setFailed(true)}
+          />
+        </>
       ) : (
         <div className="event-image__placeholder" style={{ backgroundImage: `url(${placeholderFor(id)})` }}>
           <span className="event-image__title">{title}</span>
