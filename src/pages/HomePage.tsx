@@ -10,7 +10,6 @@ import { SortBar, type LocateStatus } from '../components/SortBar/SortBar';
 import { ViewSwitch, type View } from '../components/ViewSwitch/ViewSwitch';
 import { CalendarView } from '../components/CalendarView/CalendarView';
 import { FeaturedCarousel } from '../components/FeaturedCarousel/FeaturedCarousel';
-import { AsciiGarden } from '../components/AsciiGarden/AsciiGarden';
 import { isMonthKey } from '../lib/calendar';
 import { todayISO } from '../lib/dates';
 import { applyFilters, EMPTY_FILTERS, filtersFromQuery, filtersToQuery, type Filters } from '../lib/filters';
@@ -99,7 +98,6 @@ export function HomePage() {
 
   return (
     <>
-      <AsciiGarden>
         <Hero
           query={filters.query}
           onQueryChange={(query) => setFilters((f) => ({ ...f, query }))}
@@ -113,7 +111,6 @@ export function HomePage() {
         <div className="container">
           <FeaturedCarousel events={featured} />
         </div>
-      </AsciiGarden>
       <div className="container">
         <FilterBar
           filters={filters}

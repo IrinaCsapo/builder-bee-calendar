@@ -1,7 +1,10 @@
+/* White header, black text (logo coming later) */
 .header {
-  background: var(--color-plum);
-  color: #fff;
-  border-bottom: 4px solid var(--color-honey);
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  color: #000;
+  border-bottom: 1px solid var(--color-border);
 }
 .header__inner {
   display: flex;
@@ -9,19 +12,19 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2) var(--space-5);
-  padding-block: var(--space-3);
+  padding-block: var(--space-2);
 }
 .header__brand {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   min-height: var(--tap-target);
-  color: #fff;
-  font-weight: 700;
-  font-size: var(--text-lg);
+  color: #000;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
   text-decoration: none;
 }
-.header__mark { font-size: 1.5rem; }
+.header__mark { font-size: 1.4rem; }
 .header__nav {
   display: flex;
   flex-wrap: wrap;
@@ -35,17 +38,14 @@
   align-items: center;
   min-height: var(--tap-target);
   padding-inline: var(--space-3);
-  color: #fff;
-  font-weight: 600;
+  color: #000;
   text-decoration: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
 }
-.header__link:hover { text-decoration: underline; text-decoration-color: var(--color-honey); text-decoration-thickness: 2px; }
-.header :focus-visible { outline-color: var(--color-honey); }
-/* Current page: underline (shape) + honey colour, not colour alone */
+.header__link:hover { text-decoration: underline; text-underline-offset: 0.3em; }
+/* Current page: underline (shape), not colour alone */
 .header__link[aria-current='page'] {
   text-decoration: underline;
-  text-decoration-color: var(--color-honey);
-  text-decoration-thickness: 3px;
-  text-underline-offset: 0.35em;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
 }

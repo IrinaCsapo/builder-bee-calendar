@@ -1,40 +1,49 @@
 /*
- * Builder Bee Calendar — design tokens
+ * Builder Bee Calendar — design tokens (v2, gradient landing page)
  *
- * Brand colours (WCAG contrast, checked):
- *   Plum  #4A1D6B  on page bg 11.98:1, on white 12.51:1, on honey 7.10:1
- *   Honey #F6B93B  background/accent only. Ink on honey 9.68:1.
- *   Never use honey as text on a light background (1.71:1).
+ * Text is black everywhere, for accessibility.
+ * Contrast (checked):
+ *   Black on white 21:1 · black on mint #A3FFB8 17.55:1 · black on orange #FF6A00 7.31:1
+ *   White on purple #7000F0 7.13:1 · black on the hero gradient ≥ 5.26:1
+ *   Orange is never used with white text (2.87:1).
  */
 :root {
   /* Brand */
-  --color-plum: #4a1d6b;
-  --color-plum-strong: #351350;
-  --color-honey: #f6b93b;
-  --color-honey-soft: #fdebc4;
+  --color-purple: #7000f0;      /* Submit button, accents */
+  --color-purple-strong: #5500b8;
+  --color-orange: #ff6a00;      /* Browse button (black text) */
+  --color-orange-strong: #e65c00;
+  --color-mint: #a3ffb8;        /* featured card */
+  --color-mint-soft: #e3ffe9;   /* "time left" badges */
+
+  /* Older component tokens, now mapped onto the new palette */
+  --color-plum: #000000;
+  --color-plum-strong: #000000;
+  --color-honey: var(--color-mint);
+  --color-honey-soft: var(--color-mint-soft);
 
   /* Neutrals */
-  --color-ink: #1f1a24;        /* body text, 16.34:1 on bg */
-  --color-muted: #5e5668;      /* secondary text, 6.69:1 on bg */
-  --color-bg: #fcfaf4;          /* off-white, like paper */
+  --color-ink: #000000;
+  --color-muted: #000000;        /* secondary text stays black too */
+  --color-bg: #ffffff;
   --color-surface: #ffffff;
-  --color-border: #e6e0d4;      /* decorative lines and card edges */
-  --color-field-border: #8c8296; /* form field edges: 3.50:1 on bg (WCAG 1.4.11 needs 3:1) */
+  --color-border: #e4e4e7;       /* decorative lines and card edges */
+  --color-field-border: #8a8a8a; /* form field edges: 3.45:1 on white (WCAG 1.4.11 needs 3:1) */
 
   /* Semantic */
-  --color-text: var(--color-ink);
-  --color-link: var(--color-plum);
-  --color-focus: var(--color-plum);
+  --color-text: #000000;
+  --color-link: #000000;
+  --color-focus: #000000;
 
-  /* Type */
-  --font-sans: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif; /* headings only */
+  /* Type: Newsreader for big headlines, DM Sans for everything else */
+  --font-sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-lg: 1.25rem;
   --text-xl: 1.75rem;
   --text-2xl: clamp(2rem, 5vw + 1rem, 3.25rem);
-  --leading-tight: 1.15;
+  --leading-tight: 1.1;
   --leading-normal: 1.55;
 
   /* Spacing scale (4px base) */
@@ -48,10 +57,11 @@
   --space-8: 4rem;
 
   /* Shape & size */
-  --radius-sm: 6px;
-  --radius-md: 12px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
   --radius-pill: 999px;
   --tap-target: 44px;
-  --content-width: 72rem;
+  --content-width: 76rem;
   --focus-ring: 3px solid var(--color-focus);
 }
