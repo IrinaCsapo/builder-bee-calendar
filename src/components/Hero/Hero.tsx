@@ -18,7 +18,8 @@ export function Hero({ onBrowse, featured }: HeroProps) {
       // Decorative background; the small file is used on phones (see Hero.css)
       style={{ ['--hero-bg' as string]: `url(${heroBg})`, ['--hero-bg-small' as string]: `url(${heroBgSmall})` }}
     >
-      <HeroBees />
+      {/* Bee style: 'ascii' (big ASCII bee) or 'pixel' (flapping pixel bees, kept for later) */}
+      <HeroBees style="ascii" />
       <div className="hero__top">
         <div className="container hero__inner">
           <h1 id="hero-title" className="hero__title">Find your next hackathon</h1>

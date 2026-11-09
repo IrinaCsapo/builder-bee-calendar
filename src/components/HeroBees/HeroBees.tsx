@@ -18,8 +18,34 @@ const WINGS_DOWN = [
   '    ▀    ',
 ].join('\n');
 
+// The big ASCII bee (as supplied). String.raw keeps the backslashes.
+const ASCII_BEE = String.raw`              \     /
+          \    o ^ o    /
+            \ (     ) /
+ ____________(%%%%%%%)____________
+(     /   /  )%%%%%%%(  \   \     )
+(___/___/__/           \__\___\___)
+   (     /  /(%%%%%%%)\  \     )
+    (__/___/ (%%%%%%%) \___\__)
+            /(       )\
+          /   (%%%%%)   \
+               (%%%)
+                 !`;
+
+export type BeeStyle = 'pixel' | 'ascii';
+
+// Fewer, calmer flights for the big ASCII bee
+const ASCII_FLIGHTS: Flight[] = [
+  { x: '-4%', y: '6%', size: 11, dx: '4vw', dy: '4vh', dur: 30, delay: 0, phone: true },
+  { x: '83%', y: '3%', size: 10, dx: '-3vw', dy: '6vh', dur: 34, delay: -9 },
+  { x: '86%', y: '54%', size: 12, dx: '-4vw', dy: '-5vh', dur: 28, delay: -4 },
+  { x: '-3%', y: '60%', size: 10, dx: '4vw', dy: '-4vh', dur: 32, delay: -15 },
+]
+
+interface Flight { x: string; y: string; size: number; dx: string; dy: string; dur: number; delay: number; phone?: boolean }
+
 // Start position, size, and how each bee's flight loop runs
-const FLIGHTS: { x: string; y: string; size: number; dx: string; dy: string; dur: number; delay: number; phone?: boolean }[] = [
+const FLIGHTS: Flight[] = [
   { x: '6%', y: '12%', size: 18, dx: '10vw', dy: '7vh', dur: 24, delay: 0, phone: true },
   { x: '80%', y: '8%', size: 14, dx: '-9vw', dy: '9vh', dur: 29, delay: -6, phone: true },
   { x: '14%', y: '58%', size: 12, dx: '8vw', dy: '-8vh', dur: 21, delay: -11 },
@@ -28,8 +54,26 @@ const FLIGHTS: { x: string; y: string; size: number; dx: string; dy: string; dur
   { x: '66%', y: '74%', size: 13, dx: '7vw', dy: '-9vh', dur: 25, delay: -9, phone: true },
 ];
 
-/** Decorative pixel bees flying around the hero. Hidden from screen readers, never catch clicks. */
-export function HeroBees() {
+/**
+ * Decorative bees flying around the hero. Hidden from screen readers, never catch clicks.
+ * style="pixel": small flapping pixel bees. style="ascii": the big ASCII bee.
+ */
+export function HeroBees({ style = 'pixel' }: { style?: BeeStyle }) {
+  if (style === 'ascii') {
+    return (
+      <div className="hero-bees" aria-hidden="true">
+        {ASCII_FLIGHTS.map((f, i) => (
+          <div
+            key={i}
+            className={`hero-bees__flight${f.phone ? '' : ' hero-bees__flight--wide-only'}`}
+            style={{ left: f.x, top: f.y, '--dx': f.dx, '--dy': f.dy, '--dur': `${f.dur}s`, '--delay': `${f.delay}s` } as CSSProperties}
+          >
+            <pre className="hero-bees__ascii" style={{ fontSize: `${f.size}px` }}>{ASCII_BEE}</pre>
+          </div>
+        ))}
+      </div>
+    );
+  }
   return (
     <div className="hero-bees" aria-hidden="true">
       {FLIGHTS.map((f, i) => (

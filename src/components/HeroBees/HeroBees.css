@@ -48,3 +48,18 @@
   .hero-bees__flight, .hero-bees__bee, .hero-bees__frame { animation: none; }
   .hero-bees__frame--down { visibility: hidden; }
 }
+
+/* ---- The big ASCII bee (style="ascii") ---- */
+.hero-bees__ascii {
+  margin: 0;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  font-weight: 600;
+  line-height: 1.12;          /* even, terminal-like rows so the drawing lines up */
+  letter-spacing: 0;
+  white-space: pre;
+  color: #f4f4f6;             /* light grey */
+  text-shadow: 0 1px 2px rgba(60, 20, 110, 0.35); /* holds on the pale parts of the gradient */
+  animation: bee-bob 0.9s ease-in-out infinite alternate;
+}
+@media (max-width: 40rem) { .hero-bees__ascii { font-size: 8px !important; } }
+@media (prefers-reduced-motion: reduce) { .hero-bees__ascii { animation: none; } }

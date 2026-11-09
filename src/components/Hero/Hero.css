@@ -45,7 +45,7 @@
   text-decoration: none;
   cursor: pointer;
 }
-.hero__button--browse { background: var(--color-orange); color: #000; }         /* 7.31:1 */
+.hero__button--browse { background: var(--color-orange); color: #fff; }         /* TEMPORARY (design request): white on orange is 2.87:1, below 4.5:1. Black text was 7.31:1 */
 .hero__button--browse:hover { background: var(--color-orange-strong); text-decoration: underline; }
 .hero__button--submit { background: var(--color-purple); color: #fff; }        /* 7.13:1 */
 .hero__button--submit:hover { background: var(--color-purple-strong); text-decoration: underline; }
