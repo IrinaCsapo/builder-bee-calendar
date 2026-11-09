@@ -9,7 +9,11 @@
   min-height: calc(100svh - 61px);          /* minus the header; svh = visible height on phones */
   padding-block: calc(var(--space-8) + var(--space-7)) var(--space-8);
   background: #f7d6f2 var(--hero-bg) center / cover no-repeat;
+  position: relative;
+  isolation: isolate;
 }
+/* Content sits above the floating ASCII bees */
+.hero__top, .hero__featured { position: relative; z-index: 1; }
 @media (max-width: 40rem) {
   .hero { background-image: var(--hero-bg-small); padding-block: var(--space-8) var(--space-7); gap: var(--space-7); }
 }
@@ -47,4 +51,3 @@
 .hero__button--submit:hover { background: var(--color-purple-strong); text-decoration: underline; }
 .hero__button:focus-visible { outline: 3px solid #000; outline-offset: 3px; }
 
-.hero__featured { position: relative; }
