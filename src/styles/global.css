@@ -106,4 +106,4 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
 
 /* Browse area under the hero: search + one row of filters, then category rows */
 .browse { margin-top: var(--space-8); padding-top: var(--space-6); scroll-margin-top: var(--space-4); }
-.browse__search { max-width: 48rem; margin: 0 auto var(--space-5); }
+.browse__search { margin-bottom: var(--space-4); } /* full width, lined up with the filter bar below */
