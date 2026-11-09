@@ -29,7 +29,7 @@ export function SearchBox({ value, onChange, onSubmit }: SearchBoxProps) {
           type="search"
           value={value}
           maxLength={100}
-          placeholder="Event, organiser, city or theme"
+          placeholder="Event, city or theme"
           autoComplete="off"
           enterKeyHint="search"
           aria-describedby="event-search-hint"

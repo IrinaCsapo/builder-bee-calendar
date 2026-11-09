@@ -64,15 +64,13 @@ export function FeaturedCarousel({ events }: { events: CalendarEvent[] }) {
             <span className="featured__organiser">{event.organiser}</span>
           </div>
           <div className="featured__text">
-            <p className="featured__kicker">
-              {event.event_type} · <time dateTime={event.start_date}>{formatRange(event.start_date, event.end_date)}</time>
-            </p>
+            <p className="featured__pill">{event.format}</p>
             <h3 className="featured__title">{event.title}</h3>
             <p className="featured__meta">
-              {where}
-              {event.cost === 'Free' && ' · Free'}
-              {event.level === 'Beginner friendly' && ' · Beginner friendly'}
+              <time dateTime={event.start_date}>{formatRange(event.start_date, event.end_date)}</time>
+              {' · '}{where}
             </p>
+            <p className="featured__desc">{event.audience}</p>
             <a className="featured__cta" href={`#/event/${event.id}`}>
               View event<span className="visually-hidden">: {event.title}</span>
             </a>

@@ -35,6 +35,14 @@ for (const e of upcoming) {
 }
 Object.values(countriesByRegion).forEach((list) => list.sort());
 
+/** Scroll to an element, then move keyboard focus there (focus first, so it doesn't cancel the smooth scroll). */
+function jumpTo(target: HTMLElement | null, focusEl: HTMLElement | null) {
+  if (!target) return;
+  focusEl?.focus({ preventScroll: true });
+  const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 16, behavior: smooth ? 'smooth' : 'auto' });
+}
+
 export function HomePage() {
   useDocumentTitle();
   // Filters live in the URL (#/?format=Online&region=Europe) so a filtered view can be shared.
@@ -98,20 +106,21 @@ export function HomePage() {
 
   return (
     <>
-        <Hero
-          query={filters.query}
-          onQueryChange={(query) => setFilters((f) => ({ ...f, query }))}
-          onSearch={() => {
-            // Jump to the results and move focus to the count, so it's read out
-            const count = document.getElementById('result-count');
-            count?.closest('.filter-bar')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-            count?.focus({ preventScroll: true });
-          }}
-        />
-        <div className="container">
-          <FeaturedCarousel events={featured} />
-        </div>
-      <div className="container">
+      <Hero
+        query={filters.query}
+        onQueryChange={(query) => setFilters((f) => ({ ...f, query }))}
+        onSearch={() => {
+          // Jump to the results and move focus to the count, so it's read out
+          const count = document.getElementById('result-count');
+          jumpTo(count?.closest('.filter-bar') as HTMLElement | null, count);
+        }}
+        onBrowse={() => {
+          const events = document.getElementById('events');
+          jumpTo(events, events);
+        }}
+        featured={<FeaturedCarousel events={featured} />}
+      />
+      <div className="container" id="events" tabIndex={-1} role="region" aria-label="Events">
         <FilterBar
           filters={filters}
           onChange={setFilters}
