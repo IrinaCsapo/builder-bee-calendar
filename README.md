@@ -114,7 +114,7 @@ Each component is a folder with `Name.tsx` and `Name.css`. Styling is plain CSS 
 
 ## Credits
 
-The ASCII bees and butterflies in the hero ([`src/ascii/`](src/ascii/)) use the cell-sampling technique from ascii-sharks by drewdi (MIT licence), rewritten for bees and butterflies.
+The ASCII bees and butterflies code ([`src/ascii/`](src/ascii/), not on the page at the moment) uses the cell-sampling technique from ascii-sharks by drewdi (MIT licence), rewritten for bees and butterflies.
 
 ## Accessibility
 
@@ -122,13 +122,14 @@ Built with WCAG 2.2 AA in mind, and checked page by page:
 
 - Every filter is a real `<button>` or `<select>` with a label, works by keyboard, and has a visible focus ring
 - Nothing relies on colour alone: pressed filters show a ✓, chips and badges are text
-- Text contrast is 6.76:1 or higher. Brand plum `#4A1D6B` is 12.11:1 on the page background. Honey `#F6B93B` is only used as a background or accent, never as text on light colours
+- All text is black (Newsreader for headlines, DM Sans for everything else). Black on the hero gradient is at least 4.96:1 for the headline and 9.2:1 for the description (measured on the image). Orange `#FF6A00` only ever has black text (7.31:1); purple `#7000F0` has white text (7.13:1); mint `#A3FFB8` has black text (17.55:1)
+- Form field edges are `#8A8A8A` (3.45:1), meeting the 3:1 rule for controls
 - Dates are written in full for screen readers ("27 February 2027 to 28 February 2027")
 - The result count is a live region, so filter changes are announced
 - Tap targets are at least 44×44px
 - Landmarks, one `h1` per page, no skipped heading levels, skip link, focus moves to the new page's heading
 - Respects `prefers-reduced-motion`
-- The ASCII bees and butterflies are decorative (`aria-hidden`, no pointer events), fly around text rather than over it, sit still with reduced motion, pause off screen, and are hidden on phones where they'd cover text
+- Event cards: time-left badges are text ("Starts in 8d 2h"), urgency also shown by a heavier border; placeholder images and their title overlay are decorative because the real title is right below
 - The featured carousel has a Pause button, pauses on hover and keyboard focus, never auto-rotates with reduced motion, and only announces slides the visitor changes
 
 If you change colours in `tokens.css`, re-check contrast. The ratios are noted in the file.
