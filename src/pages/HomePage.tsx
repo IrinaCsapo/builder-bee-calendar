@@ -15,6 +15,9 @@ import { todayISO } from '../lib/dates';
 import { applyFilters, EMPTY_FILTERS, filtersFromQuery, filtersToQuery, type Filters } from '../lib/filters';
 import { parseHash, replaceHashQuery } from '../lib/useHashRoute';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
+import { useNow } from '../lib/timeLeft';
+import { distanceKm } from '../lib/location';
+import { EventSection } from '../components/EventSection/EventSection';
 
 const upcoming = getUpcoming(allEvents);
 
@@ -93,6 +96,17 @@ export function HomePage() {
     else locate();
   };
   const nearest = !sortByDate && !!origin;
+  const now = useNow();
+
+  // "Close to you": in-person and hybrid events, nearest first (or soonest if we can't guess a location)
+  const closeToYou = useMemo(() => {
+    const inPerson = upcoming.filter((e) => e.format !== 'Online' && e.lat !== undefined && e.lng !== undefined);
+    if (!origin) return inPerson.slice(0, 8);
+    return [...inPerson]
+      .sort((a, b) => distanceKm(origin, { lat: a.lat!, lng: a.lng! }) - distanceKm(origin, { lat: b.lat!, lng: b.lng! }))
+      .slice(0, 8);
+  }, [origin]);
+  const online = useMemo(() => upcoming.filter((e) => e.format === 'Online').slice(0, 8), []);
   const groups = useMemo(
     () => (nearest ? groupByPlace(results, origin!) : groupByMonth(results)),
     [nearest, origin, results],
@@ -121,6 +135,33 @@ export function HomePage() {
         featured={<FeaturedCarousel events={featured} />}
       />
       <div className="container" id="events" tabIndex={-1} role="region" aria-label="Events">
+        <EventSection
+          id="close"
+          title={origin ? 'Close to you' : 'In person'}
+          intro={
+            <>
+              <span>
+                {origin?.source === 'device'
+                  ? 'Nearest to your location.'
+                  : origin
+                    ? `Nearest to ${origin.label}, a rough guess from your device's timezone.`
+                    : 'Soonest first.'}
+              </span>
+              {origin?.source !== 'device' && (
+                <button type="button" className="link-button" onClick={locate} disabled={locateStatus === 'locating'}>
+                  <span aria-hidden="true">📍</span>&nbsp;Use my exact location
+                </button>
+              )}
+              {locateStatus === 'denied' && <span role="status">Location access is blocked in your browser settings.</span>}
+            </>
+          }
+          events={closeToYou}
+          now={now}
+          empty="No in-person events coming up yet."
+        />
+        <EventSection id="online" title="Online" intro="Join from anywhere." events={online} now={now} empty="No online events coming up yet." />
+
+        <h2 className="all-events__title" id="all-events">All events</h2>
         <FilterBar
           filters={filters}
           onChange={setFilters}
@@ -145,7 +186,7 @@ export function HomePage() {
           <CalendarView month={month} minMonth={MIN_MONTH} maxMonth={MAX_MONTH} events={results} onMonthChange={setMonth} />
         ) : (
           results.length > 0 ? (
-            <EventList groups={groups} variant={nearest ? 'place' : 'month'} />
+            <EventList groups={groups} variant={nearest ? 'place' : 'month'} now={now} />
           ) : (
             <EmptyState onClear={clear} />
           )

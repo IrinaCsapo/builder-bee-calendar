@@ -1,11 +1,10 @@
 .event-list { display: grid; gap: var(--space-7); }
-.event-list__items {
+/* Four cards per row on desktop, fewer as the screen narrows */
+.event-list__items, .event-grid {
   display: grid;
-  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+  gap: var(--space-6) var(--space-5);
   list-style: none;
   margin: 0;
   padding: 0;
-}
-@media (min-width: 60rem) {
-  .event-list__items { grid-template-columns: repeat(2, 1fr); }
 }

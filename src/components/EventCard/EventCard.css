@@ -1,57 +1,51 @@
+/* Card like the reference: image, status badges, title, detail chips. All text black. */
 .event-card {
   position: relative;
   display: flex;
   flex-direction: column;
+  gap: var(--space-3);
   height: 100%;
-  overflow: hidden;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+  color: #000;
 }
-.event-card:hover {
-  border-color: var(--color-plum);
-  box-shadow: 0 4px 0 var(--color-honey);
-  transform: translateY(-2px);
-}
-@media (prefers-reduced-motion: reduce) {
-  .event-card:hover { transform: none; }
-}
-.event-card:focus-within {
-  outline: var(--focus-ring);
-  outline-offset: 3px;
-}
+.event-card .event-image { transition: transform 200ms ease, box-shadow 200ms ease; }
+.event-card:hover .event-image { transform: translateY(-3px); box-shadow: 0 14px 30px -18px rgba(0, 0, 0, 0.5); }
+@media (prefers-reduced-motion: reduce) { .event-card:hover .event-image { transform: none; } }
 
-.event-card__content {
-  display: flex;
-  gap: var(--space-4);
-  align-items: flex-start;
-  padding: var(--space-4);
-}
-.event-card__body { flex: 1; min-width: 0; }
-/* the date block sits half over the image, like a ticket stub */
-.event-card__content .date-block { margin-top: calc(-1 * var(--space-6)); position: relative; box-shadow: 0 0 0 3px var(--color-surface); }
-
-.event-card__title { font-size: var(--text-lg); }
-.event-card__link {
-  color: var(--color-ink);
-  text-decoration: none;
-}
-.event-card__link:hover { text-decoration: underline; text-decoration-color: var(--color-honey); text-decoration-thickness: 3px; }
-/* Whole card is the tap target; the ring is drawn on the card via :focus-within */
-.event-card__link::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-md); }
-.event-card__link:focus-visible { outline: none; }
-
-.event-card__organiser {
-  margin-top: var(--space-1);
-  color: var(--color-muted);
-}
-
-.event-card__tags {
+.event-card__badges, .event-card__chips {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  margin: var(--space-3) 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
+}
+.event-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0.15rem var(--space-2);
+  border: 1px solid #000;
+  border-radius: var(--radius-sm);
+  background: #fff;
+  font-size: var(--text-sm);
+}
+/* Time left: mint fill. "Urgent" (under 3 days) is marked by a heavier border AND the label text, not colour alone */
+.event-card__badge--time { background: var(--color-mint); border-color: var(--color-mint); }
+.event-card__badge--time.is-urgent { border: 2px solid #000; }
+
+.event-card__title { font-family: var(--font-sans); font-size: 1.15rem; font-weight: 400; line-height: 1.3; }
+.event-card__link { color: #000; text-decoration: none; }
+.event-card__link:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+.event-card__link::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-md); }
+.event-card__link:focus-visible { outline: none; }
+.event-card:focus-within { outline: var(--focus-ring); outline-offset: 6px; border-radius: var(--radius-md); }
+
+.event-card__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0.2rem var(--space-2);
+  border-radius: var(--radius-sm);
+  background: #f2f2f4;
+  font-size: var(--text-sm);
 }

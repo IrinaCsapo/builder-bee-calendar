@@ -53,7 +53,7 @@ export function EventPage({ id }: { id: string }) {
         </div>
       </header>
 
-      {event.image_url && <EventImage src={event.image_url} type={event.event_type} variant="banner" />}
+      {event.image_url && <EventImage id={event.id} title={event.title} src={event.image_url} variant="banner" />}
 
       <div className="event-page__layout">
         <aside className="event-page__actions" aria-label="Register and share">

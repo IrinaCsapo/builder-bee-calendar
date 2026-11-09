@@ -1,40 +1,57 @@
 import type { CalendarEvent } from '../../types/event';
-import { Chip } from '../Chip/Chip';
-import { Badge } from '../Badge/Badge';
-import { DateBlock } from '../DateBlock/DateBlock';
+import { formatRange, formatDay, formatShortMonth } from '../../lib/dates';
+import { timeLeft } from '../../lib/timeLeft';
 import { EventImage } from '../EventImage/EventImage';
 import './EventCard.css';
 
 interface EventCardProps {
   event: CalendarEvent;
+  now: number;
 }
 
-export function EventCard({ event }: EventCardProps) {
-  const isFree = event.cost === 'Free';
-  const isBeginner = event.level === 'Beginner friendly';
+const FORMAT_ICON = { Online: '🖥', 'In person': '📍', Hybrid: '🔀' } as const;
+
+/** Short visible date ("14–15 Nov"); screen readers get the full range. */
+function shortDate(e: CalendarEvent) {
+  const sameMonth = e.start_date.slice(0, 7) === e.end_date.slice(0, 7);
+  if (e.start_date === e.end_date) return `${formatDay(e.start_date)} ${formatShortMonth(e.start_date)}`;
+  if (sameMonth) return `${formatDay(e.start_date)}–${formatDay(e.end_date)} ${formatShortMonth(e.start_date)}`;
+  return `${formatDay(e.start_date)} ${formatShortMonth(e.start_date)} – ${formatDay(e.end_date)} ${formatShortMonth(e.end_date)}`;
+}
+
+export function EventCard({ event, now }: EventCardProps) {
+  const left = timeLeft(event, now);
+  const where = event.format === 'Online' ? 'Online' : [event.city, event.country].filter(Boolean).join(', ');
 
   return (
     <article className="event-card">
-      <EventImage src={event.image_url} type={event.event_type} />
-      <div className="event-card__content">
-      <DateBlock start={event.start_date} end={event.end_date} />
-      <div className="event-card__body">
-        <h3 className="event-card__title">
-          {/* The link covers the whole card (see ::after in CSS) */}
-          <a className="event-card__link" href={`#/event/${event.id}`}>{event.title}</a>
-        </h3>
-        <p className="event-card__organiser">
-          <span className="visually-hidden">Organised by </span>{event.organiser}
-        </p>
-        <ul className="event-card__tags" aria-label="Details">
-          <li><Chip label="Format">{event.format}</Chip></li>
-          <li><Chip label="Type">{event.event_type}</Chip></li>
-          {event.city && <li><Chip label="City">{event.city}</Chip></li>}
-          {isFree && <li><Badge>Free</Badge></li>}
-          {isBeginner && <li><Badge variant="plum">Beginner friendly</Badge></li>}
-        </ul>
-      </div>
-      </div>
+      <EventImage id={event.id} title={event.title} src={event.image_url} />
+
+      <ul className="event-card__badges" aria-label="Status">
+        <li className={`event-card__badge event-card__badge--time${left.urgent ? ' is-urgent' : ''}`}>
+          <span aria-hidden="true">⏳</span> {left.label}
+        </li>
+        <li className="event-card__badge">{event.level}</li>
+        <li className="event-card__badge">{event.cost}</li>
+      </ul>
+
+      <h3 className="event-card__title">
+        {/* The link covers the whole card (see ::after in CSS) */}
+        <a className="event-card__link" href={`#/event/${event.id}`}>{event.title}</a>
+      </h3>
+
+      <ul className="event-card__chips" aria-label="Details">
+        <li className="event-card__chip">
+          <span aria-hidden="true">📅</span>
+          <span aria-hidden="true">{shortDate(event)}</span>
+          <span className="visually-hidden">{formatRange(event.start_date, event.end_date)}</span>
+        </li>
+        <li className="event-card__chip">
+          <span aria-hidden="true">{FORMAT_ICON[event.format]}</span>
+          {event.format === 'Online' ? 'Online' : `${event.format} · ${where}`}
+        </li>
+        <li className="event-card__chip">{event.event_type}</li>
+      </ul>
     </article>
   );
 }

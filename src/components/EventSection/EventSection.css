@@ -1,0 +1,23 @@
+.event-section { margin-bottom: var(--space-8); }
+.event-section__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-5);
+}
+/* Outlined pill label, like the mockup. Still a real h2 for the heading outline. */
+.event-section__label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: 0 var(--space-4);
+  border: 1.5px solid var(--color-purple);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  letter-spacing: 0;
+  color: #000;
+}
+.event-section__intro { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); font-size: var(--text-sm); }
+.event-section__empty { padding: var(--space-5); border: 1px dashed var(--color-field-border); border-radius: var(--radius-md); }

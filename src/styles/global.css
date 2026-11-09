@@ -101,3 +101,5 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
 .results-toolbar .view-switch,
 .results-toolbar .sort-bar { margin-bottom: 0; }
 .results-toolbar .sort-bar { flex: 1 1 26rem; }
+
+.all-events__title { font-size: clamp(2rem, 3vw + 1rem, 3rem); margin-bottom: var(--space-5); }

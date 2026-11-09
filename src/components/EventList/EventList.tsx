@@ -6,11 +6,12 @@ import './EventList.css';
 
 interface EventListProps {
   groups: EventGroup[];
+  now: number;
   /** "month" for date order, "place" for nearest-first */
   variant: 'month' | 'place';
 }
 
-export function EventList({ groups, variant }: EventListProps) {
+export function EventList({ groups, variant, now }: EventListProps) {
   return (
     <div className="event-list">
       {groups.map((group) => {
@@ -24,7 +25,7 @@ export function EventList({ groups, variant }: EventListProps) {
             )}
             <ul className="event-list__items">
               {group.events.map((event) => (
-                <li key={event.id}><EventCard event={event} /></li>
+                <li key={event.id}><EventCard event={event} now={now} /></li>
               ))}
             </ul>
           </section>
