@@ -62,10 +62,12 @@ export function FeaturedCarousel({ events }: { events: CalendarEvent[] }) {
         >
           <div className="featured__media">
             <EventImage id={event.id} title={event.title} src={event.image_url} />
-            <span className="featured__organiser">{event.organiser}</span>
           </div>
           <div className="featured__text">
-            <p className="featured__pill">{event.format}</p>
+            <div className="featured__top">
+              <p className="featured__pill">{event.format}</p>
+              <p className="featured__organiser"><span className="visually-hidden">Organised by </span>{event.organiser}</p>
+            </div>
             <h3 className="featured__title">
               <a href={`#/event/${event.id}`}>{event.title}</a>
             </h3>

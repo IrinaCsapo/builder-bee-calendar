@@ -1,4 +1,4 @@
-# 🐝 Builder Bee Calendar
+# BuilderBee
 
 A global calendar of hackathons and tech events for women and non-binary builders: hackathons, buildathons, meetups, conferences, workshops, bootcamps and pitch nights, online and in person.
 

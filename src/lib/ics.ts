@@ -38,13 +38,13 @@ export function buildIcs(event: CalendarEvent, pageUrl: string): string {
     `${event.event_type} · ${event.format} · ${event.cost} · ${event.level}`,
     `Register: ${event.registration_url}`,
     `Times and details may change, so check the organiser's page.`,
-    `Found on Builder Bee Calendar: ${pageUrl}`,
+    `Found on BuilderBee: ${pageUrl}`,
   ].join('\n');
 
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Builder Bee Calendar//EN',
+    'PRODID:-//BuilderBee//EN',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
