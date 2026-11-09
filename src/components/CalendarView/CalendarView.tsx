@@ -37,13 +37,13 @@ export function CalendarView({ month, minMonth, maxMonth, events, onMonthChange 
           <span aria-hidden="true">←</span>
           <span className="visually-hidden">Previous month, {formatMonth(`${prev}-01`)}</span>
         </button>
-        <h2 id="calendar-title" className="calendar__title" aria-live="polite">
+        <h3 id="calendar-title" className="calendar__title" aria-live="polite">
           {label}
           <span className="calendar__count">
             <span className="visually-hidden">, </span>
             {count} {count === 1 ? 'event' : 'events'}
           </span>
-        </h2>
+        </h3>
         <button
           type="button"
           className="calendar__arrow"
@@ -103,10 +103,10 @@ export function CalendarView({ month, minMonth, maxMonth, events, onMonthChange 
           <ol className="calendar__agenda-days">
             {daysWithEvents.map((day) => (
               <li key={day.iso} className={`calendar__agenda-day${day.iso === today ? ' is-today' : ''}`}>
-                <h3 className="calendar__agenda-date">
+                <h4 className="calendar__agenda-date">
                   {formatFull(day.iso)}
                   {day.iso === today && <span className="calendar__today">Today</span>}
-                </h3>
+                </h4>
                 <ul className="calendar__agenda-events">
                   {day.events.map((e) => (
                     <li key={e.id}>

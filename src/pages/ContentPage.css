@@ -40,14 +40,14 @@
   margin-top: var(--space-5);
   padding: 0 var(--space-6);
   border-radius: var(--radius-pill);
-  background: var(--color-plum);
+  background: var(--color-purple);
   color: #fff;
   font-size: var(--text-lg);
   font-weight: 800;
   text-decoration: none;
   box-shadow: 0 5px 0 var(--color-honey);
 }
-.cta:hover { background: var(--color-plum-strong); text-decoration: underline; text-decoration-color: var(--color-honey); }
+.cta:hover { background: var(--color-purple-strong); text-decoration: underline; text-decoration-color: var(--color-honey); }
 .content-page__small { font-size: var(--text-sm); color: var(--color-muted); }
 .cta { line-height: 1.2; padding-block: var(--space-3); }
 @media (max-width: 30rem) {

@@ -25,7 +25,7 @@ export function EventList({ groups, variant, now }: EventListProps) {
             )}
             <ul className="event-list__items">
               {group.events.map((event) => (
-                <li key={event.id}><EventCard event={event} now={now} /></li>
+                <li key={event.id}><EventCard event={event} now={now} headingLevel={4} /></li>
               ))}
             </ul>
           </section>

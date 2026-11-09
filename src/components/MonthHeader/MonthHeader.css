@@ -4,13 +4,12 @@
   justify-content: space-between;
   gap: var(--space-3);
   padding-bottom: var(--space-2);
-  margin-bottom: var(--space-4);
-  border-bottom: 2px solid var(--color-honey);
+  margin-bottom: var(--space-5);
+  border-bottom: 1px solid #000;
+  font-family: var(--font-display);
+  font-weight: 400;
   font-size: var(--text-xl);
-  color: var(--color-plum);
+  letter-spacing: -0.015em;
+  color: #000;
 }
-.month-header__count {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--color-muted);
-}
+.month-header__count { font-family: var(--font-sans); font-size: var(--text-sm); letter-spacing: 0; color: #000; }

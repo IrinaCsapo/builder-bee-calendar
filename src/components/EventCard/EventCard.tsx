@@ -7,6 +7,8 @@ import './EventCard.css';
 interface EventCardProps {
   event: CalendarEvent;
   now: number;
+  /** h3 in the Close to you / Online rows, h4 under a month or place heading */
+  headingLevel?: 3 | 4;
 }
 
 const FORMAT_ICON = { Online: '🖥', 'In person': '📍', Hybrid: '🔀' } as const;
@@ -19,7 +21,8 @@ function shortDate(e: CalendarEvent) {
   return `${formatDay(e.start_date)} ${formatShortMonth(e.start_date)} – ${formatDay(e.end_date)} ${formatShortMonth(e.end_date)}`;
 }
 
-export function EventCard({ event, now }: EventCardProps) {
+export function EventCard({ event, now, headingLevel = 3 }: EventCardProps) {
+  const Title = headingLevel === 4 ? 'h4' : 'h3';
   const left = timeLeft(event, now);
   const where = event.format === 'Online' ? 'Online' : [event.city, event.country].filter(Boolean).join(', ');
 
@@ -35,10 +38,10 @@ export function EventCard({ event, now }: EventCardProps) {
         <li className="event-card__badge">{event.cost}</li>
       </ul>
 
-      <h3 className="event-card__title">
+      <Title className="event-card__title">
         {/* The link covers the whole card (see ::after in CSS) */}
         <a className="event-card__link" href={`#/event/${event.id}`}>{event.title}</a>
-      </h3>
+      </Title>
 
       <ul className="event-card__chips" aria-label="Details">
         <li className="event-card__chip">

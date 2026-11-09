@@ -8,7 +8,7 @@ export function EmptyState({ onClear }: EmptyStateProps) {
   return (
     <div className="empty-state">
       <p className="empty-state__icon" aria-hidden="true">🐝</p>
-      <h2 className="empty-state__title">No events match.</h2>
+      <h3 className="empty-state__title">No events match.</h3>
       <p>
         Try{' '}
         {onClear ? (

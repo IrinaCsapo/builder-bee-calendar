@@ -38,7 +38,7 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
 
   return (
     <section className="filter-bar" aria-labelledby="filter-heading">
-      <h2 id="filter-heading" className="visually-hidden">Filter events</h2>
+      <h3 id="filter-heading" className="visually-hidden">Filter events</h3>
 
       <div className="filter-bar__main">
         <fieldset className="filter-bar__group">

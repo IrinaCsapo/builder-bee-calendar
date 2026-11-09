@@ -11,7 +11,7 @@ interface PlaceHeaderProps {
 export function PlaceHeader({ id, label, detail, count }: PlaceHeaderProps) {
   return (
     <div className="month-header place-header">
-      <h2 id={id} className="place-header__title">
+      <h3 id={id} className="place-header__title">
         {label}
         {detail && (
           <span className="place-header__detail">
@@ -19,7 +19,7 @@ export function PlaceHeader({ id, label, detail, count }: PlaceHeaderProps) {
             {detail}
           </span>
         )}
-      </h2>
+      </h3>
       <span className="month-header__count">
         {count} {count === 1 ? 'event' : 'events'}
       </span>
