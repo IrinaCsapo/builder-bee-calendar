@@ -1,5 +1,6 @@
 import type { CalendarEvent } from '../types/event';
 import { distanceKm, formatDistance, type Origin } from './location';
+import { registrationCloses } from './timeLeft';
 
 // Dates in events.json are plain calendar dates (YYYY-MM-DD). We treat them as
 // UTC midnight everywhere so formatting never shifts a day in other timezones.
@@ -100,15 +101,17 @@ const CATEGORIES: { key: string; label: string; types: CalendarEvent['event_type
 ];
 
 /**
- * One row per category, in a fixed order. Inside a row: nearest first when we
- * know roughly where the visitor is (online events count as "here"), otherwise soonest.
+ * One row per category, in a fixed order. Inside a row, the event whose
+ * registration ends soonest comes first; events whose registration has
+ * closed (but haven't ended) go to the back.
  */
-export function groupByType(events: CalendarEvent[], origin: Origin | null): EventGroup[] {
-  const dist = (e: CalendarEvent) =>
-    e.format === 'Online' || e.lat === undefined || e.lng === undefined || !origin ? 0 : distanceKm(origin, { lat: e.lat, lng: e.lng });
+export function groupByType(events: CalendarEvent[], now = Date.now()): EventGroup[] {
+  const key = (e: CalendarEvent) => {
+    const closes = registrationCloses(e);
+    return closes > now ? closes : Number.MAX_SAFE_INTEGER - (Date.parse(e.end_date) || 0);
+  };
   return CATEGORIES.map((c) => {
-    const list = events.filter((e) => c.types.includes(e.event_type));
-    if (origin) list.sort((a, b) => dist(a) - dist(b) || a.start_date.localeCompare(b.start_date));
+    const list = events.filter((e) => c.types.includes(e.event_type)).sort((a, b) => key(a) - key(b));
     return { key: c.key, label: c.label, events: list };
   }).filter((g) => g.events.length > 0);
 }

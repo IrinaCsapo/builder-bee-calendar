@@ -1,30 +1,53 @@
+import { useState } from 'react';
 import type { EventGroup } from '../../lib/dates';
-import { MonthHeader } from '../MonthHeader/MonthHeader';
-import { PlaceHeader } from '../PlaceHeader/PlaceHeader';
 import { EventCard } from '../EventCard/EventCard';
 import './EventList.css';
 
 interface EventListProps {
   groups: EventGroup[];
   now: number;
-  /** "month" for date order, "place" for nearest-first */
-  variant: 'month' | 'place';
 }
 
-export function EventList({ groups, variant, now }: EventListProps) {
+const ROW = 4; // one row of four cards per category until "See all" is pressed
+
+/** Category rows: four cards each, with "See all" to show the rest of that category. */
+export function EventList({ groups, now }: EventListProps) {
+  const [open, setOpen] = useState<Record<string, boolean>>({});
+
   return (
     <div className="event-list">
       {groups.map((group) => {
         const headingId = `group-${group.key}`;
+        const listId = `group-list-${group.key}`;
+        const expanded = !!open[group.key];
+        const shown = expanded ? group.events : group.events.slice(0, ROW);
+        const more = group.events.length > ROW;
         return (
-          <section key={group.key} className="event-list__month" aria-labelledby={headingId}>
-            {variant === 'month' ? (
-              <MonthHeader id={headingId} label={group.label} count={group.events.length} />
-            ) : (
-              <PlaceHeader id={headingId} label={group.label} detail={group.detail} count={group.events.length} />
-            )}
-            <ul className="event-list__items">
-              {group.events.map((event) => (
+          <section key={group.key} className="event-row" aria-labelledby={headingId}>
+            <div className="event-row__head">
+              <h3 id={headingId} className="event-row__title">
+                {group.label}
+                <span className="event-row__count">
+                  <span className="visually-hidden">, </span>
+                  {group.events.length} {group.events.length === 1 ? 'event' : 'events'}
+                </span>
+              </h3>
+              {more && (
+                <button
+                  type="button"
+                  className="event-row__toggle"
+                  aria-expanded={expanded}
+                  aria-controls={listId}
+                  onClick={() => setOpen((o) => ({ ...o, [group.key]: !expanded }))}
+                >
+                  {expanded ? 'Show fewer' : `See all ${group.events.length}`}
+                  <span className="visually-hidden"> {group.label.toLowerCase()}</span>
+                  <span aria-hidden="true">{expanded ? ' ↑' : ' →'}</span>
+                </button>
+              )}
+            </div>
+            <ul id={listId} className={`event-row__items${expanded ? ' is-expanded' : ''}`}>
+              {shown.map((event) => (
                 <li key={event.id}><EventCard event={event} now={now} headingLevel={4} /></li>
               ))}
             </ul>

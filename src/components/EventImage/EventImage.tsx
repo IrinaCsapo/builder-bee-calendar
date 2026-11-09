@@ -30,26 +30,29 @@ interface EventImageProps {
  */
 export function EventImage({ id, title, src, variant = 'card' }: EventImageProps) {
   const [failed, setFailed] = useState(false);
+  const [fit, setFit] = useState<'fill' | 'whole'>('fill');
   const showImage = src && !failed;
 
   return (
     <div className={`event-image event-image--${variant}`} aria-hidden="true">
       {showImage ? (
-        <>
-          {/* Soft blurred copy fills the space around the uncropped image */}
-          <img className="event-image__backdrop" src={src} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" />
-          <img
-            className="event-image__img"
-            src={src}
-            alt=""
-            loading={variant === 'banner' ? 'eager' : 'lazy'}
-            decoding="async"
-            referrerPolicy="no-referrer"
-            width={1000}
-            height={1000}
-            onError={() => setFailed(true)}
-          />
-        </>
+        <img
+          className={`event-image__img event-image__img--${fit}`}
+          src={src}
+          alt=""
+          loading={variant === 'banner' ? 'eager' : 'lazy'}
+          decoding="async"
+          referrerPolicy="no-referrer"
+          width={1000}
+          height={1000}
+          onLoad={(e) => {
+            // Square-ish images fill the card; very wide or tall ones are shown whole
+            const { naturalWidth: w, naturalHeight: h } = e.currentTarget;
+            const ratio = w / h;
+            setFit(ratio >= 0.75 && ratio <= 1.34 ? 'fill' : 'whole');
+          }}
+          onError={() => setFailed(true)}
+        />
       ) : (
         <div className="event-image__placeholder" style={{ backgroundImage: `url(${placeholderFor(id)})` }}>
           <span className="event-image__title">{title}</span>

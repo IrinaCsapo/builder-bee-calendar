@@ -1,19 +1,15 @@
 import type { ReactNode } from 'react';
-import { SearchBox } from '../SearchBox/SearchBox';
 import heroBg from '../../assets/hero-bg.jpg';
 import heroBgSmall from '../../assets/hero-bg-small.jpg';
 import './Hero.css';
 
 interface HeroProps {
-  query: string;
-  onQueryChange: (query: string) => void;
-  onSearch: () => void;
   onBrowse: () => void;
   /** The featured events card, which overlaps the bottom of the gradient. */
   featured: ReactNode;
 }
 
-export function Hero({ query, onQueryChange, onSearch, onBrowse, featured }: HeroProps) {
+export function Hero({ onBrowse, featured }: HeroProps) {
   return (
     <section
       className="hero"
@@ -39,9 +35,6 @@ export function Hero({ query, onQueryChange, onSearch, onBrowse, featured }: Her
 
       <div className="container hero__featured">{featured}</div>
 
-      <div className="container hero__search">
-        <SearchBox value={query} onChange={onQueryChange} onSubmit={onSearch} />
-      </div>
     </section>
   );
 }

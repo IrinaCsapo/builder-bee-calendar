@@ -49,7 +49,8 @@ Follow `src/types/event.ts` exactly. Allowed values are listed there; the README
 - `image_url`: the official page's preview image (its `og:image` meta tag), only if it's a full `https://` link that loads.
   Never use images from other sites. Leave it out if there isn't one.
   For Luma events, don't use the `og:image` (it's an auto-generated share card): use the page's `"cover_url"`,
-  as `https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,width=800,height=400/<path after images.lumacdn.com/>`.
+  as `https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/<path after images.lumacdn.com/>`
+  (the whole cover, never cropped).
 - Leave out other optional fields you can't confirm.
 
 ## 5. Finish

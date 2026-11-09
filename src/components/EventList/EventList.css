@@ -1,10 +1,65 @@
-.event-list { display: grid; gap: var(--space-7); }
-/* Four cards per row on desktop, fewer as the screen narrows */
-.event-list__items, .event-grid {
+/* minmax(0, 1fr) + min-width: 0 stop the sideways-scrolling phone rows from widening the page */
+.event-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-8); margin-top: var(--space-7); }
+.event-row { min-width: 0; }
+
+.event-row__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-5);
+  border-bottom: 1px solid #000;
+}
+.event-row__title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 1.5vw + 1rem, 2.2rem);
+  letter-spacing: -0.015em;
+}
+.event-row__count { font-family: var(--font-sans); font-size: var(--text-sm); letter-spacing: 0; }
+.event-row__toggle {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  padding: 0 var(--space-4);
+  border: 1.5px solid #000;
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: #000;
+  font: inherit;
+  cursor: pointer;
+}
+.event-row__toggle:hover { background: var(--color-mint); }
+
+/* Always full rows of four on desktop; two per row on tablets */
+.event-row__items {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+  min-width: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-6) var(--space-5);
-  list-style: none;
   margin: 0;
   padding: 0;
+  list-style: none;
+}
+@media (max-width: 64rem) { .event-row__items { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Phones: the row of four scrolls sideways (snaps card by card) until "See all" opens it up */
+@media (max-width: 40rem) {
+  .event-row__items:not(.is-expanded) {
+    display: flex;
+    gap: var(--space-4);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--space-4); /* snap cards to the page margin, not the screen edge */
+    padding-bottom: var(--space-3);
+    margin-inline: calc(-1 * var(--space-4));
+    padding-inline: var(--space-4);
+  }
+  .event-row__items:not(.is-expanded) > li { flex: 0 0 78%; min-width: 0; scroll-snap-align: start; }
+  .event-row__items.is-expanded { grid-template-columns: 1fr; }
 }

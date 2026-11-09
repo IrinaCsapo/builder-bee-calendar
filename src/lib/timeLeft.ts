@@ -34,10 +34,15 @@ export interface TimeLeft {
  * - a known deadline closes at the end of that day
  * - otherwise registration is assumed to close when the event starts
  */
+/** When registration closes (UTC ms): the deadline's end of day, else the event's start. */
+export function registrationCloses(e: CalendarEvent): number {
+  return e.deadline ? zonedTime(e.deadline, '23:59:59', e.timezone) : zonedTime(e.start_date, '00:00:00', e.timezone);
+}
+
 export function timeLeft(e: CalendarEvent, now = Date.now()): TimeLeft {
   const start = zonedTime(e.start_date, '00:00:00', e.timezone);
   const end = zonedTime(e.end_date, '23:59:59', e.timezone);
-  const closes = e.deadline ? zonedTime(e.deadline, '23:59:59', e.timezone) : start;
+  const closes = registrationCloses(e);
   if (closes > now) return { label: `Registration ends in ${span(closes - now)}`, urgent: closes - now < 3 * 86_400_000 };
   if (start > now) return { label: 'Registration closed', urgent: false };
   if (end > now) return { label: 'Happening now', urgent: true };
