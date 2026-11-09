@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { HeroBees } from '../HeroBees/HeroBees';
+import { HivePattern } from '../HivePattern/HivePattern';
 import heroBg from '../../assets/hero-bg.jpg';
 import heroBgSmall from '../../assets/hero-bg-small.jpg';
 import './Hero.css';
@@ -18,8 +18,8 @@ export function Hero({ onBrowse, featured }: HeroProps) {
       // Decorative background; the small file is used on phones (see Hero.css)
       style={{ ['--hero-bg' as string]: `url(${heroBg})`, ['--hero-bg-small' as string]: `url(${heroBgSmall})` }}
     >
-      {/* Bee style: 'ascii' (big ASCII bee) or 'pixel' (flapping pixel bees, kept for later) */}
-      <HeroBees style="ascii" />
+      {/* Pixel honeycomb background. (The bee animations are in components/HeroBees, not used for now.) */}
+      <HivePattern />
       <div className="hero__top">
         <div className="container hero__inner">
           <h1 id="hero-title" className="hero__title">Find your next hackathon</h1>
