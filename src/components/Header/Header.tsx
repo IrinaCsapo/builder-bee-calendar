@@ -1,4 +1,5 @@
 import { useHashRoute } from '../../lib/useHashRoute';
+import logo from '../../assets/builderbee-logo.svg';
 import './Header.css';
 
 const NAV = [
@@ -15,8 +16,8 @@ export function Header() {
     <header className="header">
       <div className="container header__inner">
         <a className="header__brand" href="#/">
-          <span className="header__mark" aria-hidden="true">🐝</span>
-          Builder Bee Calendar
+          {/* The logo reads "BuilderBee", so that's its text alternative (plus where the link goes) */}
+          <img className="header__logo" src={logo} alt="BuilderBee, home" width={1286} height={324} />
         </a>
         <nav aria-label="Main">
           <ul className="header__nav">

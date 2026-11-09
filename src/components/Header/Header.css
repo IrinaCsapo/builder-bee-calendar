@@ -24,7 +24,8 @@
   font-size: 1.6rem;
   text-decoration: none;
 }
-.header__mark { font-size: 1.4rem; }
+.header__logo { display: block; height: 2.25rem; width: auto; }
+@media (max-width: 40rem) { .header__logo { height: 1.9rem; } }
 .header__nav {
   display: flex;
   flex-wrap: wrap;
