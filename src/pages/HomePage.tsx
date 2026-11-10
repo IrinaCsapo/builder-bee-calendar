@@ -11,6 +11,7 @@ import { applyFilters, EMPTY_FILTERS, filtersFromQuery, filtersToQuery, hasActiv
 import { parseHash, replaceHashQuery } from '../lib/useHashRoute';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { useNow } from '../lib/timeLeft';
+import { eventsCloseTo, getDeviceLocation, getRemembered, guessFromTimezone, NEARBY_KM, remember, type Origin } from '../lib/location';
 
 const upcoming = getUpcoming(allEvents);
 
@@ -54,6 +55,17 @@ export function HomePage() {
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
+  // "Close to you": a rough guess from the timezone (no prompt), or the exact location if the visitor asks
+  const [origin, setOrigin] = useState<Origin | null>(() => getRemembered()?.origin ?? guessFromTimezone());
+  const [locating, setLocating] = useState<'idle' | 'locating' | 'denied' | 'unavailable'>('idle');
+  const locate = () => {
+    setLocating('locating');
+    getDeviceLocation()
+      .then((o) => { setOrigin(o); remember(o, true); setLocating('idle'); })
+      .catch((err: Error) => setLocating(err.message === 'denied' ? 'denied' : 'unavailable'));
+  };
+  const closeToYou = useMemo(() => (origin ? eventsCloseTo(upcoming, origin) : []), [origin]);
+
   const now = useNow();
   const results = useMemo(() => applyFilters(upcoming, filters), [filters]);
   // Each event appears once on the page: events already featured in the hero
@@ -63,7 +75,34 @@ export function HomePage() {
     [filters, results],
   );
   // One row per type; inside each, the registration that ends soonest comes first
-  const groups = useMemo(() => groupByType(listed, now), [listed, now]);
+  const groups = useMemo(() => {
+    const byType = groupByType(listed, now);
+    // Only on the unfiltered page: when searching or filtering, the results are what matter
+    if (hasActiveFilters(filters) || !closeToYou.length) return byType;
+    return [{ key: 'close', label: 'Close to you', events: closeToYou }, ...byType];
+  }, [listed, now, filters, closeToYou]);
+
+  const unit = (() => { try { return ['US', 'GB'].includes(new Intl.Locale(navigator.language).maximize().region ?? '') ? 'miles' : 'km'; } catch { return 'km'; } })();
+  const area = unit === 'miles' ? `${Math.round(NEARBY_KM * 0.621371 / 10) * 10} miles` : `${NEARBY_KM} km`;
+  const closeNote = origin && (
+    <>
+      <p role="status">
+        {locating === 'locating' && 'Finding your location…'}
+        {locating === 'denied' && 'Location access is blocked, so we’re still using your timezone. You can allow it in your browser’s site settings.'}
+        {locating === 'unavailable' && 'We couldn’t get your location, so we’re still using your timezone.'}
+        {locating === 'idle' && (origin.source === 'device'
+          ? `In-person and hybrid events within ${area} of you, nearest first.`
+          : origin.country
+            ? `In-person and hybrid events in ${/^(United|Netherlands|Philippines)/.test(origin.country) ? 'the ' : ''}${origin.country} or within ${area} of ${origin.label}, nearest first. A rough guess from your device’s timezone.`
+            : `In-person and hybrid events within ${area} of ${origin.label}, nearest first. A rough guess from your device’s timezone.`)}
+      </p>
+      {origin.source !== 'device' && (
+        <button type="button" className="event-row__locate hive-hover hive-hover--on-light" onClick={locate} disabled={locating === 'locating'}>
+          <span aria-hidden="true">📍</span> Use my exact location
+        </button>
+      )}
+    </>
+  );
 
   const clear = () => {
     setFilters(EMPTY_FILTERS);
@@ -101,7 +140,7 @@ export function HomePage() {
           resultCount={listed.length}
           countriesByRegion={countriesByRegion}
         />
-        {listed.length > 0 ? <EventList groups={groups} now={now} /> : <EmptyState onClear={clear} />}
+        {listed.length > 0 ? <EventList groups={groups} now={now} notes={{ close: closeNote }} /> : <EmptyState onClear={clear} />}
       </section>
     </>
   );

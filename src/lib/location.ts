@@ -6,6 +6,7 @@ export interface Origin {
   lng: number;
   label: string;                 // "London" or "your location"
   source: 'timezone' | 'device'; // rough guess vs. browser location
+  country?: string;              // known from the timezone; not from the browser location
 }
 
 /** Great-circle distance in km. */
@@ -46,6 +47,66 @@ const TZ_COORDS: Record<string, [number, number]> = {
   'Australia/Sydney': [-33.87, 151.21], 'Australia/Brisbane': [-27.47, 153.03], 'Pacific/Auckland': [-36.85, 174.76],
 };
 
+// Which country each of those timezones is in, using the same country names as events.json.
+const COUNTRY_TZS: Record<string, string[]> = {
+  'United Kingdom': ['Europe/London'],
+  'Ireland': ['Europe/Dublin'],
+  'Portugal': ['Europe/Lisbon'],
+  'Spain': ['Europe/Madrid'],
+  'France': ['Europe/Paris'],
+  'Belgium': ['Europe/Brussels'],
+  'Netherlands': ['Europe/Amsterdam'],
+  'Germany': ['Europe/Berlin'],
+  'Switzerland': ['Europe/Zurich'],
+  'Italy': ['Europe/Rome'],
+  'Austria': ['Europe/Vienna'],
+  'Czechia': ['Europe/Prague'],
+  'Poland': ['Europe/Warsaw'],
+  'Denmark': ['Europe/Copenhagen'],
+  'Sweden': ['Europe/Stockholm'],
+  'Norway': ['Europe/Oslo'],
+  'Finland': ['Europe/Helsinki'],
+  'Greece': ['Europe/Athens'],
+  'Romania': ['Europe/Bucharest'],
+  'Hungary': ['Europe/Budapest'],
+  'Ukraine': ['Europe/Kyiv', 'Europe/Kiev'],
+  'Turkey': ['Europe/Istanbul'],
+  'United States': ['America/New_York', 'America/Chicago', 'America/Denver', 'America/Phoenix', 'America/Los_Angeles', 'America/Anchorage', 'Pacific/Honolulu', 'America/Detroit', 'America/Indiana/Indianapolis'],
+  'Canada': ['America/Toronto', 'America/Vancouver', 'America/Halifax'],
+  'Mexico': ['America/Mexico_City'],
+  'Colombia': ['America/Bogota'],
+  'Peru': ['America/Lima'],
+  'Chile': ['America/Santiago'],
+  'Argentina': ['America/Argentina/Buenos_Aires'],
+  'Brazil': ['America/Sao_Paulo'],
+  'Nigeria': ['Africa/Lagos'],
+  'Ghana': ['Africa/Accra'],
+  'Kenya': ['Africa/Nairobi'],
+  'South Africa': ['Africa/Johannesburg'],
+  'Egypt': ['Africa/Cairo'],
+  'Morocco': ['Africa/Casablanca'],
+  'Rwanda': ['Africa/Kigali'],
+  'United Arab Emirates': ['Asia/Dubai'],
+  'India': ['Asia/Kolkata', 'Asia/Calcutta'],
+  'Pakistan': ['Asia/Karachi'],
+  'Bangladesh': ['Asia/Dhaka'],
+  'Thailand': ['Asia/Bangkok'],
+  'Indonesia': ['Asia/Jakarta'],
+  'Singapore': ['Asia/Singapore'],
+  'Malaysia': ['Asia/Kuala_Lumpur'],
+  'Philippines': ['Asia/Manila'],
+  'Hong Kong': ['Asia/Hong_Kong'],
+  'China': ['Asia/Shanghai'],
+  'Taiwan': ['Asia/Taipei'],
+  'South Korea': ['Asia/Seoul'],
+  'Japan': ['Asia/Tokyo'],
+  'Australia': ['Australia/Perth', 'Australia/Adelaide', 'Australia/Melbourne', 'Australia/Sydney', 'Australia/Brisbane'],
+  'New Zealand': ['Pacific/Auckland'],
+};
+const TZ_COUNTRY: Record<string, string> = Object.fromEntries(
+  Object.entries(COUNTRY_TZS).flatMap(([country, zones]) => zones.map((tz) => [tz, country])),
+);
+
 /** A rough location from the device's timezone setting. No prompt, no network. */
 export function guessFromTimezone(): Origin | null {
   let tz = '';
@@ -53,7 +114,7 @@ export function guessFromTimezone(): Origin | null {
   const coords = TZ_COORDS[tz];
   if (!coords) return null;
   const label = tz.split('/').pop()!.replace(/_/g, ' ');
-  return { lat: coords[0], lng: coords[1], label, source: 'timezone' };
+  return { lat: coords[0], lng: coords[1], label, source: 'timezone', country: TZ_COUNTRY[tz] };
 }
 
 /** Asks the browser for the visitor's location. The browser shows its own permission prompt. */
@@ -89,3 +150,22 @@ export function formatDistance(km: number, origin: Origin): string {
 let remembered: { origin: Origin | null; sortByDate: boolean } | null = null;
 export const getRemembered = () => remembered;
 export const remember = (origin: Origin | null, sortByDate: boolean) => { remembered = { origin, sortByDate }; };
+
+/** How far counts as "in your area" */
+export const NEARBY_KM = 300;
+
+/**
+ * Events you could get to: in person or hybrid, and in your country (when we know it)
+ * or within NEARBY_KM of you. Nearest first.
+ */
+export function eventsCloseTo<T extends { format: string; country: string; lat?: number; lng?: number }>(
+  events: T[],
+  origin: Origin,
+): T[] {
+  return events
+    .filter((e) => e.format !== 'Online' && e.lat !== undefined && e.lng !== undefined)
+    .map((e) => ({ e, km: distanceKm(origin, { lat: e.lat!, lng: e.lng! }) }))
+    .filter(({ e, km }) => km <= NEARBY_KM || (!!origin.country && e.country === origin.country))
+    .sort((a, b) => a.km - b.km)
+    .map(({ e }) => e);
+}

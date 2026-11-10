@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import type { EventGroup } from '../../lib/dates';
 import { EventCard } from '../EventCard/EventCard';
 import './EventList.css';
@@ -6,12 +6,14 @@ import './EventList.css';
 interface EventListProps {
   groups: EventGroup[];
   now: number;
+  /** Extra content under a row's heading, by group key */
+  notes?: Record<string, ReactNode>;
 }
 
 const ROW = 4; // one row of four cards per category until "See all" is pressed
 
 /** Category rows: four cards each, with "See all" to show the rest of that category. */
-export function EventList({ groups, now }: EventListProps) {
+export function EventList({ groups, now, notes = {} }: EventListProps) {
   const [open, setOpen] = useState<Record<string, boolean>>({});
 
   return (
@@ -46,6 +48,7 @@ export function EventList({ groups, now }: EventListProps) {
                 </button>
               )}
             </div>
+            {notes[group.key] && <div className="event-row__note">{notes[group.key]}</div>}
             <ul id={listId} className={`event-row__items${expanded ? ' is-expanded' : ''}`}>
               {shown.map((event) => (
                 <li key={event.id}><EventCard event={event} now={now} headingLevel={4} /></li>
