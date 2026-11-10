@@ -12,7 +12,7 @@ interface Options {
 }
 
 // White, strong enough to show on the light pink and gold hero background
-const DEFAULTS: Options = { cell: 3, radius: 34, baseAlpha: 0.7, color: '255,255,255', every: 6, sweep: 1.8 };
+const DEFAULTS: Options = { cell: 3, radius: 34, baseAlpha: 0.45, color: '255,255,255', every: 6, sweep: 1.8 };
 
 const SQRT3 = Math.sqrt(3);
 // Pointy-top hexagon edge normals (0°, 60°, 120°)
