@@ -35,7 +35,8 @@ export function Hero({ onBrowse, featured }: HeroProps) {
             </span>
           </h1>
           <p className="hero__lede">
-            Hackathons, buildathons, meetups and workshops for women and non-binary builders.
+            Hackathons, buildathons, meetups and workshops for women, non-binary individuals, and allies across
+            the technology industry.
             <br className="hero__break" /> Online and around the world.
           </p>
           <div className="hero__actions">
