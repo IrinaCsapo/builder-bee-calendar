@@ -31,7 +31,7 @@ export function ShareLink({ title }: ShareLinkProps) {
 
   return (
     <div className="share-link">
-      <button type="button" className="share-link__button" onClick={share}>
+      <button type="button" className="share-link__button hive-hover hive-hover--on-light" onClick={share}>
         <span aria-hidden="true">🔗</span> Share this event
       </button>
       <input

@@ -35,7 +35,7 @@ export function EventList({ groups, now }: EventListProps) {
               {more && (
                 <button
                   type="button"
-                  className="event-row__toggle"
+                  className="event-row__toggle hive-hover hive-hover--on-light"
                   aria-expanded={expanded}
                   aria-controls={listId}
                   onClick={() => setOpen((o) => ({ ...o, [group.key]: !expanded }))}

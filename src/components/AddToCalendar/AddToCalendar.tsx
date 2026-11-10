@@ -18,7 +18,7 @@ export function AddToCalendar({ event }: { event: CalendarEvent }) {
 
   return (
     <div className="add-to-calendar">
-      <button type="button" className="add-to-calendar__button" onClick={add} aria-describedby="add-to-calendar-hint">
+      <button type="button" className="add-to-calendar__button hive-hover" onClick={add} aria-describedby="add-to-calendar-hint">
         <span aria-hidden="true">📅</span> Add to calendar
       </button>
       <p id="add-to-calendar-hint" className="add-to-calendar__hint">

@@ -107,3 +107,58 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
 /* Browse area under the hero: search + one row of filters, then category rows */
 .browse { margin-top: var(--space-8); padding-top: var(--space-6); scroll-margin-top: var(--space-4); }
 .browse__search { margin-bottom: var(--space-4); } /* full width, lined up with the filter bar below */
+
+/* ---- Hive hover: shared by all main buttons ----
+   On hover or keyboard focus: a faint pixel honeycomb fades in, a diagonal
+   shimmer sweeps across once, and the button pops up-left with a stepped,
+   pixel-style black shadow. Colours don't change, so the cue isn't colour.
+   Light honeycomb (20% white) on dark buttons keeps white-on-purple >= 5.38:1;
+   use .hive-hover--on-light for white/outlined buttons (12% black honeycomb). */
+.hive-hover {
+  --hive-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='16' shape-rendering='crispEdges' fill='white' fill-opacity='0.2'%3E%3Crect x='5' y='0' width='8' height='2'/%3E%3Crect x='3' y='2' width='2' height='2'/%3E%3Crect x='13' y='2' width='2' height='2'/%3E%3Crect x='1' y='4' width='2' height='4'/%3E%3Crect x='15' y='4' width='2' height='4'/%3E%3Crect x='3' y='8' width='2' height='2'/%3E%3Crect x='13' y='8' width='2' height='2'/%3E%3Crect x='5' y='10' width='8' height='2'/%3E%3C/svg%3E");
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 160ms cubic-bezier(.2, .8, .3, 1.2), box-shadow 160ms ease;
+}
+.hive-hover--on-light { --hive-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='16' shape-rendering='crispEdges' fill='black' fill-opacity='0.12'%3E%3Crect x='5' y='0' width='8' height='2'/%3E%3Crect x='3' y='2' width='2' height='2'/%3E%3Crect x='13' y='2' width='2' height='2'/%3E%3Crect x='1' y='4' width='2' height='4'/%3E%3Crect x='15' y='4' width='2' height='4'/%3E%3Crect x='3' y='8' width='2' height='2'/%3E%3Crect x='13' y='8' width='2' height='2'/%3E%3Crect x='5' y='10' width='8' height='2'/%3E%3C/svg%3E"); }
+.hive-hover::before,
+.hive-hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.hive-hover::before {
+  background-image: var(--hive-tile);
+  background-size: 18px 16px;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+.hive-hover::after {
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, rgba(255, 222, 120, 0.35) 55%, transparent 70%);
+  background-size: 250% 100%;
+  background-position: 150% 0;
+  opacity: 0;
+}
+.hive-hover:hover,
+.hive-hover:focus-visible {
+  transform: translate(-3px, -3px);
+  box-shadow: 3px 3px 0 #000, 6px 6px 0 rgba(0, 0, 0, 0.18);
+}
+.hive-hover:hover::before,
+.hive-hover:focus-visible::before { opacity: 1; }
+.hive-hover:hover::after,
+.hive-hover:focus-visible::after { animation: hive-shimmer 700ms ease-out forwards; }
+@keyframes hive-shimmer {
+  0% { opacity: 1; background-position: 150% 0; }
+  100% { opacity: 1; background-position: -60% 0; }
+}
+.hive-hover:active { transform: translate(0, 0); box-shadow: 0 0 0 #000; transition-duration: 60ms; }
+@media (prefers-reduced-motion: reduce) {
+  .hive-hover { transition: none; }
+  .hive-hover:hover, .hive-hover:focus-visible { transform: none; }
+  .hive-hover:hover::after, .hive-hover:focus-visible::after { animation: none; }
+}

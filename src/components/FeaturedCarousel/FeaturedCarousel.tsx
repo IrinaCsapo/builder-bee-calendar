@@ -77,7 +77,7 @@ export function FeaturedCarousel({ events }: { events: CalendarEvent[] }) {
             </p>
             <p className="featured__desc">{event.audience}</p>
             <div className="featured__actions">
-              <a className="featured__cta" href={event.registration_url} target="_blank" rel="noopener noreferrer">
+              <a className="featured__cta hive-hover" href={event.registration_url} target="_blank" rel="noopener noreferrer">
                 Register <span aria-hidden="true">↗</span>
                 <span className="visually-hidden"> for {event.title} on the organiser's site (opens in a new tab)</span>
               </a>

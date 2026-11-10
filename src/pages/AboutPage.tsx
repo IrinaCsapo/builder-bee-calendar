@@ -49,7 +49,7 @@ export function AboutPage() {
         .
       </p>
 
-      <a className="cta" href="#/">
+      <a className="cta hive-hover" href="#/">
         Find an event
       </a>
     </div>

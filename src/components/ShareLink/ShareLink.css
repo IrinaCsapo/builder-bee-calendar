@@ -14,7 +14,6 @@
   font-weight: 700;
   cursor: pointer;
 }
-.share-link__button:hover { background: var(--color-honey-soft); }
 .share-link__url {
   width: 100%;
   min-height: var(--tap-target);

@@ -58,7 +58,7 @@ export function EventPage({ id }: { id: string }) {
       <div className="event-page__layout">
         <aside className="event-page__actions" aria-label="Register and share">
           <a
-            className="event-page__register"
+            className="event-page__register hive-hover"
             href={event.registration_url}
             target="_blank"
             rel="noopener noreferrer"

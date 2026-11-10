@@ -82,7 +82,6 @@
   font-weight: 800;
   text-decoration: none;
 }
-.event-page__register:hover { background: var(--color-purple-strong); text-decoration: underline; text-decoration-color: var(--color-honey); }
 .event-page__register-note { font-size: var(--text-sm); color: var(--color-muted); text-align: center; }
 /* Grid items default to min-width:auto, so the share URL input could push the
    panel past the right margin on phones. */

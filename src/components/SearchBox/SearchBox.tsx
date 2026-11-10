@@ -46,7 +46,7 @@ export function SearchBox({ value, onChange, onSubmit }: SearchBoxProps) {
             <span className="visually-hidden">Clear search</span>
           </button>
         )}
-        <button type="submit" className="search-box__submit">Search</button>
+        <button type="submit" className="search-box__submit hive-hover">Search</button>
       </div>
       <p id="event-search-hint" className="visually-hidden">Results update as you type.</p>
     </form>

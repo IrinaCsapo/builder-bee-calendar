@@ -30,10 +30,10 @@ export function Hero({ onBrowse, featured }: HeroProps) {
             <br className="hero__break" /> Online and around the world.
           </p>
           <div className="hero__actions">
-            <button type="button" className="hero__button hero__button--browse" onClick={onBrowse}>
+            <button type="button" className="hero__button hero__button--browse hive-hover" onClick={onBrowse}>
               Browse events
             </button>
-            <a className="hero__button hero__button--submit" href="#/submit">Submit event</a>
+            <a className="hero__button hero__button--submit hive-hover" href="#/submit">Submit event</a>
           </div>
         </div>
       </div>

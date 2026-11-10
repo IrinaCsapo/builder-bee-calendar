@@ -11,7 +11,7 @@ export function SubmitPage() {
         Know a hackathon, meetup or workshop that welcomes women and non-binary builders? Add it to the calendar.
       </p>
 
-      <a className="cta" href={SUBMIT_FORM_URL} target="_blank" rel="noopener noreferrer">
+      <a className="cta hive-hover" href={SUBMIT_FORM_URL} target="_blank" rel="noopener noreferrer">
         Open the submission form
         <span aria-hidden="true">↗</span>
         <span className="visually-hidden"> (opens GitHub in a new tab)</span>
