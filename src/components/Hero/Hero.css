@@ -15,7 +15,7 @@
 /* Content sits above the floating ASCII bees */
 .hero__top, .hero__featured { position: relative; z-index: 1; }
 @media (max-width: 40rem) {
-  .hero { background-image: var(--hero-bg-small); padding-block: var(--space-8) var(--space-7); gap: var(--space-7); }
+  .hero { padding-block: var(--space-8) var(--space-7); gap: var(--space-7); }
 }
 
 .hero__inner { display: flex; flex-direction: column; align-items: center; text-align: center; }

@@ -9,6 +9,20 @@ import './EventImage.css';
 
 const PLACEHOLDERS = [p1, p2, p3, p4, p5, p6];
 
+// Luma serves its images through a resizing CDN, so we can ask for the size each screen needs:
+// sharp on high-resolution screens, light on phones. Other hosts are used as they are.
+const LUMA_WIDTH = /^(https:\/\/images\.lumacdn\.com\/cdn-cgi\/image\/[^/]*\bwidth=)\d+/;
+function srcSetFor(src: string) {
+  if (!LUMA_WIDTH.test(src)) return undefined;
+  return [400, 800, 1200, 1600].map((w) => `${src.replace(LUMA_WIDTH, `$1${w}`)} ${w}w`).join(', ');
+}
+// How wide each image shows: cards are a quarter of the page (half on tablets, most of a phone),
+// the featured image is at most 24rem, the event page banner spans the page.
+const SIZES = {
+  card: '(max-width: 40rem) 85vw, (max-width: 64rem) 45vw, 24rem',
+  banner: '(max-width: 75rem) 100vw, 75rem',
+};
+
 /** The same event always gets the same placeholder. */
 function placeholderFor(id: string) {
   let h = 0;
@@ -44,6 +58,8 @@ export function EventImage({ id, title, src, variant = 'card' }: EventImageProps
         <img
           className={`event-image__img event-image__img--${fit}`}
           src={src}
+          srcSet={srcSetFor(src)}
+          sizes={srcSetFor(src) ? SIZES[variant] : undefined}
           alt=""
           loading={variant === 'banner' ? 'eager' : 'lazy'}
           decoding="async"

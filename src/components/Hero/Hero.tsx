@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import { HivePattern } from '../HivePattern/HivePattern';
 import { FlyingBees } from '../FlyingBee/FlyingBee';
 import heroBg from '../../assets/hero-bg.jpg';
-import heroBgSmall from '../../assets/hero-bg-small.jpg';
 import './Hero.css';
 
 interface HeroProps {
@@ -16,8 +15,9 @@ export function Hero({ onBrowse, featured }: HeroProps) {
     <section
       className="hero"
       aria-labelledby="hero-title"
-      // Decorative background; the small file is used on phones (see Hero.css)
-      style={{ ['--hero-bg' as string]: `url(${heroBg})`, ['--hero-bg-small' as string]: `url(${heroBgSmall})` }}
+      // Decorative background. One full-size file (2000px, ~100 KB) for every screen: phones show the
+      // hero tall, so a smaller file would be stretched and look soft.
+      style={{ ['--hero-bg' as string]: `url(${heroBg})` }}
     >
       {/* Pixel honeycomb background. (The bee animations are in components/HeroBees, not used for now.) */}
       <HivePattern />
