@@ -76,7 +76,6 @@
   .word-rotator, .word-rotator__word, .word-rotator__word::after { transition: none; animation: none; }
 }
 .hero__lede { margin-top: var(--space-5); font-size: 1.2rem; color: #000; max-width: 62ch; }
-@media (max-width: 64rem) { .hero__break { display: none; } }
 
 .hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-3); margin-top: var(--space-7); }
 .hero__button {
