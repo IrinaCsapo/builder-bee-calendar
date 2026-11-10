@@ -23,6 +23,47 @@ Include an event only if **all** of these are true:
 
 ## 2. Where and how to look (spend real effort: aim for 5–15 new events)
 
+### Start with the watchlist (do this first, every run)
+
+These organisers run women-focused events often. Open **every** calendar below and list its upcoming
+events, then check each one you don't already have. This finds far more than web search, which mostly
+turns up events that have already happened.
+
+| Calendar | Organiser |
+|---|---|
+| https://luma.com/joinwilla | Willa (Women Innovating, Learning, and Leading in AI) |
+| https://luma.com/audaciousaf | Audacious AF |
+| https://luma.com/womenxai | WOMEN x AI |
+| https://luma.com/womeninaiorg | Women in AI |
+| https://luma.com/womendefiningai | Women Defining AI |
+| https://luma.com/sheships | She Ships |
+| https://luma.com/sheleadstech | She Leads Tech (Unlock Her Tech) |
+| https://luma.com/femcode | Femcode Collective |
+| https://luma.com/wecreate | We Create |
+| https://luma.com/joinwoven | Woven (women in data and AI) |
+| https://luma.com/fiercefounders | Fierce Foundry (FEMHACK) |
+| https://luma.com/TheFutureofTechisFemale | The Future of Tech is Female |
+| https://luma.com/toast-events | Toast (women and non-binary in tech) |
+| https://djangogirls.org/en/events/ | Django Girls (free coding workshops, worldwide) |
+| https://girldevelopit.com/events | Girl Develop It |
+| https://rewritingthecode.org/events/ | Rewriting the Code |
+
+List a Luma calendar's upcoming events like this (prints date and event link):
+
+```bash
+curl -sL -A "Mozilla/5.0" https://luma.com/CALENDAR | python3 -c "
+import sys,re,datetime
+h=sys.stdin.read(); today=datetime.date.today().isoformat()
+for s,u in sorted(set(re.findall(r'\"start_at\":\"([^\"]+)\".{0,1500}?\"url\":\"([a-z0-9-]+)\"', h))):
+    if s[:10] >= today: print(s[:10], 'https://luma.com/'+u)"
+```
+
+Then open each event and apply section 1 as usual (some calendars also list events that aren't for women).
+If you find a new organiser that keeps posting women-focused events, mention it in your summary so it can
+be added here.
+
+### Then search more widely
+
 Run at least 10 different searches before deciding there's nothing new. Mix:
 - **Luma**: search the web for `site:luma.com women` plus topics (AI, hackathon, workshop, design,
   marketing, founders, Lovable, Claude, no-code) and cities (London, Berlin, Lagos, Nairobi, São Paulo,
