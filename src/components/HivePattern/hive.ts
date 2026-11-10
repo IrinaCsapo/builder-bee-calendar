@@ -11,8 +11,8 @@ interface Options {
   sweep: number;         // seconds a sweep takes
 }
 
-// Brand purple, so the pattern shows on the light pink and gold hero background
-const DEFAULTS: Options = { cell: 3, radius: 34, baseAlpha: 0.2, color: '112,0,240', every: 6, sweep: 1.8 };
+// White, strong enough to show on the light pink and gold hero background
+const DEFAULTS: Options = { cell: 3, radius: 34, baseAlpha: 0.7, color: '255,255,255', every: 6, sweep: 1.8 };
 
 const SQRT3 = Math.sqrt(3);
 // Pointy-top hexagon edge normals (0°, 60°, 120°)
@@ -131,7 +131,7 @@ export class HiveCanvas {
       const glow = k * k;                                            // soft falloff
       // warm gold at the centre of the band, white at its edges
       const g = Math.round(255 - 40 * glow), b = Math.round(255 - 140 * glow);
-      ctx.fillStyle = `rgba(255,${g},${b},${Math.min(0.85, c.a + glow * 0.6).toFixed(3)})`;
+      ctx.fillStyle = `rgba(255,${g},${b},${Math.min(1, c.a + glow * 0.6).toFixed(3)})`;
       ctx.fillRect(c.x, c.y, cell - 1, cell - 1);
     }
     this.raf = requestAnimationFrame(this.frame);
