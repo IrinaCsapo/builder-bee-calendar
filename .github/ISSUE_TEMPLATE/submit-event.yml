@@ -129,7 +129,7 @@ body:
     id: level
     attributes:
       label: Level
-      options: [Beginner friendly, All levels, Experienced]
+      options: [Beginner friendly, All levels, Advanced]
     validations:
       required: true
 

@@ -110,7 +110,7 @@ Follow `src/types/event.ts` exactly (allowed values are listed there; the README
   Social impact, Marketing, Creative), only if the page clearly says so; `[]` is fine
 - `audience`: the organiser's own words about who it's for, briefly. Don't invent wording.
 - `level`: `Beginner friendly` only if the page says beginners/first-timers/no experience are welcome;
-  `Experienced` if it says so; otherwise `All levels`
+  `Advanced` if it says the event is for experienced or advanced participants; otherwise `All levels`
 - `cost`: `Free` only if the page or ticket data says it's free; otherwise `Paid`
 - `deadline`: the registration/application deadline if the page states one (YYYY-MM-DD)
 - `image_url`: the event's own image. **Luma**: the page's `cover_url`, served whole as

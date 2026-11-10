@@ -1,5 +1,9 @@
 import { EVENT_TYPES, FORMATS, REGIONS, THEMES } from '../types/event';
-import type { CalendarEvent, EventType, Format, Region, Theme } from '../types/event';
+import type { CalendarEvent, EventType, Format, Level, Region, Theme } from '../types/event';
+
+/** The levels offered as filters ("All levels" events aren't a choice of their own) */
+export const LEVEL_FILTERS = ['Beginner friendly', 'Advanced'] as const satisfies readonly Level[];
+export type LevelFilter = (typeof LEVEL_FILTERS)[number];
 
 export interface Filters {
   query: string;              // free-text search
@@ -9,7 +13,7 @@ export interface Filters {
   country: string;
   theme: Theme | '';
   freeOnly: boolean;
-  beginnerOnly: boolean;
+  levels: LevelFilter[];      // empty = all levels
 }
 
 export const EMPTY_FILTERS: Filters = {
@@ -20,12 +24,12 @@ export const EMPTY_FILTERS: Filters = {
   country: '',
   theme: '',
   freeOnly: false,
-  beginnerOnly: false,
+  levels: [],
 };
 
 export function hasActiveFilters(f: Filters): boolean {
   return (
-    !!f.query.trim() || f.formats.length > 0 || !!f.type || !!f.region || !!f.country || !!f.theme || f.freeOnly || f.beginnerOnly
+    !!f.query.trim() || f.formats.length > 0 || !!f.type || !!f.region || !!f.country || !!f.theme || f.freeOnly || f.levels.length > 0
   );
 }
 
@@ -53,7 +57,7 @@ export function applyFilters(events: CalendarEvent[], f: Filters): CalendarEvent
       (!f.country || e.country === f.country) &&
       (!f.theme || e.themes.includes(f.theme)) &&
       (!f.freeOnly || e.cost === 'Free') &&
-      (!f.beginnerOnly || e.level === 'Beginner friendly'),
+      (f.levels.length === 0 || (f.levels as string[]).includes(e.level)),
   );
 }
 
@@ -62,7 +66,8 @@ export function toggleInList<T>(list: T[], value: T): T[] {
 }
 
 // ---- URL query string <-> Filters --------------------------------------
-// Keys: format (comma-separated), type, region, country, theme, free=1, beginner=1
+// Keys: format (comma-separated), type, region, country, theme, free=1, level (comma-separated)
+// Older links used beginner=1; it still works.
 // Unknown values in a shared link are ignored rather than breaking the page.
 
 
@@ -74,6 +79,10 @@ export function filtersFromQuery(q: URLSearchParams): Filters {
     .split(',')
     .map((f) => pick(FORMATS, f))
     .filter((f): f is Format => f !== '');
+  const levels = (q.get('level') ?? '')
+    .split(',')
+    .map((l) => pick(LEVEL_FILTERS, l))
+    .filter((l): l is LevelFilter => l !== '');
   return {
     query: (q.get('q') ?? '').slice(0, 100),
     formats: [...new Set(formats)],
@@ -82,7 +91,7 @@ export function filtersFromQuery(q: URLSearchParams): Filters {
     country: q.get('country') ?? '',
     theme: pick(THEMES, q.get('theme')),
     freeOnly: q.get('free') === '1',
-    beginnerOnly: q.get('beginner') === '1',
+    levels: [...new Set([...levels, ...(q.get('beginner') === '1' ? (['Beginner friendly'] as const) : [])])],
   };
 }
 
@@ -95,6 +104,6 @@ export function filtersToQuery(f: Filters): string {
   if (f.country) q.set('country', f.country);
   if (f.theme) q.set('theme', f.theme);
   if (f.freeOnly) q.set('free', '1');
-  if (f.beginnerOnly) q.set('beginner', '1');
+  if (f.levels.length) q.set('level', LEVEL_FILTERS.filter((x) => f.levels.includes(x)).join(','));
   return q.toString();
 }

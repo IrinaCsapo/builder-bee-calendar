@@ -55,7 +55,7 @@ You can still add events by hand:
 | `lat`, `lng` | in person / hybrid | City-centre coordinates, e.g. `53.4808`, `-2.2426`. Used for "Nearest first" |
 | `themes` | yes | List from: AI, Fintech, Health, Climate, Web3, Design, No-code, Hardware, Social impact, Marketing, Creative. Can be `[]` |
 | `audience` | yes | Shown exactly as the organiser writes it |
-| `level` | yes | Beginner friendly, All levels, Experienced |
+| `level` | yes | Beginner friendly, All levels, Advanced |
 | `cost` | yes | Free, Paid |
 | `registration_url` | yes | Full `https://` link |
 | `deadline` | no | `2027-03-01` |

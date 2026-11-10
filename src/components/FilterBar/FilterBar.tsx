@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { EVENT_TYPES, FORMATS, REGIONS, THEMES } from '../../types/event';
 import type { EventType, Region, Theme } from '../../types/event';
 import type { Filters } from '../../lib/filters';
-import { hasActiveFilters, toggleInList } from '../../lib/filters';
+import { hasActiveFilters, LEVEL_FILTERS, toggleInList } from '../../lib/filters';
 import { ToggleButton } from '../ToggleButton/ToggleButton';
 import { Select } from '../Select/Select';
 import { ResultCount } from '../ResultCount/ResultCount';
@@ -32,7 +32,7 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
 
   // Only the most-used filters are always visible. Everything else is behind
   // "More filters", on every screen size, so the bar stays calm.
-  const moreActive = [filters.beginnerOnly, filters.type, filters.region, filters.country, filters.theme].filter(Boolean).length;
+  const moreActive = [filters.type, filters.region, filters.country, filters.theme].filter(Boolean).length;
   // Start open if a shared link already uses one of the folded-away filters
   const [moreOpen, setMoreOpen] = useState(() => moreActive > 0);
 
@@ -57,6 +57,22 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
             <ToggleButton pressed={filters.freeOnly} onToggle={() => set({ freeOnly: !filters.freeOnly })}>
               Free
             </ToggleButton>
+          </div>
+        </fieldset>
+
+        <fieldset className="filter-bar__group">
+          <legend className="visually-hidden">Level</legend>
+          <div className="filter-bar__chips">
+            <span className="filter-bar__divider" aria-hidden="true" />
+            {LEVEL_FILTERS.map((level) => (
+              <ToggleButton
+                key={level}
+                pressed={filters.levels.includes(level)}
+                onToggle={() => set({ levels: toggleInList(filters.levels, level) })}
+              >
+                {level}
+              </ToggleButton>
+            ))}
           </div>
         </fieldset>
 
@@ -94,11 +110,6 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
             value={filters.country} onChange={(v) => set({ country: v })} />
           <Select id="filter-theme" label="Theme" allLabel="All themes" options={THEMES}
             value={filters.theme} onChange={(v) => set({ theme: v as Theme | '' })} />
-        </div>
-        <div className="filter-bar__chips">
-          <ToggleButton pressed={filters.beginnerOnly} onToggle={() => set({ beginnerOnly: !filters.beginnerOnly })}>
-            Beginner friendly only
-          </ToggleButton>
         </div>
       </div>
     </section>

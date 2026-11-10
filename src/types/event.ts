@@ -7,7 +7,7 @@ export const FORMATS = ['In person', 'Online', 'Hybrid'] as const;
 // "Global" is for online events that aren't tied to one region.
 export const REGIONS = ['Europe', 'North America', 'LatAm', 'Africa', 'Asia', 'Oceania', 'Global'] as const;
 export const THEMES = ['AI', 'Fintech', 'Health', 'Climate', 'Web3', 'Design', 'No-code', 'Hardware', 'Social impact', 'Marketing', 'Creative'] as const;
-export const LEVELS = ['Beginner friendly', 'All levels', 'Experienced'] as const;
+export const LEVELS = ['Beginner friendly', 'All levels', 'Advanced'] as const;
 export const COSTS = ['Free', 'Paid'] as const;
 
 export type EventType = (typeof EVENT_TYPES)[number];
