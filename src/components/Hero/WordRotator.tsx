@@ -14,6 +14,10 @@ interface WordRotatorProps {
  * Decorative: the heading carries the full sentence for screen readers, so this is aria-hidden.
  * No movement with reduced motion. Keeps looping unless `rounds` is set.
  */
+// Each word takes the next colour. All are at least 3:1 on every part of the hero gradient
+// (the minimum for large text): purple, magenta, burnt orange, teal.
+const COLORS = ['#7000F0', '#C8007A', '#B83A00', '#0B6E66'];
+
 export function WordRotator({ words, every = 2400, rounds = Infinity }: WordRotatorProps) {
   const [index, setIndex] = useState(0);
   const [width, setWidth] = useState<number>();
@@ -45,7 +49,9 @@ export function WordRotator({ words, every = 2400, rounds = Infinity }: WordRota
 
   return (
     <span className="word-rotator" aria-hidden="true" style={{ width }}>
-      <span key={index} className="word-rotator__word">{words[index]}</span>
+      <span key={index} className="word-rotator__word" style={{ color: COLORS[index % COLORS.length] }}>
+        {words[index]}
+      </span>
       {/* Invisible copies, used to measure each word */}
       <span ref={measure} className="word-rotator__measure">
         {words.map((w) => <span key={w}>{w}</span>)}

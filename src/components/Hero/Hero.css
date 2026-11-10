@@ -42,9 +42,24 @@
   transition: width 450ms cubic-bezier(.2, .8, .2, 1);
 }
 .word-rotator__word {
+  position: relative;
   display: inline-block;
   animation: word-in 550ms cubic-bezier(.2, .8, .2, 1) both;
 }
+/* Underline in the word's colour, drawn left to right once the word has landed */
+.word-rotator__word::after {
+  content: '';
+  position: absolute;
+  left: 0.04em;
+  right: 0.04em;
+  bottom: 0.02em;
+  height: 0.07em;
+  border-radius: 0.04em;
+  background: currentColor;
+  transform-origin: left;
+  animation: word-underline 600ms 350ms cubic-bezier(.6, 0, .2, 1) both;
+}
+@keyframes word-underline { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes word-in {
   from { transform: translateY(70%); opacity: 0; filter: blur(4px); }
   to { transform: none; opacity: 1; filter: none; }
@@ -58,7 +73,7 @@
 }
 .word-rotator__measure > span { position: absolute; white-space: nowrap; }
 @media (prefers-reduced-motion: reduce) {
-  .word-rotator, .word-rotator__word { transition: none; animation: none; }
+  .word-rotator, .word-rotator__word, .word-rotator__word::after { transition: none; animation: none; }
 }
 .hero__lede { margin-top: var(--space-5); font-size: 1.2rem; color: #000; max-width: 62ch; }
 @media (max-width: 64rem) { .hero__break { display: none; } }
