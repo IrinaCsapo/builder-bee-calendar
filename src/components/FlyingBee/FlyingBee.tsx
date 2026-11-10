@@ -1,28 +1,37 @@
 import { useEffect, useRef } from 'react';
 import './FlyingBee.css';
 
-// Top-down pixel bee, head at the top. K = outline, Y = honey stripe, W = wing.
+// Top-down pixel bee, head at the top. K = black (head, stripes, antennae, stinger),
+// Y = honey yellow body, W = wing. Mostly yellow, with two black stripes.
 const WINGS_OPEN = [
-  '...K...K...',
-  '....K.K....',
-  '.WW.KKK.WW.',
-  'WWWWKYKWWWW',
-  '.WWWKKKWWW.',
-  '....KYK....',
-  '....KKK....',
-  '.....K.....',
+  '....K...K....',
+  '.....K.K.....',
+  '.....KKK.....',
+  '.WWW.KKK.WWW.',
+  'WWWWWYYYWWWWW',
+  'WWWWYYYYYWWWW',
+  '.WWWKKKKKWWW.',
+  '....YYYYY....',
+  '....KKKKK....',
+  '....YYYYY....',
+  '.....YYY.....',
+  '......K......',
 ];
 const WINGS_CLOSED = [
-  '...K...K...',
-  '....K.K....',
-  '....KKK....',
-  '..WWKYKWW..',
-  '.WWWKKKWWW.',
-  '..WWKYKWW..',
-  '....KKK....',
-  '.....K.....',
+  '....K...K....',
+  '.....K.K.....',
+  '.....KKK.....',
+  '.....KKK.....',
+  '...WWYYYWW...',
+  '..WWYYYYYWW..',
+  '..WWKKKKKWW..',
+  '...WYYYYYW...',
+  '....KKKKK....',
+  '....YYYYY....',
+  '.....YYY.....',
+  '......K......',
 ];
-const COLOURS: Record<string, string> = { K: '#000000', Y: '#F6C945', W: '#FFFFFF' };
+const COLOURS: Record<string, string> = { K: '#000000', Y: '#FFC93C', W: '#FFFFFF' };
 
 /** One frame of pixel art as crisp SVG rectangles. */
 function Sprite({ rows, className }: { rows: string[]; className: string }) {

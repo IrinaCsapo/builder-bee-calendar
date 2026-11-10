@@ -4,14 +4,15 @@
   left: 0;
   top: 0;
   z-index: 0;
-  width: 66px;                 /* 11 pixels × 6px: big enough to read as a bee */
-  height: 48px;                /* 8 pixels × 6px */
+  width: 65px;                 /* 13 pixels × 5px */
+  height: 60px;                /* 12 pixels × 5px */
   pointer-events: none;
   will-change: transform;
   display: grid;
 }
-@media (max-width: 40rem) { .flying-bee { width: 44px; height: 32px; } } /* 4px pixels on phones */
-.flying-bee__frame { grid-area: 1 / 1; width: 100%; height: 100%; }
+@media (max-width: 40rem) { .flying-bee { width: 52px; height: 48px; } } /* 4px pixels on phones */
+/* A faint soft outline keeps the white wings visible on the pale parts of the gradient */
+.flying-bee__frame { grid-area: 1 / 1; width: 100%; height: 100%; filter: drop-shadow(0 0 1px rgba(80, 40, 120, 0.45)); }
 /* Fast wing flutter: alternate the two frames */
 .flying-bee__frame--open { animation: wing-a 0.09s steps(1, end) infinite; }
 .flying-bee__frame--closed { animation: wing-b 0.09s steps(1, end) infinite; }
