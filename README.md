@@ -84,6 +84,12 @@ npm run import-csv -- ~/Downloads/events.csv --merge   # add/update by id, keep 
 - Empty `id` is generated from the title and year. Empty `end_date` means a one-day event. Online events with no region get `Global`. Empty `source` becomes `CSV import`.
 - If any row is invalid, the script lists the problems and leaves `events.json` unchanged.
 
+## Add a community
+
+The Communities page (`#/communities`) lists groups that run events for women, non-binary people and
+allies in tech. Add one to `src/data/communities.ts`: name, website, a one-line description, where they
+are, and optionally a `search` word that finds their events on BuilderBee.
+
 ## How deploys work
 
 Every push to `main` runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) on GitHub Actions:

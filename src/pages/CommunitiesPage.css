@@ -1,0 +1,50 @@
+/* Communities page: a wider page than the other text pages, with cards in a grid */
+.content-page.communities { max-width: 72rem; }
+.communities .content-page__lede { max-width: 46rem; }
+
+.communities__list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  gap: var(--space-4);
+}
+.communities__list li + li { margin-top: 0; }
+
+.community-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+.content-page .community-card p { margin-top: 0; }
+
+.community-card__name { font-family: var(--font-sans); font-size: var(--text-lg); line-height: 1.25; }
+.community-card__name a {
+  display: inline-block;
+  padding-block: var(--space-2);   /* taller tap target */
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.community-card__where { font-size: var(--text-sm); font-weight: 700; }
+.community-card__about { flex: 1; }
+
+.community-card__events {
+  align-self: flex-start;
+  display: inline-block;           /* inline-flex would split the text into columns */
+  min-height: var(--tap-target);
+  margin-top: var(--space-2);
+  padding: 0.6875rem var(--space-4);
+  line-height: 1.25;
+  border-radius: var(--radius-pill);
+  background: var(--color-mint-soft);
+  border: 1px solid var(--color-ink);
+  color: var(--color-ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+.community-card__events:hover { background: var(--color-mint); }

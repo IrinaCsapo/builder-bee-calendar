@@ -4,6 +4,7 @@ import './Header.css';
 
 const NAV = [
   { href: '#/', path: '/', label: 'Events' },
+  { href: '#/communities', path: '/communities', label: 'Communities' },
   { href: '#/submit', path: '/submit', label: 'Submit an event' },
   { href: '#/about', path: '/about', label: 'About' },
 ];
