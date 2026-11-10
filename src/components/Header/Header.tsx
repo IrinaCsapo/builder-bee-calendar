@@ -6,8 +6,9 @@ import './Header.css';
 const NAV = [
   { href: '#/', path: '/', label: 'Events' },
   { href: '#/communities', path: '/communities', label: 'Communities' },
-  { href: '#/submit', path: '/submit', label: 'Submit an event' },
   { href: '#/about', path: '/about', label: 'About' },
+  // Last, shown as an outlined button
+  { href: '#/submit', path: '/submit', label: 'Submit an event', button: true },
 ];
 
 export function Header() {
@@ -59,7 +60,9 @@ export function Header() {
           <ul className="header__nav">
             {NAV.map((item) => (
               <li key={item.href}>
-                <a className="header__link" href={item.href} aria-current={section === item.path ? 'page' : undefined}>
+                <a
+                  className={item.button ? 'header__link header__link--button hive-hover hive-hover--on-light' : 'header__link'}
+                  href={item.href} aria-current={section === item.path ? 'page' : undefined}>
                   {item.label}
                 </a>
               </li>

@@ -56,3 +56,15 @@
   text-decoration-thickness: 2px;
   text-underline-offset: 0.3em;
 }
+
+/* "Submit an event": an outlined pill instead of a plain link */
+.header__nav { align-items: center; }
+.header__link--button {
+  margin-left: var(--space-2);
+  padding-inline: var(--space-4);
+  border: 1.5px solid #000;
+  background: #fff;
+}
+.header__link--button:hover,
+.header__link--button[aria-current='page'] { text-decoration: none; }
+.header__link--button[aria-current='page'] { background: var(--color-mint-soft); }
