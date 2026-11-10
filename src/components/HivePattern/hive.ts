@@ -6,11 +6,13 @@ interface Options {
   cell: number;          // pixel size in CSS px
   radius: number;        // hexagon size (centre to corner) in CSS px
   baseAlpha: number;     // how visible the resting pattern is
+  color: string;         // r,g,b of the resting pattern
   every: number;         // seconds between sweeps
   sweep: number;         // seconds a sweep takes
 }
 
-const DEFAULTS: Options = { cell: 3, radius: 34, baseAlpha: 0.32, every: 6, sweep: 1.8 };
+// Brand purple, so the pattern shows on the light pink and gold hero background
+const DEFAULTS: Options = { cell: 3, radius: 34, baseAlpha: 0.2, color: '112,0,240', every: 6, sweep: 1.8 };
 
 const SQRT3 = Math.sqrt(3);
 // Pointy-top hexagon edge normals (0°, 60°, 120°)
@@ -91,7 +93,7 @@ export class HiveCanvas {
         if (h < 0.22) continue;                       // gaps give the pixel/dither texture
         const a = this.o.baseAlpha * (0.55 + 0.45 * h);
         this.cells.push({ x, y, a, d: x + y * 0.8 }); // diagonal coordinate for the sweep
-        g.fillStyle = `rgba(255,255,255,${a.toFixed(3)})`;
+        g.fillStyle = `rgba(${this.o.color},${a.toFixed(3)})`;
         g.fillRect(x, y, cell - 1, cell - 1);
       }
     }
