@@ -8,7 +8,7 @@ export function AboutPage() {
 
   return (
     <div className="container content-page">
-      <h1>About BuilderBee</h1>
+      <h1>Welcome to the hive</h1>
       <p className="content-page__lede">
         One place to find hackathons and tech events for women and non-binary builders, so you can find something to
         join this month in under 30 seconds.
