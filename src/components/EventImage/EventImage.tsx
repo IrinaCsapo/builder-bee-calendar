@@ -34,7 +34,12 @@ export function EventImage({ id, title, src, variant = 'card' }: EventImageProps
   const showImage = src && !failed;
 
   return (
-    <div className={`event-image event-image--${variant}`} aria-hidden="true">
+    <div
+      className={`event-image event-image--${variant}`}
+      aria-hidden="true"
+      // Wide or tall images leave space around them: fill it with this event's placeholder gradient
+      style={showImage && fit === 'whole' ? { backgroundImage: `url(${placeholderFor(id)})` } : undefined}
+    >
       {showImage ? (
         <img
           className={`event-image__img event-image__img--${fit}`}

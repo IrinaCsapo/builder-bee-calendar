@@ -3,12 +3,12 @@
   overflow: hidden;
   aspect-ratio: 1 / 1;          /* square, fixed shape: no layout jump while images load */
   border-radius: var(--radius-md);
-  background: #f4f4f5;
+  background: #f4f4f5 center / cover no-repeat;   /* image set inline for wide or tall pictures */
 }
 /* Square-ish images fill the card; wide or tall ones are shown whole, never cropped or stretched */
 .event-image__img { width: 100%; height: 100%; display: block; }
 .event-image__img--fill { object-fit: cover; }
-.event-image__img--whole { object-fit: contain; background: #f4f4f5; }
+.event-image__img--whole { object-fit: contain; }   /* the placeholder gradient shows around it */
 
 .event-image--banner { aspect-ratio: 3 / 1; margin-top: var(--space-5); }
 @media (max-width: 40rem) { .event-image--banner { aspect-ratio: 2 / 1; } }
