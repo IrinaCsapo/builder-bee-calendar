@@ -50,7 +50,7 @@ export function FlyingBee() {
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     let W = stage.clientWidth, H = stage.clientHeight;
-    const margin = 40;
+    const margin = 60;                       // keeps the (now bigger) bee fully inside the hero
     const rand = (a: number, b: number) => a + Math.random() * (b - a);
     const newTarget = () => ({ x: rand(margin, W - margin), y: rand(margin, H * 0.85) });
 

@@ -4,13 +4,13 @@
   left: 0;
   top: 0;
   z-index: 0;
-  width: 33px;                 /* 11 pixels × 3px */
-  height: 24px;                /* 8 pixels × 3px */
+  width: 66px;                 /* 11 pixels × 6px: big enough to read as a bee */
+  height: 48px;                /* 8 pixels × 6px */
   pointer-events: none;
   will-change: transform;
   display: grid;
 }
-@media (max-width: 40rem) { .flying-bee { width: 26px; height: 19px; } }
+@media (max-width: 40rem) { .flying-bee { width: 44px; height: 32px; } } /* 4px pixels on phones */
 .flying-bee__frame { grid-area: 1 / 1; width: 100%; height: 100%; }
 /* Fast wing flutter: alternate the two frames */
 .flying-bee__frame--open { animation: wing-a 0.09s steps(1, end) infinite; }
