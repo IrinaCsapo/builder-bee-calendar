@@ -5,16 +5,16 @@ interface WordRotatorProps {
   words: string[];
   /** Milliseconds each word stays */
   every?: number;
-  /** Full rounds before it settles back on the first word (moving content should stop) */
+  /** Full rounds before it settles back on the first word. Infinity (the default) keeps it going. */
   rounds?: number;
 }
 
 /**
  * Swaps the last word of the headline: hackathon → workshop → buildathon → …
  * Decorative: the heading carries the full sentence for screen readers, so this is aria-hidden.
- * No movement with reduced motion; it settles on the first word after a few rounds.
+ * No movement with reduced motion. Keeps looping unless `rounds` is set.
  */
-export function WordRotator({ words, every = 2400, rounds = 2 }: WordRotatorProps) {
+export function WordRotator({ words, every = 2400, rounds = Infinity }: WordRotatorProps) {
   const [index, setIndex] = useState(0);
   const [width, setWidth] = useState<number>();
   const measure = useRef<HTMLSpanElement>(null);
