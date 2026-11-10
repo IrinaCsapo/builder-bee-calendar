@@ -47,7 +47,7 @@ function Sprite({ rows, className }: { rows: string[]; className: string }) {
 interface FlyingBeeProps {
   /** Where it starts (and rests with reduced motion), as fractions of the hero */
   start?: { x: number; y: number };
-  /** Size multiplier (1 = 65×60px on desktop) */
+  /** Size multiplier (1 = 104×96px on desktop) */
   scale?: number;
   /** Speed multiplier */
   speed?: number;
@@ -68,7 +68,7 @@ export function FlyingBee({ start: startAt = { x: 0.15, y: 0.2 }, scale = 1, spe
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     let W = stage.clientWidth, H = stage.clientHeight;
-    const margin = 60;                       // keeps the (now bigger) bee fully inside the hero
+    const margin = 90;                       // keeps the big bee fully inside the hero
     const rand = (a: number, b: number) => a + Math.random() * (b - a);
     const newTarget = () => ({ x: rand(margin, W - margin), y: rand(margin, H * 0.85) });
 
