@@ -118,6 +118,8 @@ Follow `src/types/event.ts` exactly (allowed values are listed there; the README
   `Advanced` if it says the event is for experienced or advanced participants; otherwise `All levels`
 - `cost`: `Free` only if the page or ticket data says it's free; otherwise `Paid`
 - `deadline`: the registration/application deadline if the page states one (YYYY-MM-DD)
+- `prize`: only if the page states a prize (prize pool, cash, credits, funding), in a few words as the organiser
+  puts it, e.g. `$10,000 in prizes` or `€5,000 + mentoring`. Leave it out otherwise.
 - `image_url`: the event's own image. **Luma**: the page's `cover_url`, served whole as
   `https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/<path after images.lumacdn.com/>`
   (never cropped). Others: the page's `og:image`. Must return 200. Leave it out if there isn't one.

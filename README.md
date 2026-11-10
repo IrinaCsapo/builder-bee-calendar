@@ -59,6 +59,7 @@ You can still add events by hand:
 | `cost` | yes | Free, Paid |
 | `registration_url` | yes | Full `https://` link |
 | `deadline` | no | `2027-03-01` |
+| `prize` | no | `$10,000 in prizes` (only if the organiser states one) |
 | `image_url` | no | The official page's preview image, loaded from the organiser's host (not copied into the repo). Events without one get a branded placeholder |
 | `source` | yes | Where it came from, or `placeholder` |
 

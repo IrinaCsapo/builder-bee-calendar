@@ -95,6 +95,7 @@ export function EventPage({ id }: { id: string }) {
               { term: 'Who it’s for', value: <q className="event-page__audience">{event.audience}</q> },
               { term: 'Level', value: event.level },
               { term: 'Cost', value: event.cost },
+              { term: 'Prize', value: event.prize },
               {
                 term: 'Apply by',
                 value: event.deadline && (

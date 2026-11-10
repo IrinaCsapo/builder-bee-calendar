@@ -61,6 +61,13 @@ export function EventCard({ event, now, headingLevel = 3 }: EventCardProps) {
           </li>
         )}
         <li className="event-card__chip">{event.event_type}</li>
+        {event.prize && (
+          <li className="event-card__chip">
+            <span aria-hidden="true">🏆</span>
+            <span className="visually-hidden">Prize: </span>
+            {event.prize}
+          </li>
+        )}
       </ul>
     </article>
   );

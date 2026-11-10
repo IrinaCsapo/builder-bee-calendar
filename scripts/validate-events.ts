@@ -11,7 +11,7 @@ const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const KNOWN_FIELDS = new Set([
   'id', 'title', 'organiser', 'event_type', 'format', 'start_date', 'end_date', 'timezone',
   'city', 'country', 'region', 'venue', 'lat', 'lng', 'themes', 'audience', 'level', 'cost',
-  'registration_url', 'deadline', 'image_url', 'source',
+  'registration_url', 'deadline', 'prize', 'image_url', 'source',
 ]);
 
 const isDate = (v: unknown) => typeof v === 'string' && ISO_DATE.test(v) && !Number.isNaN(Date.parse(v));
@@ -41,7 +41,7 @@ if (!Array.isArray(data)) {
     else seen.add(e.id);
 
     str('title'); str('organiser'); str('audience'); str('source');
-    str('venue', false); str('image_url', false);
+    str('venue', false); str('image_url', false); str('prize', false);
     oneOf('event_type', EVENT_TYPES);
     oneOf('format', FORMATS);
     oneOf('region', REGIONS);

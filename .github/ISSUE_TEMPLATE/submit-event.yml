@@ -157,6 +157,13 @@ body:
       placeholder: "2027-03-01"
 
   - type: input
+    id: prize
+    attributes:
+      label: Prize (optional)
+      description: Only if the event offers one, in a few words.
+      placeholder: "$10,000 in prizes"
+
+  - type: input
     id: image_url
     attributes:
       label: Image link (optional)

@@ -38,6 +38,7 @@ export interface CalendarEvent {
   cost: Cost;
   registration_url: string;
   deadline?: string;       // ISO date
+  prize?: string;          // short, as the organiser states it, e.g. "$10,000 in prizes"
   image_url?: string;
   source: string;          // where we found it, or "placeholder"
 }
