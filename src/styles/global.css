@@ -119,7 +119,7 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  transition: transform 160ms cubic-bezier(.2, .8, .3, 1.2), box-shadow 160ms ease;
+  transition: transform 160ms cubic-bezier(.2, .8, .3, 1.2);
 }
 .hive-hover::before,
 .hive-hover::after {
@@ -144,8 +144,7 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
 }
 .hive-hover:hover,
 .hive-hover:focus-visible {
-  transform: translate(-3px, -3px);
-  box-shadow: 3px 3px 0 #000, 6px 6px 0 rgba(0, 0, 0, 0.18);
+  transform: translateY(-2px);
 }
 .hive-hover:hover::before,
 .hive-hover:focus-visible::before { opacity: 1; }
@@ -157,7 +156,7 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
   0% { opacity: 1; background-position: 150% 0; }
   100% { opacity: 1; background-position: -60% 0; }
 }
-.hive-hover:active { transform: translate(0, 0); box-shadow: 0 0 0 #000; transition-duration: 60ms; }
+.hive-hover:active { transform: translate(0, 0); transition-duration: 60ms; }
 @media (prefers-reduced-motion: reduce) {
   .hive-hover { transition: none; }
   .hive-hover:hover, .hive-hover:focus-visible { transform: none; }
