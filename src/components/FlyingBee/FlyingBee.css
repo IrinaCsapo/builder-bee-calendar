@@ -1,0 +1,23 @@
+/* A single pixel bee flying behind the hero content */
+.flying-bee {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  width: 33px;                 /* 11 pixels × 3px */
+  height: 24px;                /* 8 pixels × 3px */
+  pointer-events: none;
+  will-change: transform;
+  display: grid;
+}
+@media (max-width: 40rem) { .flying-bee { width: 26px; height: 19px; } }
+.flying-bee__frame { grid-area: 1 / 1; width: 100%; height: 100%; }
+/* Fast wing flutter: alternate the two frames */
+.flying-bee__frame--open { animation: wing-a 0.09s steps(1, end) infinite; }
+.flying-bee__frame--closed { animation: wing-b 0.09s steps(1, end) infinite; }
+@keyframes wing-a { 0% { visibility: visible; } 50% { visibility: hidden; } }
+@keyframes wing-b { 0% { visibility: hidden; } 50% { visibility: visible; } }
+@media (prefers-reduced-motion: reduce) {
+  .flying-bee__frame { animation: none; }
+  .flying-bee__frame--closed { visibility: hidden; }
+}
