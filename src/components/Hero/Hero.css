@@ -29,6 +29,37 @@
   letter-spacing: -0.02em;
   color: #000;   /* ≥ 4.96:1 on the gradient (measured), large text needs 3:1 */
 }
+/* Rotating last word of the headline (WordRotator.tsx) */
+.word-rotator {
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  padding-bottom: 0.18em;          /* room for descenders (p, g) inside the clip */
+  margin-bottom: -0.18em;
+  white-space: nowrap;
+  text-align: left;
+  transition: width 450ms cubic-bezier(.2, .8, .2, 1);
+}
+.word-rotator__word {
+  display: inline-block;
+  animation: word-in 550ms cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes word-in {
+  from { transform: translateY(70%); opacity: 0; filter: blur(4px); }
+  to { transform: none; opacity: 1; filter: none; }
+}
+.word-rotator__measure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.word-rotator__measure > span { position: absolute; white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) {
+  .word-rotator, .word-rotator__word { transition: none; animation: none; }
+}
 .hero__lede { margin-top: var(--space-5); font-size: 1.2rem; color: #000; max-width: 62ch; }
 @media (max-width: 64rem) { .hero__break { display: none; } }
 

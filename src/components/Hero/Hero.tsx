@@ -2,7 +2,11 @@ import type { ReactNode } from 'react';
 import { HivePattern } from '../HivePattern/HivePattern';
 import { FlyingBees } from '../FlyingBee/FlyingBee';
 import heroBg from '../../assets/hero-bg.jpg';
+import { WordRotator } from './WordRotator';
 import './Hero.css';
+
+// The headline's last word changes; it starts and ends on "hackathon"
+const WORDS = ['hackathon', 'workshop', 'buildathon', 'meetup', 'bootcamp', 'conference', 'pitch night'];
 
 interface HeroProps {
   onBrowse: () => void;
@@ -24,7 +28,12 @@ export function Hero({ onBrowse, featured }: HeroProps) {
       <FlyingBees />
       <div className="hero__top">
         <div className="container hero__inner">
-          <h1 id="hero-title" className="hero__title">Find your next hackathon</h1>
+          <h1 id="hero-title" className="hero__title">
+            <span className="visually-hidden">Find your next hackathon, workshop, meetup or conference</span>
+            <span aria-hidden="true">
+              Find your next <WordRotator words={WORDS} />
+            </span>
+          </h1>
           <p className="hero__lede">
             Hackathons, buildathons, meetups and workshops for women and non-binary builders.
             <br className="hero__break" /> Online and around the world.
