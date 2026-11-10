@@ -1232,5 +1232,27 @@
     "cost": "Paid",
     "registration_url": "https://www.wicys.org/events/wicys-2027/",
     "source": "https://www.wicys.org/events/wicys-2027/"
+  },
+  {
+    "id": "atv-women-tech-meetup-2026-12",
+    "title": "Women + Tech Meetup (December)",
+    "organiser": "Atlanta Tech Village",
+    "event_type": "Meetup",
+    "format": "In person",
+    "start_date": "2026-12-09",
+    "end_date": "2026-12-09",
+    "timezone": "America/New_York",
+    "city": "Atlanta",
+    "country": "United States",
+    "region": "North America",
+    "venue": "Atlanta Tech Village",
+    "lat": 33.849,
+    "lng": -84.388,
+    "themes": [],
+    "audience": "Women in tech: personal and professional growth, challenges in the workplace, community involvement",
+    "level": "All levels",
+    "cost": "Paid",
+    "registration_url": "https://atlantatechvillage.com/events/women-tech-meetup-20261209",
+    "source": "https://atlantatechvillage.com/events/women-tech-meetup-20261209"
   }
 ]
