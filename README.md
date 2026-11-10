@@ -29,6 +29,10 @@ Then open http://localhost:5173/builder-bee-calendar/
 
 ### From a submission
 
+Events are added automatically every morning at 7:00 (London) by the event scout (a scheduled Claude
+routine that follows [`docs/event-scout.md`](docs/event-scout.md) and pushes straight to `main`).
+You can still add events by hand:
+
 1. Someone fills in the [submission form](https://github.com/IrinaCsapo/builder-bee-calendar/issues/new?template=submit-event.yml). It creates a GitHub issue labelled `event-submission`.
 2. Check the event is real, upcoming, and open to women and non-binary builders.
 3. Add it to [`src/data/events.json`](src/data/events.json). Copy an existing event and change the values. The form's fields have the same names as the JSON.
@@ -49,7 +53,7 @@ Then open http://localhost:5173/builder-bee-calendar/
 | `region` | yes | Europe, North America, LatAm, Africa, Asia, Oceania, Global |
 | `venue` | no | |
 | `lat`, `lng` | in person / hybrid | City-centre coordinates, e.g. `53.4808`, `-2.2426`. Used for "Nearest first" |
-| `themes` | yes | List from: AI, Fintech, Health, Climate, Web3, Design, No-code, Hardware, Social impact. Can be `[]` |
+| `themes` | yes | List from: AI, Fintech, Health, Climate, Web3, Design, No-code, Hardware, Social impact, Marketing, Creative. Can be `[]` |
 | `audience` | yes | Shown exactly as the organiser writes it |
 | `level` | yes | Beginner friendly, All levels, Experienced |
 | `cost` | yes | Free, Paid |

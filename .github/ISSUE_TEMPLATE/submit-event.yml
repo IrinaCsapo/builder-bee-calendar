@@ -113,6 +113,8 @@ body:
         - label: No-code
         - label: Hardware
         - label: Social impact
+        - label: Marketing
+        - label: Creative
 
   - type: textarea
     id: audience
