@@ -6,3 +6,9 @@ export const SUBMISSIONS_URL = `${REPO_URL}/issues?q=label%3Aevent-submission`;
 // TODO: replace with the show's real name and link
 export const SHOW_NAME = 'the show';
 export const SHOW_URL = '#/about';
+
+// The two of us, shown on the About page. Leave linkedin empty to show the name without a link.
+export const FOUNDERS = [
+  { name: 'Irina', linkedin: '' }, // TODO: Irina's LinkedIn URL
+  { name: 'Tracey', linkedin: 'https://www.linkedin.com/in/traceywindsor-host/' },
+];

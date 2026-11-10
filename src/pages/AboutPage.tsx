@@ -1,5 +1,5 @@
 import { useDocumentTitle } from '../lib/useDocumentTitle';
-import { REPO_URL, SHOW_NAME, SHOW_URL } from '../lib/site';
+import { FOUNDERS, REPO_URL, SHOW_NAME, SHOW_URL } from '../lib/site';
 import './ContentPage.css';
 
 export function AboutPage() {
@@ -16,7 +16,21 @@ export function AboutPage() {
 
       <h2>Why we built it</h2>
       <p>
-        We met at the Lovable SheBuilds hackathon. It was one of those weekends where you leave with a project, a few new
+        We’re{' '}
+        {FOUNDERS.map((f, i) => (
+          <span key={f.name}>
+            {i > 0 && ' and '}
+            {f.linkedin ? (
+              <a href={f.linkedin} target="_blank" rel="noopener noreferrer">
+                {f.name}
+                <span className="visually-hidden"> on LinkedIn (opens in a new tab)</span>
+              </a>
+            ) : (
+              f.name
+            )}
+          </span>
+        ))}
+        , two women who met at the Lovable SheBuilds hackathon. It was one of those weekends where you leave with a project, a few new
         friends and a strong urge to do it again. The hard part was finding the next one.
       </p>
       <p>
