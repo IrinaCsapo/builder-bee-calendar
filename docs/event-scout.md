@@ -47,6 +47,7 @@ turns up events that have already happened.
 | https://djangogirls.org/en/events/ | Django Girls (free coding workshops, worldwide) |
 | https://girldevelopit.com/events | Girl Develop It |
 | https://rewritingthecode.org/events/ | Rewriting the Code |
+| https://events.humanitix.com/host/wict | Women in Creative Technologies (Power Her Up, Adelaide; workshops are hybrid) |
 
 List a Luma calendar's upcoming events like this (prints date and event link):
 
