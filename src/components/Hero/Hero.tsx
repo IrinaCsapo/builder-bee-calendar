@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { HivePattern } from '../HivePattern/HivePattern';
-import { FlyingBee } from '../FlyingBee/FlyingBee';
+import { FlyingBees } from '../FlyingBee/FlyingBee';
 import heroBg from '../../assets/hero-bg.jpg';
 import heroBgSmall from '../../assets/hero-bg-small.jpg';
 import './Hero.css';
@@ -21,7 +21,7 @@ export function Hero({ onBrowse, featured }: HeroProps) {
     >
       {/* Pixel honeycomb background. (The bee animations are in components/HeroBees, not used for now.) */}
       <HivePattern />
-      <FlyingBee />
+      <FlyingBees />
       <div className="hero__top">
         <div className="container hero__inner">
           <h1 id="hero-title" className="hero__title">Find your next hackathon</h1>

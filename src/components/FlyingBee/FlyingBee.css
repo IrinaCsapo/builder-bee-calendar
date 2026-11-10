@@ -1,16 +1,16 @@
-/* A single pixel bee flying behind the hero content */
+/* Pixel bees flying in front of the hero content (they never catch clicks) */
 .flying-bee {
   position: absolute;
   left: 0;
   top: 0;
-  z-index: 0;
-  width: 65px;                 /* 13 pixels × 5px */
-  height: 60px;                /* 12 pixels × 5px */
+  z-index: 3;                  /* above the headline, buttons and featured card */
+  width: calc(65px * var(--bee-scale, 1));   /* 13 pixels × 5px */
+  height: calc(60px * var(--bee-scale, 1));  /* 12 pixels × 5px */
   pointer-events: none;
   will-change: transform;
   display: grid;
 }
-@media (max-width: 40rem) { .flying-bee { width: 52px; height: 48px; } } /* 4px pixels on phones */
+@media (max-width: 40rem) { .flying-bee { width: calc(52px * var(--bee-scale, 1)); height: calc(48px * var(--bee-scale, 1)); } } /* 4px pixels on phones */
 /* A faint soft outline keeps the white wings visible on the pale parts of the gradient */
 .flying-bee__frame { grid-area: 1 / 1; width: 100%; height: 100%; filter: drop-shadow(0 0 1px rgba(80, 40, 120, 0.45)); }
 /* Fast wing flutter: alternate the two frames */

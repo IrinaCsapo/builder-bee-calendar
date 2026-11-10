@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type CSSProperties } from 'react';
 import './FlyingBee.css';
 
 // Top-down pixel bee, head at the top. K = black (head, stripes, antennae, stinger),
@@ -44,12 +44,21 @@ function Sprite({ rows, className }: { rows: string[]; className: string }) {
   );
 }
 
+interface FlyingBeeProps {
+  /** Where it starts (and rests with reduced motion), as fractions of the hero */
+  start?: { x: number; y: number };
+  /** Size multiplier (1 = 65×60px on desktop) */
+  scale?: number;
+  /** Speed multiplier */
+  speed?: number;
+}
+
 /**
- * A single bee flying around the hero like a real one: smooth curves towards
+ * A bee flying around the hero like a real one: smooth curves towards
  * a spot, a little side-to-side wobble, short hovers, then off again.
- * Decorative: aria-hidden, no pointer events.
+ * Decorative: aria-hidden, no pointer events, so clicks pass straight through.
  */
-export function FlyingBee() {
+export function FlyingBee({ start: startAt = { x: 0.15, y: 0.2 }, scale = 1, speed = 1 }: FlyingBeeProps) {
   const beeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -63,7 +72,7 @@ export function FlyingBee() {
     const rand = (a: number, b: number) => a + Math.random() * (b - a);
     const newTarget = () => ({ x: rand(margin, W - margin), y: rand(margin, H * 0.85) });
 
-    let x = W * 0.15, y = H * 0.2;          // position
+    let x = W * startAt.x, y = H * startAt.y;  // position
     let vx = 0, vy = 0;                      // velocity (px/s)
     let heading = 0;                         // radians, 0 = facing right
     let target = newTarget();
@@ -92,11 +101,11 @@ export function FlyingBee() {
           // Arrived: often stop and hover a moment, like a bee checking a flower
           if (Math.random() < 0.6) hoverLeft = rand(0.6, 1.8); else target = newTarget();
         } else {
-          const speed = Math.min(190, 60 + dist * 0.9);             // slows as it arrives
+          const pace = Math.min(190, 60 + dist * 0.9) * speed;      // slows as it arrives
           const wobble = Math.sin(t * 6.5) * 55;                     // side-to-side flutter
           const nx = dx / dist, ny = dy / dist;
-          const desiredX = nx * speed - ny * wobble;
-          const desiredY = ny * speed + nx * wobble;
+          const desiredX = nx * pace - ny * wobble;
+          const desiredY = ny * pace + nx * wobble;
           vx += (desiredX - vx) * Math.min(1, 3 * dt);               // smooth steering
           vy += (desiredY - vy) * Math.min(1, 3 * dt);
         }
@@ -136,12 +145,23 @@ export function FlyingBee() {
       document.removeEventListener('visibilitychange', onVis);
       reduced.removeEventListener('change', start);
     };
-  }, []);
+  }, [startAt.x, startAt.y, speed]);
 
   return (
-    <div ref={beeRef} className="flying-bee" aria-hidden="true">
+    <div ref={beeRef} className="flying-bee" aria-hidden="true" style={{ '--bee-scale': scale } as CSSProperties}>
       <Sprite rows={WINGS_OPEN} className="flying-bee__frame flying-bee__frame--open" />
       <Sprite rows={WINGS_CLOSED} className="flying-bee__frame flying-bee__frame--closed" />
     </div>
+  );
+}
+
+/** Three bees, each with its own start, size and pace, flying above the hero content. */
+export function FlyingBees() {
+  return (
+    <>
+      <FlyingBee start={{ x: 0.12, y: 0.14 }} scale={1} speed={1} />
+      <FlyingBee start={{ x: 0.86, y: 0.22 }} scale={0.85} speed={1.15} />
+      <FlyingBee start={{ x: 0.1, y: 0.72 }} scale={0.75} speed={0.85} />
+    </>
   );
 }
