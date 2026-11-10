@@ -15,6 +15,10 @@ import { eventsCloseTo, getDeviceLocation, getRemembered, guessFromTimezone, NEA
 
 const upcoming = getUpcoming(allEvents);
 
+// The "Close to you" row (events in your country or area) is switched off for now.
+// Set this to true to bring it back; all the code below still works.
+const SHOW_CLOSE_TO_YOU = false;
+
 // Featured in the hero: every event anyone can join from anywhere.
 // All online events first (soonest first), then hybrid ones.
 const featured = [
@@ -78,7 +82,7 @@ export function HomePage() {
   const groups = useMemo(() => {
     const byType = groupByType(listed, now);
     // Only on the unfiltered page: when searching or filtering, the results are what matter
-    if (hasActiveFilters(filters) || !closeToYou.length) return byType;
+    if (!SHOW_CLOSE_TO_YOU || hasActiveFilters(filters) || !closeToYou.length) return byType;
     return [{ key: 'close', label: 'Close to you', events: closeToYou }, ...byType];
   }, [listed, now, filters, closeToYou]);
 
