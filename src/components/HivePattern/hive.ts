@@ -83,7 +83,9 @@ export class HiveCanvas {
     g.clearRect(0, 0, this.W, this.H);
     for (let y = 0; y < this.H; y += cell) {
       for (let x = 0; x < this.W; x += cell) {
-        const d = edgeDistance(x + cell / 2, y + cell / 2, R);
+        // Shift the grid down by one hexagon radius (plus a pixel row) so the top row
+        // starts with whole hexagons, their points touching the top edge
+        const d = edgeDistance(x + cell / 2, y + cell / 2 - (R + cell), R);
         if (d > thick) continue;
         const h = hash(x / cell, y / cell);
         if (h < 0.22) continue;                       // gaps give the pixel/dither texture
