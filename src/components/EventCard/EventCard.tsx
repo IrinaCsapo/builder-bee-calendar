@@ -11,7 +11,7 @@ interface EventCardProps {
   headingLevel?: 3 | 4;
 }
 
-const FORMAT_ICON = { Online: '🖥', 'In person': '📍', Hybrid: '🔀' } as const;
+const FORMAT_ICON = { Online: '🖥', 'In person': '👥', Hybrid: '🔀' } as const;
 
 /** Short visible date ("14–15 Nov"); screen readers get the full range. */
 function shortDate(e: CalendarEvent) {
@@ -24,7 +24,8 @@ function shortDate(e: CalendarEvent) {
 export function EventCard({ event, now, headingLevel = 3 }: EventCardProps) {
   const Title = headingLevel === 4 ? 'h4' : 'h3';
   const left = timeLeft(event, now);
-  const where = event.format === 'Online' ? 'Online' : [event.city, event.country].filter(Boolean).join(', ');
+  // In-person and hybrid events get their own location chip
+  const where = event.format === 'Online' ? '' : [event.city, event.country].filter(Boolean).join(', ');
 
   return (
     <article className="event-card">
@@ -51,8 +52,14 @@ export function EventCard({ event, now, headingLevel = 3 }: EventCardProps) {
         </li>
         <li className="event-card__chip">
           <span aria-hidden="true">{FORMAT_ICON[event.format]}</span>
-          {event.format === 'Online' ? 'Online' : `${event.format} · ${where}`}
+          {event.format}
         </li>
+        {where && (
+          <li className="event-card__chip">
+            <span aria-hidden="true">📍</span>
+            {where}
+          </li>
+        )}
         <li className="event-card__chip">{event.event_type}</li>
       </ul>
     </article>
