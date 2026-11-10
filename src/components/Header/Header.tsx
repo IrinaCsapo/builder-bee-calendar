@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { useHashRoute } from '../../lib/useHashRoute';
 import logo from '../../assets/builderbee-logo.svg';
 import './Header.css';
@@ -13,8 +14,42 @@ export function Header() {
   const { path } = useHashRoute();
   // Event detail pages count as part of "Events"
   const section = path.startsWith('/event/') ? '/' : path;
+
+  // The header stays at the top of the screen. It slides away while you scroll down
+  // (more room to read) and comes back as soon as you scroll up.
+  const [hidden, setHidden] = useState(false);
+  useEffect(() => {
+    let last = window.scrollY;
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y < 80) setHidden(false);                 // always shown near the top
+        else if (y > last + 6) setHidden(true);       // scrolling down
+        else if (y < last - 6) setHidden(false);      // scrolling up
+        last = y;
+        ticking = false;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  // Share the header's height (it wraps onto two lines on phones) so the hero can sit under it
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => document.documentElement.style.setProperty('--header-h', `${el.offsetHeight}px`));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  // New page: show it again
+  useEffect(() => setHidden(false), [path]);
+
   return (
-    <header className="header">
+    <header ref={ref} className={`header${hidden ? ' is-hidden' : ''}`}>
       <div className="container header__inner">
         <a className="header__brand" href="#/">
           {/* The logo reads "BuilderBee", so that's its text alternative (plus where the link goes) */}

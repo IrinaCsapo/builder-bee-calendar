@@ -5,9 +5,11 @@
   flex-direction: column;
   justify-content: center;
   gap: var(--space-8);
-  min-height: calc(100vh - 61px);           /* older browsers */
-  min-height: calc(100svh - 61px);          /* minus the header; svh = visible height on phones */
-  padding-block: calc(var(--space-8) + var(--space-7)) var(--space-8);
+  /* The gradient runs up under the see-through header (--header-h is set by Header.tsx) */
+  margin-top: calc(-1 * var(--header-h, 61px));
+  min-height: 100vh;                         /* older browsers */
+  min-height: 100svh;                        /* svh = visible height on phones */
+  padding-block: calc(var(--header-h, 61px) + var(--space-8) + var(--space-7)) var(--space-8);
   background: #f7d6f2 var(--hero-bg) center / cover no-repeat;
   position: relative;
   isolation: isolate;
@@ -15,7 +17,7 @@
 /* Content sits above the floating ASCII bees */
 .hero__top, .hero__featured { position: relative; z-index: 1; }
 @media (max-width: 40rem) {
-  .hero { padding-block: var(--space-8) var(--space-7); gap: var(--space-7); }
+  .hero { padding-block: calc(var(--header-h, 61px) + var(--space-8)) var(--space-7); gap: var(--space-7); }
 }
 
 .hero__inner { display: flex; flex-direction: column; align-items: center; text-align: center; }

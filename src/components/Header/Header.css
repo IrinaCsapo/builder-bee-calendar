@@ -1,11 +1,23 @@
-/* White header, black text (logo coming later) */
+/* Sticky, slightly see-through header. It slides up out of view while scrolling down
+   and back on scroll up (see Header.tsx). Keyboard focus inside always brings it back. */
 .header {
-  position: relative;
-  z-index: 2;
-  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
   color: #000;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  transition: transform 260ms ease;
 }
+.header.is-hidden { transform: translateY(-100%); }
+.header.is-hidden:focus-within { transform: none; }
+/* Browsers without blur: keep it solid enough to read */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .header { background: rgba(255, 255, 255, 0.95); }
+}
+@media (prefers-reduced-motion: reduce) { .header { transition: none; } }
 .header__inner {
   display: flex;
   flex-wrap: wrap;
