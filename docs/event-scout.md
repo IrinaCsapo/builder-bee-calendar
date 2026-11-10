@@ -21,6 +21,11 @@ Include an event only if **all** of these are true:
 - **Confirmed:** you opened an official page (organiser site, Luma, Eventbrite, Meetup, Devpost, university
   page) that states the dates for **this** edition. If you can't confirm a date or link, leave it out.
 
+**Online first.** Online events are featured at the top of the site, because anyone can join them
+from anywhere. Look for them first and on purpose in every run (search terms like "online", "virtual",
+"remote", "livestream", "Zoom"), and when you have more candidates than room, keep the online ones.
+In-person events are still welcome.
+
 ## 2. Where and how to look (spend real effort: aim for 5–15 new events)
 
 ### Start with the watchlist (do this first, every run)
@@ -120,7 +125,7 @@ Follow `src/types/event.ts` exactly (allowed values are listed there; the README
 
 ## 5. Publish
 
-1. Add at most **15** new events per run. Prefer the soonest and the most clearly in scope.
+1. Add at most **15** new events per run. Prefer online events, then the soonest and the most clearly in scope.
 2. Never delete or change existing events (exception: replace a `"source": "placeholder"` event once confirmed).
 3. Run `npm ci`, then `npm run build`. It must pass (it validates every event and type-checks the site).
    If an event fails validation, fix it or remove it, then build again. **Never push a failing build.**

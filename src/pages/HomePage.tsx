@@ -14,8 +14,12 @@ import { useNow } from '../lib/timeLeft';
 
 const upcoming = getUpcoming(allEvents);
 
-// Featured in the hero: online (and hybrid) events only, soonest first
-const featured = upcoming.filter((e) => e.format !== 'In person').slice(0, 8);
+// Featured in the hero: every event anyone can join from anywhere.
+// All online events first (soonest first), then hybrid ones.
+const featured = [
+  ...upcoming.filter((e) => e.format === 'Online'),
+  ...upcoming.filter((e) => e.format === 'Hybrid'),
+];
 const featuredIds = new Set(featured.map((e) => e.id));
 
 const countriesByRegion: Record<string, string[]> = {};
