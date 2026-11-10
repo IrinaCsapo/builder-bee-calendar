@@ -113,7 +113,7 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
    shimmer sweeps across once, and the button pops up-left with a stepped,
    pixel-style black shadow. Colours don't change, so the cue isn't colour.
    Light honeycomb (20% white) on dark buttons keeps white-on-purple >= 5.38:1;
-   use .hive-hover--on-light for white/outlined buttons (12% black honeycomb). */
+   use .hive-hover--on-light for white/outlined buttons (lift and shimmer, no honeycomb). */
 .hive-hover {
   --hive-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='16' shape-rendering='crispEdges' fill='white' fill-opacity='0.2'%3E%3Crect x='5' y='0' width='8' height='2'/%3E%3Crect x='3' y='2' width='2' height='2'/%3E%3Crect x='13' y='2' width='2' height='2'/%3E%3Crect x='1' y='4' width='2' height='4'/%3E%3Crect x='15' y='4' width='2' height='4'/%3E%3Crect x='3' y='8' width='2' height='2'/%3E%3Crect x='13' y='8' width='2' height='2'/%3E%3Crect x='5' y='10' width='8' height='2'/%3E%3C/svg%3E");
   position: relative;
@@ -121,7 +121,6 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
   isolation: isolate;
   transition: transform 160ms cubic-bezier(.2, .8, .3, 1.2), box-shadow 160ms ease;
 }
-.hive-hover--on-light { --hive-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='16' shape-rendering='crispEdges' fill='black' fill-opacity='0.12'%3E%3Crect x='5' y='0' width='8' height='2'/%3E%3Crect x='3' y='2' width='2' height='2'/%3E%3Crect x='13' y='2' width='2' height='2'/%3E%3Crect x='1' y='4' width='2' height='4'/%3E%3Crect x='15' y='4' width='2' height='4'/%3E%3Crect x='3' y='8' width='2' height='2'/%3E%3Crect x='13' y='8' width='2' height='2'/%3E%3Crect x='5' y='10' width='8' height='2'/%3E%3C/svg%3E"); }
 .hive-hover::before,
 .hive-hover::after {
   content: '';
@@ -152,6 +151,8 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
 .hive-hover:focus-visible::before { opacity: 1; }
 .hive-hover:hover::after,
 .hive-hover:focus-visible::after { animation: hive-shimmer 700ms ease-out forwards; }
+/* Outlined (white) buttons keep the lift and shimmer, without the honeycomb */
+.hive-hover--on-light::before { content: none; }
 @keyframes hive-shimmer {
   0% { opacity: 1; background-position: 150% 0; }
   100% { opacity: 1; background-position: -60% 0; }

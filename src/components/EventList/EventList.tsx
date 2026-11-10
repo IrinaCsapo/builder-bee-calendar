@@ -40,8 +40,8 @@ export function EventList({ groups, now }: EventListProps) {
                   aria-controls={listId}
                   onClick={() => setOpen((o) => ({ ...o, [group.key]: !expanded }))}
                 >
-                  {expanded ? 'Show fewer' : 'Show all'}
-                  <span className="visually-hidden"> {expanded ? '' : `${group.events.length} `}{group.label.toLowerCase()}</span>
+                  {expanded ? 'Show fewer' : `Show all ${group.events.length}`}
+                  <span className="visually-hidden"> {group.label.toLowerCase()}</span>
                   <span aria-hidden="true">{expanded ? ' ↑' : ' →'}</span>
                 </button>
               )}
