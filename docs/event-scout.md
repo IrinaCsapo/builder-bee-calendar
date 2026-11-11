@@ -5,6 +5,20 @@ non-binary people in tech and the creative industries, add them to `src/data/eve
 everything, and **publish them directly** by pushing to `main`. There is no human review, so the
 checks below are the review. When in doubt, leave an event out.
 
+## 0. Before anything else: sync, then list what we already have
+
+The copy of the repository you start with can be out of date. Always begin with:
+
+```bash
+git fetch origin && git checkout -q main && git reset -q --hard origin/main
+python3 -c "
+import json; d=json.load(open('src/data/events.json'))
+print(len(d),'events'); [print(e['id'], e['start_date'], e['registration_url']) for e in d]" > /tmp/known.txt
+```
+
+Check every candidate against `/tmp/known.txt` **as soon as you find it**, before spending time verifying
+it. An event already listed is not a find: don't count it, move on.
+
 ## 1. What counts
 
 Include an event only if **all** of these are true:
@@ -68,9 +82,12 @@ Then open each event and apply section 1 as usual (some calendars also list even
 If you find a new organiser that keeps posting women-focused events, mention it in your summary so it can
 be added here.
 
-### Then search more widely
+### Then search more widely (always, even if the watchlist gave you some)
 
-Run at least 10 different searches before deciding there's nothing new. Mix:
+The watchlist is checked every day, so most of its events will already be listed. **Don't stop there.**
+Keep searching until you have **5 new events** or you have run **at least 15 different web searches**,
+whichever comes first. Vary topic, platform, format and world region in every search; don't repeat a
+search that returned nothing new. Mix:
 - **Luma**: search the web for `site:luma.com women` plus topics (AI, hackathon, workshop, design,
   marketing, founders, Lovable, Claude, no-code) and cities (London, Berlin, Lagos, Nairobi, São Paulo,
   Mexico City, Bengaluru, Singapore, Sydney, Toronto, NYC, SF…). Also known calendars: Women in AI,
@@ -134,5 +151,9 @@ Follow `src/types/event.ts` exactly (allowed values are listed there; the README
 4. Commit straight to `main` with the message `Event scout: add N events (YYYY-MM-DD)` and a body listing
    each added event (title, date, city/online, source URL), then `git push origin main`.
    If the push is rejected because `main` moved, `git pull --rebase origin main`, build again, and push.
-5. Pushing to `main` deploys the site automatically. If you found nothing new, don't commit anything.
-6. Finish with a short summary: what you added (with links) and what you skipped and why.
+5. Pushing to `main` deploys the site automatically.
+6. **Every run leaves a commit.** Add one line to the top of the list in `docs/scout-log.md`:
+   `- YYYY-MM-DD: added N (searches: S). Skipped: <short reasons>`. Include it in the events commit.
+   If you found nothing new, commit only the log with the message `Event scout: no new events (YYYY-MM-DD)`
+   and push, so it's visible on GitHub that the scout ran.
+7. Finish with a short summary: what you added (with links) and what you skipped and why.
