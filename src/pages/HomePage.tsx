@@ -43,8 +43,7 @@ function jumpTo(target: HTMLElement | null, focusEl: HTMLElement | null) {
   window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 16, behavior: smooth ? 'smooth' : 'auto' });
 }
 
-/** heroVariant 'lab' = the test hero at #/hero-lab (not linked anywhere) */
-export function HomePage({ heroVariant = 'live' }: { heroVariant?: 'live' | 'lab' } = {}) {
+export function HomePage() {
   useDocumentTitle();
   // Filters live in the URL (#/?format=Online&region=Europe) so a filtered view can be shared.
   const [filters, setFilters] = useState<Filters>(() => filtersFromQuery(parseHash().query));
@@ -124,7 +123,6 @@ export function HomePage({ heroVariant = 'live' }: { heroVariant?: 'live' | 'lab
           jumpTo(events, events);
         }}
         featured={<FeaturedCarousel events={featured} />}
-        variant={heroVariant}
       />
       <section className="container browse" id="events" tabIndex={-1} aria-labelledby="browse-title">
         <h2 id="browse-title" className="visually-hidden">Browse events</h2>

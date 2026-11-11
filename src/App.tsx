@@ -15,8 +15,6 @@ export function App() {
 
   let page;
   if (path === '/') page = <HomePage />;
-  // Test hero, only for us to experiment with (not in the nav)
-  else if (path === '/hero-lab') page = <HomePage heroVariant="lab" />;
   else if (eventMatch) page = <EventPage id={eventMatch[1]} />;
   else if (path === '/submit') page = <SubmitPage />;
   else if (path === '/communities') page = <CommunitiesPage />;

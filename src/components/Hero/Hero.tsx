@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import { HivePattern } from '../HivePattern/HivePattern';
 import { FlyingBees } from '../FlyingBee/FlyingBee';
-import { AsciiBees } from '../AsciiBees/AsciiBees';
 import heroBg from '../../assets/hero-bg.jpg';
 import { WordRotator } from './WordRotator';
 import './Hero.css';
@@ -13,11 +12,9 @@ interface HeroProps {
   onBrowse: () => void;
   /** The featured events card, which overlaps the bottom of the gradient. */
   featured: ReactNode;
-  /** 'lab' is the test version at #/hero-lab: ASCII bees instead of the honeycomb and pixel bees */
-  variant?: 'live' | 'lab';
 }
 
-export function Hero({ onBrowse, featured, variant = 'live' }: HeroProps) {
+export function Hero({ onBrowse, featured }: HeroProps) {
   return (
     <section
       className="hero"
@@ -27,14 +24,8 @@ export function Hero({ onBrowse, featured, variant = 'live' }: HeroProps) {
       style={{ ['--hero-bg' as string]: `url(${heroBg})` }}
     >
       {/* Pixel honeycomb background. (The bee animations are in components/HeroBees, not used for now.) */}
-      {variant === 'lab' ? (
-        <AsciiBees />
-      ) : (
-        <>
-          <HivePattern />
-          <FlyingBees />
-        </>
-      )}
+      <HivePattern />
+      <FlyingBees />
       <div className="hero__top">
         <div className="container hero__inner">
           <h1 id="hero-title" className="hero__title" data-bee-avoid>
