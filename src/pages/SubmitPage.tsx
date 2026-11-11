@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { SUBMIT_FORM_URL, SUBMISSIONS_URL, TALLY_FORM_ID } from '../lib/site';
 import './ContentPage.css';
@@ -19,6 +19,24 @@ export function SubmitPage() {
     document.body.appendChild(script);
   }, []);
 
+  // When the form is sent, Tally tells this page (a 'Tally.FormSubmitted' message). We then swap the form
+  // for our own thank-you, so Tally's free-plan "make your own form" screen doesn't stay on screen.
+  const [sent, setSent] = useState(false);
+  const thanks = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const onMessage = (e: MessageEvent) => {
+      if (e.origin !== 'https://tally.so' || typeof e.data !== 'string' || !e.data.includes('Tally.FormSubmitted')) return;
+      setSent(true);
+    };
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
+  }, []);
+  useEffect(() => {
+    if (!sent || !thanks.current) return;
+    thanks.current.scrollIntoView({ block: 'center' });
+    thanks.current.focus();
+  }, [sent]);
+
   return (
     <div className="container content-page">
       <h1>Submit an event</h1>
@@ -26,7 +44,22 @@ export function SubmitPage() {
         Know a hackathon, meetup or workshop that welcomes women and non-binary builders? Add it to the calendar.
       </p>
 
-      {TALLY_FORM_ID ? (
+      {TALLY_FORM_ID && sent ? (
+        <div ref={thanks} className="submit-thanks" tabIndex={-1} role="status">
+          <p className="submit-thanks__icon" aria-hidden="true">🐝</p>
+          <h2>Thank you, it’s on its way to the hive!</h2>
+          <p>
+            We’ll check your event and add it to the calendar, usually within a day or two. If you left your email,
+            we’ll let you know when it’s live.
+          </p>
+          <div className="submit-thanks__actions">
+            <a className="cta hive-hover" href="#/">Browse events</a>
+            <button type="button" className="submit-thanks__again" onClick={() => setSent(false)}>
+              Submit another event
+            </button>
+          </div>
+        </div>
+      ) : TALLY_FORM_ID ? (
         <>
           <iframe
             className="submit-form"
