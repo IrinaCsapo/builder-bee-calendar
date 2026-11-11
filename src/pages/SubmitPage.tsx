@@ -11,6 +11,7 @@ export function SubmitPage() {
     if (!TALLY_FORM_ID) return;
     const w = window as unknown as { Tally?: { loadEmbeds: () => void } };
     if (w.Tally) { w.Tally.loadEmbeds(); return; }
+    if (document.querySelector('script[src="https://tally.so/widgets/embed.js"]')) return;  // already loading
     const script = document.createElement('script');
     script.src = 'https://tally.so/widgets/embed.js';
     script.async = true;
@@ -31,9 +32,8 @@ export function SubmitPage() {
             className="submit-form"
             data-tally-src={`https://tally.so/embed/${TALLY_FORM_ID}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
             src={`https://tally.so/embed/${TALLY_FORM_ID}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
-            loading="lazy"
             width="100%"
-            height="900"
+            height="2400"
             title="Submit an event form"
           />
           <p className="content-page__small">

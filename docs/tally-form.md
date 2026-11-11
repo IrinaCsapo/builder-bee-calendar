@@ -32,3 +32,6 @@ Entries arrive in Tally (and, if you connect it, a Google Sheet or email). Add t
    page is fine. Under Notifications, turn on "Self email notifications" so you hear about each entry.
 4. **Publish**, then copy the form's link, e.g. `https://tally.so/r/wA1bC2`.
 5. Put the ID (the last part, `wA1bC2`) in `TALLY_FORM_ID` in `src/lib/site.ts` (or send the link to Claude).
+
+The live form is https://tally.so/r/J1p2jJ (ID `J1p2jJ`). If you add questions, the page may need a taller
+starting `height` on the iframe in `src/pages/SubmitPage.tsx`.
