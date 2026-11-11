@@ -87,21 +87,9 @@ export function SubmitPage() {
         </>
       )}
 
-      <h2>How it works</h2>
-      <ol className="steps">
-        <li>
-          <strong>Fill in the form</strong>
-          Name, dates, location, who it’s for and a registration link. It takes about two minutes.
-        </li>
-        <li>
-          <strong>We check it</strong>
-          We make sure the event is real, upcoming and open to women and non-binary builders.
-        </li>
-        <li>
-          <strong>It goes live</strong>
-          We add it to the calendar and the site updates within a few minutes.
-        </li>
-      </ol>
+      <p className="content-page__small">
+        Wondering what happens next? See <a href="#/how-it-works">how it works</a>.
+      </p>
 
       <h2>What we list</h2>
       <ul>

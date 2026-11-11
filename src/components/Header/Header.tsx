@@ -6,6 +6,7 @@ import './Header.css';
 const NAV = [
   { href: '#/', path: '/', label: 'Events' },
   { href: '#/communities', path: '/communities', label: 'Communities' },
+  { href: '#/how-it-works', path: '/how-it-works', label: 'How it works' },
   { href: '#/about', path: '/about', label: 'About' },
   // Last, shown as an outlined button
   { href: '#/submit', path: '/submit', label: 'Submit an event', button: true },

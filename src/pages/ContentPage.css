@@ -82,3 +82,9 @@
   cursor: pointer;
 }
 .submit-thanks__again:hover { background: var(--color-mint); }
+
+/* A row of call-to-action buttons (How it works) */
+.content-page__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-6); }
+.content-page__actions .cta { margin-top: 0; }
+.cta--outline { background: #fff; color: #000; border: 1.5px solid #000; }
+@media (max-width: 30rem) { .content-page__actions { flex-direction: column; } }

@@ -6,6 +6,7 @@ import { EventPage } from './pages/EventPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { SubmitPage } from './pages/SubmitPage';
 import { AboutPage } from './pages/AboutPage';
+import { HowItWorksPage } from './pages/HowItWorksPage';
 import { CommunitiesPage } from './pages/CommunitiesPage';
 import { useHashRoute } from './lib/useHashRoute';
 
@@ -20,6 +21,7 @@ export function App() {
   else if (eventMatch) page = <EventPage id={eventMatch[1]} />;
   else if (path === '/submit') page = <SubmitPage />;
   else if (path === '/communities') page = <CommunitiesPage />;
+  else if (path === '/how-it-works') page = <HowItWorksPage />;
   else if (path === '/about') page = <AboutPage />;
   else page = <NotFoundPage />;
 
