@@ -1,12 +1,12 @@
 /**
  * Halftone honeycomb with an ASCII wake (hero lab, #/hero-lab).
  *
- * At rest the honeycomb is a screen of white dots, biggest on the hexagon walls and shrinking
+ * At rest the honeycomb is a screen of light grey dots, biggest on the hexagon walls and shrinking
  * away from them. Moving the pointer over the hero leaves a warm wake: under the pointer the dots
  * become characters, densest right under it (". : - = + * # % @"), and along the path they cool
  * back to dots. The warm characters flicker between neighbours like a terminal redraw, lean a
  * little towards the pointer. A click or tap sends out a ring.
- * The warm characters shift from white to the brand purple.
+ * The warm characters darken from grey to black.
  *
  * Based on an "ASCII wake" effect: one number of heat per cell, cooled a little every frame,
  * read off a ramp of characters.
@@ -24,7 +24,7 @@ const RAMP = [' ', '.', ':', '-', '=', '+', '*', '#', '%', '@'];
 const COLD = 0.04;       // below this a cell is a dot
 const TRAIL = 1.2;       // seconds for the wake to cool
 const RING_S = 2.2;      // seconds a click ring takes to spread and fade
-const DOT_ALPHA = 0.7;   // how visible the resting honeycomb is
+const DOT_COLOUR = '#d9d9de';   // the resting honeycomb: light grey
 
 /** Distance (px) from a point to the nearest wall of a pointy-top honeycomb of radius R */
 function edgeDistance(px: number, py: number, R: number) {
@@ -51,9 +51,8 @@ function hash(k: number, n: number) {
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 
-// The wake warms from white to the brand purple, so it reads on the light gradient
-// (a few steps, so no colour strings are built per cell)
-const INKS = ['rgba(255,255,255,0.95)', 'rgba(214,190,255,1)', 'rgba(150,90,245,1)', 'rgba(112,0,240,1)'];
+// The wake darkens from grey to black as it warms (a few steps, so no colour strings per cell)
+const INKS = ['#9a9aa2', '#5c5c66', '#26262b', '#000000'];
 
 export class WakeHive {
   private ctx: CanvasRenderingContext2D;
@@ -123,7 +122,7 @@ export class WakeHive {
     const g = this.base.getContext('2d')!;
     g.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     g.clearRect(0, 0, this.W, this.H);
-    g.fillStyle = `rgba(255,255,255,${DOT_ALPHA})`;
+    g.fillStyle = DOT_COLOUR;
     const dot = Math.min(this.cw, this.ch) * 0.44;
     g.beginPath();
     for (let j = 0; j < this.rows; j++) {

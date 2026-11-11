@@ -19,7 +19,7 @@ interface HeroProps {
 export function Hero({ onBrowse, featured, variant = 'live' }: HeroProps) {
   return (
     <section
-      className="hero"
+      className={`hero${variant === 'lab' ? ' hero--lab' : ''}`}
       aria-labelledby="hero-title"
       // Decorative background. One full-size file (2000px, ~100 KB) for every screen: phones show the
       // hero tall, so a smaller file would be stretched and look soft.
