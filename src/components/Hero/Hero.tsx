@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { HivePattern } from '../HivePattern/HivePattern';
+import { HivePattern, WakeHivePattern } from '../HivePattern/HivePattern';
 import { FlyingBees } from '../FlyingBee/FlyingBee';
 import heroBg from '../../assets/hero-bg.jpg';
 import { WordRotator } from './WordRotator';
@@ -12,9 +12,11 @@ interface HeroProps {
   onBrowse: () => void;
   /** The featured events card, which overlaps the bottom of the gradient. */
   featured: ReactNode;
+  /** 'lab' is the test version at #/hero-lab: the honeycomb reacts to the pointer */
+  variant?: 'live' | 'lab';
 }
 
-export function Hero({ onBrowse, featured }: HeroProps) {
+export function Hero({ onBrowse, featured, variant = 'live' }: HeroProps) {
   return (
     <section
       className="hero"
@@ -24,7 +26,7 @@ export function Hero({ onBrowse, featured }: HeroProps) {
       style={{ ['--hero-bg' as string]: `url(${heroBg})` }}
     >
       {/* Pixel honeycomb background. (The bee animations are in components/HeroBees, not used for now.) */}
-      <HivePattern />
+      {variant === 'lab' ? <WakeHivePattern /> : <HivePattern />}
       <FlyingBees />
       <div className="hero__top">
         <div className="container hero__inner">

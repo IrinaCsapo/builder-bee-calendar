@@ -9,3 +9,8 @@
   -webkit-mask-image: radial-gradient(ellipse 55% 40% at 50% 28%, rgba(0, 0, 0, 0.35), #000 100%);
   mask-image: radial-gradient(ellipse 55% 40% at 50% 28%, rgba(0, 0, 0, 0.35), #000 100%);
 }
+/* Hero lab: only a light fade behind the headline, so the pointer's wake shows there too */
+.hive-pattern--wake {
+  -webkit-mask-image: radial-gradient(ellipse 55% 40% at 50% 28%, rgba(0, 0, 0, 0.7), #000 100%);
+  mask-image: radial-gradient(ellipse 55% 40% at 50% 28%, rgba(0, 0, 0, 0.7), #000 100%);
+}
