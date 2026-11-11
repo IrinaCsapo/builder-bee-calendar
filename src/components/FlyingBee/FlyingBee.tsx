@@ -90,7 +90,9 @@ export function FlyingBee({ start: startAt = { x: 0.15, y: 0.2 }, scale = 1, spe
     let zones: Zone[] = [];
     const pad = () => bee.offsetWidth * 0.45;
     const refreshZones = () => { zones = readZones(stage, pad()); };
+    let sinceTarget = 0;                     // seconds since the current spot was picked
     const newTarget = () => {
+      sinceTarget = 0;
       for (let i = 0; i < 40; i++) {
         const p = { x: rand(margin / 2, W - margin / 2), y: rand(margin / 2, H - margin / 2) };
         if (!zones.some((z) => inside(z, p.x, p.y))) return p;
@@ -136,17 +138,16 @@ export function FlyingBee({ start: startAt = { x: 0.15, y: 0.2 }, scale = 1, spe
           vy += (desiredY - vy) * Math.min(1, 3 * dt);
         }
       }
-      // If it drifts onto text, push it out the nearest side
-      for (const z of zones) {
-        if (!inside(z, x, y)) continue;
-        const exits = [
-          { d: x - z.l, ax: -1, ay: 0 }, { d: z.r - x, ax: 1, ay: 0 },
-          { d: y - z.t, ax: 0, ay: -1 }, { d: z.b - y, ax: 0, ay: 1 },
-        ].sort((a, b) => a.d - b.d)[0];
-        vx += exits.ax * 1400 * dt; vy += exits.ay * 1400 * dt;
+      // Over text: never stop there, and hurry across (no push back: pushing against the
+      // steering left bees stuck at the edge of the headline when their spot was on the far side)
+      if (zones.some((z) => inside(z, x, y))) {
         if (hoverLeft > 0) { hoverLeft = 0; target = newTarget(); }
-        if (inside(z, target.x, target.y)) target = newTarget();
+        const sp = Math.hypot(vx, vy);
+        if (sp > 1 && sp < 240 * speed) { vx *= 1 + 1.5 * dt; vy *= 1 + 1.5 * dt; }
       }
+      // Safety net: if a spot hasn't been reached in a while, pick another
+      sinceTarget += dt;
+      if (hoverLeft <= 0 && sinceTarget > 6) target = newTarget();
       x += vx * dt; y += vy * dt;
       x = Math.max(margin / 2, Math.min(W - margin / 2, x));
       y = Math.max(margin / 2, Math.min(H - margin / 2, y));

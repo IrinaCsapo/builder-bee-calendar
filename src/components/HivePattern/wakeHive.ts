@@ -24,7 +24,7 @@ const RAMP = [' ', '.', ':', '-', '=', '+', '*', '#', '%', '@'];
 const COLD = 0.04;       // below this a cell is a dot
 const TRAIL = 1.2;       // seconds for the wake to cool
 const RING_S = 2.2;      // seconds a click ring takes to spread and fade
-const DOT_COLOUR = '#ebebee';   // the resting honeycomb: very light grey
+const DOT_COLOUR = '#f1f1f3';   // the resting honeycomb: very light grey
 
 /** Distance (px) from a point to the nearest wall of a pointy-top honeycomb of radius R */
 function edgeDistance(px: number, py: number, R: number) {
