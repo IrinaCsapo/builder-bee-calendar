@@ -109,3 +109,12 @@
 
 /* Hero lab (#/hero-lab): plain white, so the grey honeycomb and black wake carry the look */
 .hero--lab { background: #fff; }
+/* On white the bees' white wings vanish: give them a crisp dark outline instead of the soft glow */
+.hero--lab .flying-bee__frame {
+  filter: drop-shadow(2px 0 0 #1a1a1a) drop-shadow(-2px 0 0 #1a1a1a) drop-shadow(0 2px 0 #1a1a1a) drop-shadow(0 -2px 0 #1a1a1a);
+}
+@media (max-width: 40rem) {
+  .hero--lab .flying-bee__frame {
+    filter: drop-shadow(1.5px 0 0 #1a1a1a) drop-shadow(-1.5px 0 0 #1a1a1a) drop-shadow(0 1.5px 0 #1a1a1a) drop-shadow(0 -1.5px 0 #1a1a1a);
+  }
+}
