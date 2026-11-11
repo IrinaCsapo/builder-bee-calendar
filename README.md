@@ -53,7 +53,7 @@ You can still add events by hand:
 | `region` | yes | Europe, North America, LatAm, Africa, Asia, Oceania, Global |
 | `venue` | no | |
 | `lat`, `lng` | in person / hybrid | City-centre coordinates, e.g. `53.4808`, `-2.2426`. Used for "Nearest first" |
-| `themes` | yes | List from: AI, Fintech, Health, Climate, Web3, Design, No-code, Hardware, Social impact, Marketing, Creative. Can be `[]` |
+| `themes` | yes | List from: AI, Fintech, Health, Climate, Web3, Design, No-code, Hardware, Social impact, Marketing, Gaming, Arts. Can be `[]` |
 | `audience` | yes | Shown exactly as the organiser writes it |
 | `level` | yes | Beginner friendly, All levels, Advanced |
 | `cost` | yes | Free, Paid |

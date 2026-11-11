@@ -22,7 +22,7 @@ it. An event already listed is not a find: don't count it, move on.
 ## 1. What counts
 
 Include an event only if **all** of these are true:
-- **Topic:** tech, AI, data, product, design, creative tech, digital marketing, building/making, startups,
+- **Topic:** tech, AI, data, product, design, creative tech, game development, digital arts, digital marketing, building/making, startups,
   or learning a practical skill in those areas. Types: Hackathon, Buildathon, Workshop, Bootcamp, Meetup,
   Conference, Pitch night.
 - **Audience:** it is *for* women and/or non-binary people: women-only, women & non-binary, "women in X"
@@ -89,11 +89,14 @@ Keep searching until you have **5 new events** or you have run **at least 15 dif
 whichever comes first. Vary topic, platform, format and world region in every search; don't repeat a
 search that returned nothing new. Mix:
 - **Luma**: search the web for `site:luma.com women` plus topics (AI, hackathon, workshop, design,
-  marketing, founders, Lovable, Claude, no-code) and cities (London, Berlin, Lagos, Nairobi, São Paulo,
+  marketing, founders, gaming, game jam, creative coding, digital art, Lovable, Claude, no-code) and cities (London, Berlin, Lagos, Nairobi, São Paulo,
   Mexico City, Bengaluru, Singapore, Sydney, Toronto, NYC, SF…). Also known calendars: Women in AI,
   Women Techmakers, Lovable SheBuilds, She Builds, Femcode, Willa, Audacious AF, WOMEN x AI, She Ships,
   Unlock Her Tech, Women Defining AI, We Create.
-- **Eventbrite / Meetup**: "women in tech", "women who code", "women in marketing", "women in design".
+- **Eventbrite / Meetup**: "women in tech", "women who code", "women in marketing", "women in design",
+  "women in games", "women in gaming", "game jam women", "women creative coding".
+- **Gaming & arts**: Women in Games, Girls Make Games, Pixelles, Dames Making Games, itch.io game jams for
+  women & non-binary devs, creative-coding and digital-art workshops (tag them `Gaming` or `Arts`).
 - **Devpost / MLH**: women and non-binary hackathons, university women's hackathons (HackHERS, FemmeHacks,
   Technica, WiCHacks, ElleHacks, cmd-f, SheHacks, HackViolet, AthenaHacks, WEHack: add them once 2027
   dates are announced).
@@ -129,7 +132,7 @@ Follow `src/types/event.ts` exactly (allowed values are listed there; the README
   to one region; no `lat`/`lng`
 - In person / hybrid: `lat`/`lng` **required**, city-centre coordinates (4 decimals)
 - `themes`: only from the allowed list (AI, Fintech, Health, Climate, Web3, Design, No-code, Hardware,
-  Social impact, Marketing, Creative), only if the page clearly says so; `[]` is fine
+  Social impact, Marketing, Gaming, Arts), only if the page clearly says so; `[]` is fine
 - `audience`: the organiser's own words about who it's for, briefly. Don't invent wording.
 - `level`: `Beginner friendly` only if the page says beginners/first-timers/no experience are welcome;
   `Advanced` if it says the event is for experienced or advanced participants; otherwise `All levels`

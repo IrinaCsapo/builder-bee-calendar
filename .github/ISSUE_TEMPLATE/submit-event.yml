@@ -114,7 +114,8 @@ body:
         - label: Hardware
         - label: Social impact
         - label: Marketing
-        - label: Creative
+        - label: Gaming
+        - label: Arts
 
   - type: textarea
     id: audience
