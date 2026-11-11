@@ -1,9 +1,23 @@
+import { useEffect } from 'react';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
-import { SUBMIT_FORM_URL, SUBMISSIONS_URL } from '../lib/site';
+import { SUBMIT_FORM_URL, SUBMISSIONS_URL, TALLY_FORM_ID } from '../lib/site';
 import './ContentPage.css';
 
 export function SubmitPage() {
   useDocumentTitle('Submit an event');
+
+  // Tally's script resizes the form to fit its questions, so there's no inner scrollbar
+  useEffect(() => {
+    if (!TALLY_FORM_ID) return;
+    const w = window as unknown as { Tally?: { loadEmbeds: () => void } };
+    if (w.Tally) { w.Tally.loadEmbeds(); return; }
+    const script = document.createElement('script');
+    script.src = 'https://tally.so/widgets/embed.js';
+    script.async = true;
+    script.onload = () => w.Tally?.loadEmbeds();
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <div className="container content-page">
       <h1>Submit an event</h1>
@@ -11,12 +25,34 @@ export function SubmitPage() {
         Know a hackathon, meetup or workshop that welcomes women and non-binary builders? Add it to the calendar.
       </p>
 
-      <a className="cta hive-hover" href={SUBMIT_FORM_URL} target="_blank" rel="noopener noreferrer">
-        Open the submission form
-        <span aria-hidden="true">↗</span>
-        <span className="visually-hidden"> (opens GitHub in a new tab)</span>
-      </a>
-      <p className="content-page__small">The form is on GitHub. You’ll need a free GitHub account to send it.</p>
+      {TALLY_FORM_ID ? (
+        <>
+          <iframe
+            className="submit-form"
+            data-tally-src={`https://tally.so/embed/${TALLY_FORM_ID}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
+            src={`https://tally.so/embed/${TALLY_FORM_ID}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
+            loading="lazy"
+            width="100%"
+            height="900"
+            title="Submit an event form"
+          />
+          <p className="content-page__small">
+            No account needed. Prefer GitHub?{' '}
+            <a href={SUBMIT_FORM_URL} target="_blank" rel="noopener noreferrer">
+              Use the GitHub form<span className="visually-hidden"> (opens in a new tab)</span>
+            </a>.
+          </p>
+        </>
+      ) : (
+        <>
+          <a className="cta hive-hover" href={SUBMIT_FORM_URL} target="_blank" rel="noopener noreferrer">
+            Open the submission form
+            <span aria-hidden="true">↗</span>
+            <span className="visually-hidden"> (opens GitHub in a new tab)</span>
+          </a>
+          <p className="content-page__small">The form is on GitHub. You’ll need a free GitHub account to send it.</p>
+        </>
+      )}
 
       <h2>How it works</h2>
       <ol className="steps">
@@ -30,7 +66,7 @@ export function SubmitPage() {
         </li>
         <li>
           <strong>It goes live</strong>
-          We add it to the calendar and the site updates within a few minutes. We’ll comment on your submission when it’s up.
+          We add it to the calendar and the site updates within a few minutes.
         </li>
       </ol>
 
@@ -44,8 +80,10 @@ export function SubmitPage() {
 
       <h2>Already submitted?</h2>
       <p>
-        You can <a href={SUBMISSIONS_URL} target="_blank" rel="noopener noreferrer">see all submissions on GitHub
-        <span className="visually-hidden"> (opens in a new tab)</span></a>, including whether yours has been added.
+        {TALLY_FORM_ID && 'If you left your email, we’ll let you know when your event is live. '}
+        Submissions made on GitHub are all{' '}
+        <a href={SUBMISSIONS_URL} target="_blank" rel="noopener noreferrer">listed there
+        <span className="visually-hidden"> (opens in a new tab)</span></a>, including whether each has been added.
       </p>
     </div>
   );

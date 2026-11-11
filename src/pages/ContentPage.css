@@ -51,3 +51,6 @@
 @media (max-width: 30rem) {
   .cta { display: flex; justify-content: center; text-align: center; padding-inline: var(--space-4); }
 }
+
+/* Embedded Tally submission form (Submit page) */
+.submit-form { display: block; width: 100%; min-height: 40rem; margin-top: var(--space-5); border: 0; }
