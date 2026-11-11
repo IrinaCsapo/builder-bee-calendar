@@ -53,9 +53,13 @@ export function EventPage({ id }: { id: string }) {
         </div>
       </header>
 
-      {event.image_url && <EventImage id={event.id} title={event.title} src={event.image_url} variant="banner" />}
-
       <div className="event-page__layout">
+        {/* The event's own picture, shown whole at a size that stays sharp (beside the details on desktop) */}
+        {event.image_url && (
+          <div className="event-page__media">
+            <EventImage id={event.id} title={event.title} src={event.image_url} />
+          </div>
+        )}
         <aside className="event-page__actions" aria-label="Register and share">
           <a
             className="event-page__register hive-hover"
