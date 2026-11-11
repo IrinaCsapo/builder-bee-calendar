@@ -95,8 +95,19 @@ search that returned nothing new. Mix:
   Unlock Her Tech, Women Defining AI, We Create.
 - **Eventbrite / Meetup**: "women in tech", "women who code", "women in marketing", "women in design",
   "women in games", "women in gaming", "game jam women", "women creative coding".
-- **Gaming & arts**: Women in Games, Girls Make Games, Pixelles, Dames Making Games, itch.io game jams for
-  women & non-binary devs, creative-coding and digital-art workshops (tag them `Gaming` or `Arts`).
+- **Gaming & arts hackathons (every run, at least 4 of your searches)**: game jams and gaming or arts
+  hackathons for women and non-binary people. A game jam counts as a `Hackathon`. Tag gaming ones
+  `Gaming` and art, music, film, creative-coding or generative-art ones `Arts`. Search for things like:
+  - `site:itch.io/jam women`, `itch.io jam "non-binary"`, `game jam for women 2027`, `femme game jam`,
+    `women game jam` + a city or region;
+  - `site:devpost.com women game`, `women hackathon games`, `women art hackathon`, `creative coding hackathon women`,
+    `women music tech hackathon`, `women film hackathon`, `women creative technology hackathon`;
+  - `site:luma.com women game jam`, `site:luma.com women creative coding`;
+  - groups that run them: Women in Games (WIGJ), Girls Make Games, Pixelles, Dames Making Games, Femme Game
+    Jam, Global Game Jam women-only sites, Code Liberation, Black Girl Gamers, Women in Animation,
+    Women in Immersive Tech, Processing Community Day, School for Poetic Computation.
+  The same audience rule applies: only events that are *for* women and/or non-binary people (or a group
+  whose stated mission is gender diversity), not general jams that merely welcome everyone.
 - **Devpost / MLH**: women and non-binary hackathons, university women's hackathons (HackHERS, FemmeHacks,
   Technica, WiCHacks, ElleHacks, cmd-f, SheHacks, HackViolet, AthenaHacks, WEHack: add them once 2027
   dates are announced).
