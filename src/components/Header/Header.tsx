@@ -46,8 +46,19 @@ export function Header() {
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
-  // New page: show it again
-  useEffect(() => setHidden(false), [path]);
+  // Phones: the page links sit behind a Menu button
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
+  // New page: show the header again and close the menu
+  useEffect(() => { setHidden(false); setMenuOpen(false); }, [path]);
+
+  const links = NAV.filter((item) => !item.button);
+  const submit = NAV.find((item) => item.button)!;
 
   return (
     <header ref={ref} className={`header${hidden ? ' is-hidden' : ''}`}>
@@ -56,18 +67,27 @@ export function Header() {
           {/* The logo reads "BuilderBee", so that's its text alternative (plus where the link goes) */}
           <img className="header__logo" src={logo} alt="BuilderBee, home" width={1286} height={324} />
         </a>
-        <nav aria-label="Main">
-          <ul className="header__nav">
-            {NAV.map((item) => (
+        <nav aria-label="Main" className="header__navbar">
+          <ul id="main-menu" className={`header__nav${menuOpen ? ' is-open' : ''}`}>
+            {links.map((item) => (
               <li key={item.href}>
-                <a
-                  className={item.button ? 'header__link header__link--button hive-hover hive-hover--on-light' : 'header__link'}
-                  href={item.href} aria-current={section === item.path ? 'page' : undefined}>
+                <a className="header__link" href={item.href} aria-current={section === item.path ? 'page' : undefined}>
                   {item.label}
                 </a>
               </li>
             ))}
           </ul>
+          <a
+            className="header__link header__link--button hive-hover hive-hover--on-light"
+            href={submit.href} aria-current={section === submit.path ? 'page' : undefined}>
+            <span className="header__submit-long">{submit.label}</span>
+            <span className="header__submit-short" aria-hidden="true">Submit</span>
+          </a>
+          <button
+            type="button" className="header__menu" aria-expanded={menuOpen} aria-controls="main-menu"
+            onClick={() => setMenuOpen((o) => !o)}>
+            <span aria-hidden="true">{menuOpen ? '✕' : '☰'}</span> Menu
+          </button>
         </nav>
       </div>
     </header>

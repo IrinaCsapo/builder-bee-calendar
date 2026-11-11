@@ -68,3 +68,47 @@
 .header__link--button:hover,
 .header__link--button[aria-current='page'] { text-decoration: none; }
 .header__link--button[aria-current='page'] { background: var(--color-mint-soft); }
+
+/* Page links, then Submit; the Menu button only shows on phones */
+.header { position: sticky; }
+.header__navbar { display: flex; align-items: center; gap: var(--space-1); }
+.header__submit-short { display: none; }
+.header__menu {
+  display: none;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: #000;
+  font: inherit;
+  cursor: pointer;
+}
+.header__menu:hover { background: var(--color-mint-soft); }
+.header__menu:focus-visible, .header__link:focus-visible { outline: 3px solid #000; outline-offset: 2px; }
+
+/* Phones: one row (logo, Submit, Menu). The links open in a panel under the header. */
+@media (max-width: 40rem) {
+  .header__inner { flex-wrap: nowrap; gap: var(--space-2); }
+  .header__menu { display: inline-flex; }
+  .header__link--button { margin-left: 0; padding-inline: var(--space-3); }
+  .header__submit-long { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .header__submit-short { display: inline; }
+  .header__nav { display: none; }
+  .header__nav.is-open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: var(--space-2) var(--space-4) var(--space-4);
+    background: #fff;
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 12px 24px -16px rgba(0, 0, 0, 0.3);
+  }
+  .header__nav.is-open .header__link { padding-inline: var(--space-2); font-size: 1.1rem; }
+}

@@ -83,3 +83,12 @@
   .featured { padding: var(--space-5); }
   .featured__slide { grid-template-columns: minmax(0, 24rem) 1fr; align-items: center; gap: var(--space-6); }
 }
+
+/* Phones: a wide, shorter picture and no description, so the card fits on one screen */
+@media (max-width: 40rem) {
+  .featured__slide { gap: var(--space-3); }
+  .featured__media { max-width: none; }
+  .featured__media .event-image { aspect-ratio: 16 / 9; }
+  .featured__desc { display: none; }
+  .featured__title { font-size: 1.6rem; }
+}

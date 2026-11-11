@@ -28,18 +28,18 @@ export function Hero({ onBrowse, featured }: HeroProps) {
       <FlyingBees />
       <div className="hero__top">
         <div className="container hero__inner">
-          <h1 id="hero-title" className="hero__title">
+          <h1 id="hero-title" className="hero__title" data-bee-avoid>
             <span className="visually-hidden">Find your next hackathon, workshop, meetup or conference</span>
             <span aria-hidden="true">
               Find your next <WordRotator words={WORDS} />
             </span>
           </h1>
-          <p className="hero__lede">
+          <p className="hero__lede" data-bee-avoid>
             Hackathons, buildathons, meetups and workshops for women, non-binary individuals, and allies across
             the technology industry.
             {' '}Online and around the world.
           </p>
-          <div className="hero__actions">
+          <div className="hero__actions" data-bee-avoid>
             <button type="button" className="hero__button hero__button--browse hive-hover" onClick={onBrowse}>
               Browse events
             </button>
@@ -48,7 +48,7 @@ export function Hero({ onBrowse, featured }: HeroProps) {
         </div>
       </div>
 
-      <div className="container hero__featured">{featured}</div>
+      <div className="container hero__featured" data-bee-avoid>{featured}</div>
 
     </section>
   );

@@ -44,6 +44,22 @@ function Sprite({ rows, className }: { rows: string[]; className: string }) {
   );
 }
 
+/** A rectangle, in px relative to the hero */
+interface Zone { l: number; t: number; r: number; b: number }
+
+/**
+ * The hero content the bees must not sit on: anything marked data-bee-avoid
+ * (headline, description, buttons, featured card), padded by `pad`.
+ */
+function readZones(stage: HTMLElement, pad: number): Zone[] {
+  const s = stage.getBoundingClientRect();
+  return [...stage.querySelectorAll<HTMLElement>('[data-bee-avoid]')].map((el) => {
+    const r = el.getBoundingClientRect();
+    return { l: r.left - s.left - pad, t: r.top - s.top - pad, r: r.right - s.left + pad, b: r.bottom - s.top + pad };
+  });
+}
+const inside = (z: Zone, x: number, y: number) => x > z.l && x < z.r && y > z.t && y < z.b;
+
 interface FlyingBeeProps {
   /** Where it starts (and rests with reduced motion), as fractions of the hero */
   start?: { x: number; y: number };
@@ -70,9 +86,19 @@ export function FlyingBee({ start: startAt = { x: 0.15, y: 0.2 }, scale = 1, spe
     let W = stage.clientWidth, H = stage.clientHeight;
     const margin = 90;                       // keeps the big bee fully inside the hero
     const rand = (a: number, b: number) => a + Math.random() * (b - a);
-    const newTarget = () => ({ x: rand(margin, W - margin), y: rand(margin, H * 0.85) });
+    // Spots to fly to are always outside the text; if there's no free spot, any spot will do
+    let zones: Zone[] = [];
+    const pad = () => bee.offsetWidth * 0.45;
+    const refreshZones = () => { zones = readZones(stage, pad()); };
+    const newTarget = () => {
+      for (let i = 0; i < 40; i++) {
+        const p = { x: rand(margin / 2, W - margin / 2), y: rand(margin / 2, H - margin / 2) };
+        if (!zones.some((z) => inside(z, p.x, p.y))) return p;
+      }
+      return { x: rand(margin / 2, W - margin / 2), y: rand(margin / 2, H - margin / 2) };
+    };
 
-    let x = W * startAt.x, y = H * startAt.y;  // position
+    let x = W * startAt.x, y = H * startAt.y;  // position (moved off the text on the first frames)
     let vx = 0, vy = 0;                      // velocity (px/s)
     let heading = 0;                         // radians, 0 = facing right
     let target = newTarget();
@@ -110,6 +136,17 @@ export function FlyingBee({ start: startAt = { x: 0.15, y: 0.2 }, scale = 1, spe
           vy += (desiredY - vy) * Math.min(1, 3 * dt);
         }
       }
+      // If it drifts onto text, push it out the nearest side
+      for (const z of zones) {
+        if (!inside(z, x, y)) continue;
+        const exits = [
+          { d: x - z.l, ax: -1, ay: 0 }, { d: z.r - x, ax: 1, ay: 0 },
+          { d: y - z.t, ax: 0, ay: -1 }, { d: z.b - y, ax: 0, ay: 1 },
+        ].sort((a, b) => a.d - b.d)[0];
+        vx += exits.ax * 1400 * dt; vy += exits.ay * 1400 * dt;
+        if (hoverLeft > 0) { hoverLeft = 0; target = newTarget(); }
+        if (inside(z, target.x, target.y)) target = newTarget();
+      }
       x += vx * dt; y += vy * dt;
       x = Math.max(margin / 2, Math.min(W - margin / 2, x));
       y = Math.max(margin / 2, Math.min(H - margin / 2, y));
@@ -131,8 +168,14 @@ export function FlyingBee({ start: startAt = { x: 0.15, y: 0.2 }, scale = 1, spe
       raf = requestAnimationFrame(step);
     };
 
-    const ro = new ResizeObserver(() => { W = stage.clientWidth; H = stage.clientHeight; });
+    const ro = new ResizeObserver(() => { W = stage.clientWidth; H = stage.clientHeight; refreshZones(); });
     ro.observe(stage);
+    refreshZones();
+    // Start somewhere free too (this is also where it rests with reduced motion)
+    if (zones.some((z) => inside(z, x, y))) ({ x, y } = newTarget());
+    target = newTarget();
+    // The headline word and featured card change size now and then
+    const zoneTimer = window.setInterval(refreshZones, 1000);
     const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; start(); });
     io.observe(stage);
     const onVis = () => start();
@@ -141,7 +184,7 @@ export function FlyingBee({ start: startAt = { x: 0.15, y: 0.2 }, scale = 1, spe
     start();
 
     return () => {
-      cancelAnimationFrame(raf); ro.disconnect(); io.disconnect();
+      cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); window.clearInterval(zoneTimer);
       document.removeEventListener('visibilitychange', onVis);
       reduced.removeEventListener('change', start);
     };
@@ -155,7 +198,7 @@ export function FlyingBee({ start: startAt = { x: 0.15, y: 0.2 }, scale = 1, spe
   );
 }
 
-/** Three bees, each with its own start, size and pace, flying above the hero content. */
+/** Three bees, each with its own start, size and pace. They fly around the hero content, never resting on it. */
 export function FlyingBees() {
   return (
     <>
