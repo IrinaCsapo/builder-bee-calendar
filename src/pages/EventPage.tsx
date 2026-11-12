@@ -28,7 +28,7 @@ export function EventPage({ id }: { id: string }) {
   return (
     <article className="event-page container">
       <p className="event-page__back">
-        <a href={getListHash()}><span aria-hidden="true">←</span> Back to all events</a>
+        <a href={getListHash()}><span aria-hidden="true">←&nbsp;</span>Back to all events</a>
       </p>
 
       {hasEnded && (

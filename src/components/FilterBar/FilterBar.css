@@ -68,8 +68,15 @@
 @media (min-width: 56rem) { .filter-bar__selects { grid-template-columns: repeat(4, 1fr); } }
 
 /* Phones: the count and Clear all get their own line under the buttons */
+.filter-bar__quick { display: contents; }
+.filter-bar__quick--panel, .filter-bar__more-count--phone { display: none; }
+
+/* Phones: just "More filters" and the count in the bar; Format, Free and Level move into the panel */
 @media (max-width: 40rem) {
   .filter-bar { border-radius: var(--radius-md); }
-  .filter-bar__summary { margin-left: 0; width: 100%; justify-content: space-between; }
+  .filter-bar__quick--bar, .filter-bar__more-count--wide { display: none; }
+  .filter-bar__quick--panel { display: grid; gap: var(--space-2); }
+  .filter-bar__more-count--phone { display: inline-grid; }
+  .filter-bar__summary { margin-left: auto; }
   .filter-bar__divider { display: none; }
 }

@@ -101,9 +101,9 @@
 /* Phones: a shorter hero so search and the first events are close to the top.
    No full-screen minimum, smaller text and the two buttons side by side. */
 @media (max-width: 40rem) {
-  .hero { min-height: 0; padding-block: calc(var(--header-h, 61px) + var(--space-6)) var(--space-6); gap: var(--space-6); }
-  .hero__lede { margin-top: var(--space-4); font-size: 1.05rem; line-height: 1.45; }
-  .hero__actions { flex-wrap: nowrap; width: 100%; margin-top: var(--space-5); }
+  .hero { min-height: 0; padding-block: calc(var(--header-h, 61px) + var(--space-8)) var(--space-7); gap: var(--space-8); }
+  .hero__lede { margin-top: var(--space-5); font-size: 1rem; line-height: 1.5; }
+  .hero__actions { flex-wrap: nowrap; width: 100%; margin-top: var(--space-7); }
   .hero__button { flex: 1; min-width: 0; padding: 0 var(--space-3); font-size: 1rem; }
 }
 

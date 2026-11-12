@@ -35,46 +35,56 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
   const moreActive = [filters.type, filters.region, filters.country, filters.theme].filter(Boolean).length;
   // Start open if a shared link already uses one of the folded-away filters
   const [moreOpen, setMoreOpen] = useState(() => moreActive > 0);
+  // (On phones a shared link with only Format/Free/Level shows the count badge on the closed button.)
+
+  // Format, Free and Level. Wide screens show them in the bar; phones keep them inside "More filters"
+  // (the same buttons, rendered in both places; CSS shows one).
+  const quick = (
+    <>
+      <fieldset className="filter-bar__group">
+        <legend className="visually-hidden">Format</legend>
+        <div className="filter-bar__chips">
+          {FORMATS.map((format) => (
+            <ToggleButton
+              key={format}
+              pressed={filters.formats.includes(format)}
+              onToggle={() => set({ formats: toggleInList(filters.formats, format) })}
+            >
+              {format}
+            </ToggleButton>
+          ))}
+          <span className="filter-bar__divider" aria-hidden="true" />
+          <ToggleButton pressed={filters.freeOnly} onToggle={() => set({ freeOnly: !filters.freeOnly })}>
+            Free
+          </ToggleButton>
+        </div>
+      </fieldset>
+
+      <fieldset className="filter-bar__group">
+        <legend className="visually-hidden">Level</legend>
+        <div className="filter-bar__chips">
+          <span className="filter-bar__divider" aria-hidden="true" />
+          {LEVEL_FILTERS.map((level) => (
+            <ToggleButton
+              key={level}
+              pressed={filters.levels.includes(level)}
+              onToggle={() => set({ levels: toggleInList(filters.levels, level) })}
+            >
+              {level}
+            </ToggleButton>
+          ))}
+        </div>
+      </fieldset>
+    </>
+  );
+  const quickActive = filters.formats.length + filters.levels.length + (filters.freeOnly ? 1 : 0);
 
   return (
     <section className="filter-bar" aria-labelledby="filter-heading">
       <h3 id="filter-heading" className="visually-hidden">Filter events</h3>
 
       <div className="filter-bar__main">
-        <fieldset className="filter-bar__group">
-          <legend className="visually-hidden">Format</legend>
-          <div className="filter-bar__chips">
-            {FORMATS.map((format) => (
-              <ToggleButton
-                key={format}
-                pressed={filters.formats.includes(format)}
-                onToggle={() => set({ formats: toggleInList(filters.formats, format) })}
-              >
-                {format}
-              </ToggleButton>
-            ))}
-            <span className="filter-bar__divider" aria-hidden="true" />
-            <ToggleButton pressed={filters.freeOnly} onToggle={() => set({ freeOnly: !filters.freeOnly })}>
-              Free
-            </ToggleButton>
-          </div>
-        </fieldset>
-
-        <fieldset className="filter-bar__group">
-          <legend className="visually-hidden">Level</legend>
-          <div className="filter-bar__chips">
-            <span className="filter-bar__divider" aria-hidden="true" />
-            {LEVEL_FILTERS.map((level) => (
-              <ToggleButton
-                key={level}
-                pressed={filters.levels.includes(level)}
-                onToggle={() => set({ levels: toggleInList(filters.levels, level) })}
-              >
-                {level}
-              </ToggleButton>
-            ))}
-          </div>
-        </fieldset>
+        <div className="filter-bar__quick filter-bar__quick--bar">{quick}</div>
 
         <button
           type="button"
@@ -85,8 +95,13 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
         >
           More filters
           {moreActive > 0 && (
-            <span className="filter-bar__more-count">
+            <span className="filter-bar__more-count filter-bar__more-count--wide">
               {moreActive}<span className="visually-hidden"> on</span>
+            </span>
+          )}
+          {moreActive + quickActive > 0 && (
+            <span className="filter-bar__more-count filter-bar__more-count--phone">
+              {moreActive + quickActive}<span className="visually-hidden"> on</span>
             </span>
           )}
           <span className="filter-bar__chevron" aria-hidden="true">▾</span>
@@ -101,6 +116,7 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
       </div>
 
       <div id="more-filters" className="filter-bar__panel" hidden={!moreOpen}>
+        <div className="filter-bar__quick filter-bar__quick--panel">{quick}</div>
         <div className="filter-bar__selects">
           <Select id="filter-type" label="Type" allLabel="All types" options={EVENT_TYPES}
             value={filters.type} onChange={(v) => set({ type: v as EventType | '' })} />
