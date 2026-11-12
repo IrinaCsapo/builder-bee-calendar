@@ -143,7 +143,8 @@ export function HomePage({ heroVariant = 'live' }: { heroVariant?: 'live' | 'lab
           filters={filters}
           onChange={setFilters}
           onClear={clear}
-          resultCount={listed.length}
+          // The total includes the featured events in the hero, so it doesn't jump when a filter is turned on
+          resultCount={results.length}
           countriesByRegion={countriesByRegion}
         />
         {listed.length > 0 ? <EventList groups={groups} now={now} notes={{ close: closeNote }} /> : <EmptyState onClear={clear} />}
