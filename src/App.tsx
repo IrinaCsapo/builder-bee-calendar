@@ -6,6 +6,8 @@ import { EventPage } from './pages/EventPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { SubmitPage } from './pages/SubmitPage';
 import { AboutPage } from './pages/AboutPage';
+import { PrivacyPage } from './pages/PrivacyPage';
+import { CookiesPage } from './pages/CookiesPage';
 import { HowItWorksPage } from './pages/HowItWorksPage';
 import { CommunitiesPage } from './pages/CommunitiesPage';
 import { useHashRoute } from './lib/useHashRoute';
@@ -23,6 +25,8 @@ export function App() {
   else if (path === '/communities') page = <CommunitiesPage />;
   else if (path === '/how-it-works') page = <HowItWorksPage />;
   else if (path === '/about') page = <AboutPage />;
+  else if (path === '/privacy') page = <PrivacyPage />;
+  else if (path === '/cookies') page = <CookiesPage />;
   else page = <NotFoundPage />;
 
   // On page change (not on filter changes): scroll to top and move focus to

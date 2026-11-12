@@ -8,6 +8,9 @@ export function Footer() {
         <p>
           Know an event? <a href="#/submit">Submit it</a>.
         </p>
+        <p className="footer__legal">
+          <a href="#/privacy">Privacy policy</a> · <a href="#/cookies">Cookie policy</a>
+        </p>
       </div>
     </footer>
   );

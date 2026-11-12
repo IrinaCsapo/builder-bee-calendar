@@ -70,6 +70,9 @@ export function SubmitPage() {
             title="Submit an event form"
           />
           <p className="content-page__small">
+            <strong>We don’t sell your data to anybody.</strong> See our <a href="#/privacy">privacy policy</a>.
+          </p>
+          <p className="content-page__small">
             No account needed. Prefer GitHub?{' '}
             <a href={SUBMIT_FORM_URL} target="_blank" rel="noopener noreferrer">
               Use the GitHub form<span className="visually-hidden"> (opens in a new tab)</span>

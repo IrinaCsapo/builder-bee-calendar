@@ -17,3 +17,8 @@ export const FOUNDERS = [
   { name: 'Irina', linkedin: 'https://www.linkedin.com/in/irinacsapo/' },
   { name: 'Tracey', linkedin: 'https://www.linkedin.com/in/traceywindsor-host/' },
 ];
+
+// Umami analytics (cookieless, anonymous). Paste the website ID from Umami's settings here;
+// empty = no analytics. The script URL is Umami Cloud's; change it if you self-host.
+export const UMAMI_WEBSITE_ID = '';
+export const UMAMI_SCRIPT_URL = 'https://cloud.umami.is/script.js';
