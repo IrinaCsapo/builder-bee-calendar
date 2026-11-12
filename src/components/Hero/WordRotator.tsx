@@ -3,6 +3,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 interface WordRotatorProps {
   /** The first word is the one it starts and finishes on */
   words: string[];
+  /** The words' colours, in turn (defaults to the live hero's) */
+  colors?: string[];
   /** Milliseconds each word stays */
   every?: number;
   /** Full rounds before it settles back on the first word. Infinity (the default) keeps it going. */
@@ -18,7 +20,7 @@ interface WordRotatorProps {
 // (the minimum for large text): purple, magenta, burnt orange, teal.
 const COLORS = ['#7000F0', '#C8007A', '#B83A00', '#0B6E66'];
 
-export function WordRotator({ words, every = 2400, rounds = Infinity }: WordRotatorProps) {
+export function WordRotator({ words, colors = COLORS, every = 2400, rounds = Infinity }: WordRotatorProps) {
   const [index, setIndex] = useState(0);
   const [width, setWidth] = useState<number>();
   const measure = useRef<HTMLSpanElement>(null);
@@ -49,7 +51,7 @@ export function WordRotator({ words, every = 2400, rounds = Infinity }: WordRota
 
   return (
     <span className="word-rotator" aria-hidden="true" style={{ width }}>
-      <span key={index} className="word-rotator__word" style={{ color: COLORS[index % COLORS.length] }}>
+      <span key={index} className="word-rotator__word" style={{ color: colors[index % colors.length] }}>
         {words[index]}
       </span>
       {/* Invisible copies, used to measure each word */}
