@@ -2,7 +2,7 @@
 
 A global calendar of hackathons and tech events for women and non-binary builders: hackathons, buildathons, meetups, conferences, workshops, bootcamps and pitch nights, online and in person.
 
-**Live site:** https://irinacsapo.github.io/builder-bee-calendar/
+**Live site:** https://builderbee.club/
 
 Built live on the show in about three hours, after we met at the Lovable SheBuilds hackathon.
 
@@ -15,7 +15,7 @@ npm install
 npm run dev
 ```
 
-Then open http://localhost:5173/builder-bee-calendar/
+Then open http://localhost:5173/
 
 | Command | What it does |
 |---|---|
