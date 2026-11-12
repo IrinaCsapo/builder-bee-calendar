@@ -19,6 +19,6 @@ export const FOUNDERS = [
 ];
 
 // Umami analytics (cookieless, anonymous). Paste the website ID from Umami's settings here;
-// empty = no analytics. The script URL is Umami Cloud's; change it if you self-host.
+// empty = no analytics. Our Umami is self-hosted on Vercel.
 export const UMAMI_WEBSITE_ID = '31c7c9a4-9499-4ebd-ae68-51ac360c3d44';
-export const UMAMI_SCRIPT_URL = 'https://cloud.umami.is/script.js';
+export const UMAMI_SCRIPT_URL = 'https://irina-umami.vercel.app/script.js';
