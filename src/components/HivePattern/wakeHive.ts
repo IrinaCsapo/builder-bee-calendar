@@ -51,8 +51,15 @@ function hash(k: number, n: number) {
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 
-// The wake darkens from grey to black as it warms (a few steps, so no colour strings per cell)
-const INKS = ['#9a9aa2', '#5c5c66', '#26262b', '#000000'];
+// The wake darkens from light to mid grey as it warms (a few steps, so no colour strings per cell)
+const INKS = ['#c4c4ca', '#a4a4ac', '#86868f', '#6a6a73'];
+// Each click ring takes the next pastel in turn: pink, green, purple, blue (light, then a bit deeper)
+const RING_INKS = [
+  ['#f7a8cf', '#ef86bb'],
+  ['#9fe3b6', '#72d197'],
+  ['#cbb0f8', '#ad89f0'],
+  ['#a6ccf8', '#7bb0f2'],
+];
 
 export class WakeHive {
   private ctx: CanvasRenderingContext2D;
@@ -63,7 +70,8 @@ export class WakeHive {
   private heat = new Float32Array(0);   // the wake
   private hx = -9999; private hy = -9999; private lx = NaN; private ly = NaN;
   private inside = false; private near = 0;
-  private rings: { x: number; y: number; t: number }[] = [];
+  private rings: { x: number; y: number; t: number; c: number }[] = [];
+  private nextInk = Math.floor(Math.random() * RING_INKS.length);
   private deal = 0; private tick = 0;
   private raf = 0;
   private reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -189,7 +197,8 @@ export class WakeHive {
   private onDown = (e: PointerEvent) => {
     if (this.reduced.matches) return;
     const { x, y } = this.local(e);
-    this.rings.push({ x, y, t: 0 });
+    this.rings.push({ x, y, t: 0, c: this.nextInk });
+    this.nextInk = (this.nextInk + 1) % RING_INKS.length;
     this.run();
   };
 
@@ -242,7 +251,7 @@ export class WakeHive {
     const rings = this.rings.map((r) => {
       const p = r.t / RING_S;
       const e = 1 - Math.pow(1 - p, 3);
-      return { x: r.x, y: r.y, R: 8 + e * 420, amp: 0.6 * (1 - p) * (1 - p) * Math.min(1, p * 6) };
+      return { x: r.x, y: r.y, c: r.c, R: 8 + e * 420, amp: 0.6 * (1 - p) * (1 - p) * Math.min(1, p * 6) };
     });
     const halfW = this.cw / 2 + 0.5, halfH = this.ch / 2 + 0.5;
 
@@ -257,10 +266,18 @@ export class WakeHive {
           const q = ((cx - this.hx) ** 2 + (cy - this.hy) ** 2) / R2;
           if (q < 1) h = Math.max(h, 0.95 * this.near * (1 - q) * (1 - q));
         }
+        // The ring that adds the most to this cell colours it, if it outweighs the hover wake
+        const base = h;
+        let ringBest = 0, ink = -1;
         for (const r of rings) {
           const d = (Math.hypot(cx - r.x, cy - r.y) - r.R) / 26;
-          if (d > -2.5 && d < 2.5) h += r.amp * Math.exp(-d * d);
+          if (d > -2.5 && d < 2.5) {
+            const a = r.amp * Math.exp(-d * d);
+            h += a;
+            if (a > ringBest) { ringBest = a; ink = r.c; }
+          }
         }
+        if (ringBest <= base) ink = -1;
         if (h <= COLD) continue;                       // stays a dot (already drawn)
         h *= 0.55 + 0.45 * m;                          // thin wall edges warm a little less
         const v = Math.min(1, h);
@@ -278,7 +295,7 @@ export class WakeHive {
             x += (dx / d) * s; y += (dy / d) * s;
           }
         }
-        ctx.fillStyle = INKS[Math.min(3, Math.floor(v * 4))];
+        ctx.fillStyle = ink >= 0 ? RING_INKS[ink][v > 0.35 ? 1 : 0] : INKS[Math.min(3, Math.floor(v * 4))];
         ctx.fillText(RAMP[idx], x, y);
       }
     }
