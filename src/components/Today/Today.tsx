@@ -8,9 +8,11 @@ export function Today() {
   // In the visitor's own 12/24-hour habit
   const time = `${now.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} your time`;
   return (
-    <p className="today">
+    <div className="today">
+      <p className="container today__inner">
       <span className="visually-hidden">Today is </span>
       <time dateTime={now.toISOString()}>{date}<span aria-hidden="true"> · </span><span className="visually-hidden">, </span>{time}</time>
-    </p>
+      </p>
+    </div>
   );
 }

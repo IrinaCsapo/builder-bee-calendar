@@ -1,4 +1,5 @@
 /* A slim line above the header: today's date and local time */
+.today__inner { margin-block: 0; }
 .today {
   margin: 0;
   padding-block: 0.3rem;
@@ -7,5 +8,10 @@
   color: #3d3d44;            /* 10:1 on #fafafa */
   font-size: 0.8125rem;
   text-align: center;
+  white-space: nowrap;
   font-variant-numeric: tabular-nums;
+}
+/* Wide screens: inside the page width, ending where the "Submit an event" button ends */
+@media (min-width: 40.01rem) {
+  .today { text-align: right; }
 }
