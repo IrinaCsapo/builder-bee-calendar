@@ -65,7 +65,30 @@
 .filter-bar__panel[hidden] { display: none; }
 .filter-bar__selects { display: grid; grid-template-columns: 1fr; gap: var(--space-3); }
 @media (min-width: 30rem) { .filter-bar__selects { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 56rem) { .filter-bar__selects { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 56rem) { .filter-bar__selects { grid-template-columns: repeat(5, 1fr); } }
+
+/* "Near me": where we think you are, and a button to use the exact location */
+.filter-bar__location {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  grid-column: 1 / -1;          /* right under Location on phones */
+  font-size: var(--text-sm);
+}
+@media (min-width: 56rem) { .filter-bar__location { order: 1; } }   /* under the whole row on wide screens */
+.filter-bar__location p { margin: 0; }
+.filter-bar__locate {
+  min-height: var(--tap-target);
+  padding: 0 var(--space-4);
+  border: 1.5px solid #000;
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: #000;
+  font: inherit;
+  cursor: pointer;
+}
+.filter-bar__locate:disabled { cursor: progress; }
 
 /* Phones: the count and Clear all get their own line under the buttons */
 .filter-bar__quick { display: contents; }

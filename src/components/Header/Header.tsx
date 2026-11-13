@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useHashRoute } from '../../lib/useHashRoute';
 import logo from '../../assets/builderbee-logo.svg';
+import { Today } from '../Today/Today';
 import './Header.css';
 
 const NAV = [
@@ -63,6 +64,7 @@ export function Header() {
 
   return (
     <header ref={ref} className={`header${hidden ? ' is-hidden' : ''}`}>
+      <Today />
       <div className="container header__inner">
         <a className="header__brand" href="#/">
           {/* The logo reads "BuilderBee", so that's its text alternative (plus where the link goes) */}

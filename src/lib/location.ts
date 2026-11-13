@@ -1,3 +1,5 @@
+import type { Region } from '../types/event';
+
 // "Events near me". Everything here runs in the visitor's browser: their location
 // is never sent anywhere, never stored, and never put in the URL.
 
@@ -7,6 +9,7 @@ export interface Origin {
   label: string;                 // "London" or "your location"
   source: 'timezone' | 'device'; // rough guess vs. browser location
   country?: string;              // known from the timezone; not from the browser location
+  region?: Region;               // also from the timezone
 }
 
 /** Great-circle distance in km. */
@@ -114,7 +117,21 @@ export function guessFromTimezone(): Origin | null {
   const coords = TZ_COORDS[tz];
   if (!coords) return null;
   const label = tz.split('/').pop()!.replace(/_/g, ' ');
-  return { lat: coords[0], lng: coords[1], label, source: 'timezone', country: TZ_COUNTRY[tz] };
+  const country = TZ_COUNTRY[tz];
+  return { lat: coords[0], lng: coords[1], label, source: 'timezone', country, region: regionOf(tz, country) };
+}
+
+/** The site's region for a timezone, e.g. Europe/Berlin -> Europe, America/Bogota -> LatAm. */
+function regionOf(tz: string, country?: string): Region | undefined {
+  const area = tz.split('/')[0];
+  if (area === 'Europe') return 'Europe';
+  if (area === 'Africa') return 'Africa';
+  if (area === 'Asia') return 'Asia';
+  if (area === 'Australia' || tz === 'Pacific/Auckland') return 'Oceania';
+  if (area === 'America' || tz === 'Pacific/Honolulu') {
+    return country === 'United States' || country === 'Canada' ? 'North America' : country ? 'LatAm' : undefined;
+  }
+  return undefined;
 }
 
 /** Asks the browser for the visitor's location. The browser shows its own permission prompt. */
@@ -122,7 +139,11 @@ export function getDeviceLocation(): Promise<Origin> {
   return new Promise((resolve, reject) => {
     if (!('geolocation' in navigator)) { reject(new Error('unsupported')); return; }
     navigator.geolocation.getCurrentPosition(
-      (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude, label: 'your location', source: 'device' }),
+      // Country and region still come from the timezone (the browser only gives coordinates)
+      (pos) => {
+        const tz = guessFromTimezone();
+        resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude, label: 'your location', source: 'device', country: tz?.country, region: tz?.region });
+      },
       (err) => reject(new Error(err.code === err.PERMISSION_DENIED ? 'denied' : 'unavailable')),
       { enableHighAccuracy: false, timeout: 10000, maximumAge: 10 * 60 * 1000 },
     );
@@ -168,4 +189,31 @@ export function eventsCloseTo<T extends { format: string; country: string; lat?:
     .filter(({ e, km }) => km <= NEARBY_KM || (!!origin.country && e.country === origin.country))
     .sort((a, b) => a.km - b.km)
     .map(({ e }) => e);
+}
+
+/** "the United Kingdom", "Germany" */
+export const countryName = (c: string) => (/^(United|Netherlands|Philippines)/.test(c) ? `the ${c}` : c);
+
+/** True when the visitor has already allowed location for this site, so asking won't show a prompt. */
+export async function locationAllowed(): Promise<boolean> {
+  try { return (await navigator.permissions.query({ name: 'geolocation' })).state === 'granted'; } catch { return false; }
+}
+
+export type NearScope = 'area' | 'country' | 'region' | 'none';
+
+/**
+ * The "Near me" location filter: in-person and hybrid events in your country (or close by,
+ * with an exact location). If there are none, the rest of your region.
+ */
+export function eventsNear<T extends { format: string; country: string; region: string; lat?: number; lng?: number }>(
+  events: T[],
+  origin: Origin,
+): { events: T[]; scope: NearScope } {
+  const physical = events.filter((e) => e.format !== 'Online');
+  const close = physical.filter((e) =>
+    (!!origin.country && e.country === origin.country) ||
+    (origin.source === 'device' && e.lat !== undefined && e.lng !== undefined && distanceKm(origin, { lat: e.lat, lng: e.lng }) <= NEARBY_KM));
+  if (close.length) return { events: close, scope: origin.country ? 'country' : 'area' };
+  const region = origin.region ? physical.filter((e) => e.region === origin.region) : [];
+  return region.length ? { events: region, scope: 'region' } : { events: [], scope: 'none' };
 }

@@ -1,0 +1,11 @@
+/* A slim line above the header: today's date and local time */
+.today {
+  margin: 0;
+  padding-block: 0.3rem;
+  border-bottom: 1px solid var(--color-border);
+  background: #fafafa;
+  color: #3d3d44;            /* 10:1 on #fafafa */
+  font-size: 0.8125rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
