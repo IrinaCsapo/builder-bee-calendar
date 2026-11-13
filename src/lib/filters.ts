@@ -14,7 +14,6 @@ export interface Filters {
   theme: Theme | '';
   freeOnly: boolean;
   levels: LevelFilter[];      // empty = all levels
-  near: boolean;              // Location: "Near me" (worked out in the browser, see lib/location)
 }
 
 export const EMPTY_FILTERS: Filters = {
@@ -26,12 +25,11 @@ export const EMPTY_FILTERS: Filters = {
   theme: '',
   freeOnly: false,
   levels: [],
-  near: false,
 };
 
 export function hasActiveFilters(f: Filters): boolean {
   return (
-    !!f.query.trim() || f.formats.length > 0 || !!f.type || !!f.region || !!f.country || !!f.theme || f.freeOnly || f.levels.length > 0 || f.near
+    !!f.query.trim() || f.formats.length > 0 || !!f.type || !!f.region || !!f.country || !!f.theme || f.freeOnly || f.levels.length > 0
   );
 }
 
@@ -68,7 +66,7 @@ export function toggleInList<T>(list: T[], value: T): T[] {
 }
 
 // ---- URL query string <-> Filters --------------------------------------
-// Keys: format (comma-separated), type, region, country, theme, free=1, level (comma-separated), near=1
+// Keys: format (comma-separated), type, region, country, theme, free=1, level (comma-separated)
 // Older links used beginner=1; it still works.
 // Unknown values in a shared link are ignored rather than breaking the page.
 
@@ -94,7 +92,6 @@ export function filtersFromQuery(q: URLSearchParams): Filters {
     theme: pick(THEMES, q.get('theme')),
     freeOnly: q.get('free') === '1',
     levels: [...new Set([...levels, ...(q.get('beginner') === '1' ? (['Beginner friendly'] as const) : [])])],
-    near: q.get('near') === '1',
   };
 }
 
@@ -108,6 +105,5 @@ export function filtersToQuery(f: Filters): string {
   if (f.theme) q.set('theme', f.theme);
   if (f.freeOnly) q.set('free', '1');
   if (f.levels.length) q.set('level', LEVEL_FILTERS.filter((x) => f.levels.includes(x)).join(','));
-  if (f.near) q.set('near', '1');   // only "near me", never the place itself
   return q.toString();
 }

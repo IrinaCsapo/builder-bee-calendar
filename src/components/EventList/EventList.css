@@ -80,3 +80,7 @@
   .event-row__items:not(.is-expanded) > li { flex: 0 0 78%; min-width: 0; scroll-snap-align: start; }
   .event-row__items.is-expanded { grid-template-columns: 1fr; }
 }
+
+/* "Near you": where the place comes from, and a link to change it */
+.near-note { margin: 0; color: #4a4a52; }
+.near-note__link { display: inline; min-height: 0; font-weight: 400; color: inherit; }

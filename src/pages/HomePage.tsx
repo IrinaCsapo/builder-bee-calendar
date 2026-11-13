@@ -11,13 +11,10 @@ import { applyFilters, EMPTY_FILTERS, filtersFromQuery, filtersToQuery, hasActiv
 import { parseHash, replaceHashQuery } from '../lib/useHashRoute';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { useNow } from '../lib/timeLeft';
-import { countryName, eventsCloseTo, eventsNear, getDeviceLocation, getRemembered, guessFromTimezone, locationAllowed, NEARBY_KM, remember, type Origin } from '../lib/location';
+import { countryName, eventsNear, getDeviceLocation, getRemembered, getRememberedPlace, guessFromTimezone, locationAllowed, NEARBY_KM, remember, rememberPlace, shortPlace, type Origin, type PlaceChoice } from '../lib/location';
 
 const upcoming = getUpcoming(allEvents);
 
-// The "Close to you" row (events in your country or area) is switched off for now.
-// Set this to true to bring it back; all the code below still works.
-const SHOW_CLOSE_TO_YOU = false;
 
 // Featured in the hero: every event anyone can join from anywhere.
 // All online events first (soonest first), then hybrid ones.
@@ -60,8 +57,10 @@ export function HomePage({ heroVariant = 'live' }: { heroVariant?: 'live' | 'lab
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
-  // "Close to you": a rough guess from the timezone (no prompt), or the exact location if the visitor asks
+  // "Near you": a row at the top, worked out automatically from the timezone (no prompt), or the
+  // exact location if the visitor has already allowed it. They can change it under More filters > Location.
   const [origin, setOrigin] = useState<Origin | null>(() => getRemembered()?.origin ?? guessFromTimezone());
+  const [place, setPlace] = useState<PlaceChoice>(getRememberedPlace);
   const [locating, setLocating] = useState<'idle' | 'locating' | 'denied' | 'unavailable'>('idle');
   const locate = () => {
     setLocating('locating');
@@ -69,25 +68,30 @@ export function HomePage({ heroVariant = 'live' }: { heroVariant?: 'live' | 'lab
       .then((o) => { setOrigin(o); remember(o, true); setLocating('idle'); })
       .catch((err: Error) => setLocating(err.message === 'denied' ? 'denied' : 'unavailable'));
   };
-  const closeToYou = useMemo(() => (origin ? eventsCloseTo(upcoming, origin) : []), [origin]);
-
-  // Location > "Near me". Uses the exact location if the visitor has already allowed it (no prompt),
-  // otherwise the timezone guess. If even that is unknown, choosing "Near me" asks the browser.
   useEffect(() => {
-    if (!filters.near || origin?.source === 'device' || locating !== 'idle') return;
-    if (!origin) { locate(); return; }
-    locationAllowed().then((ok) => { if (ok) locate(); });
-  }, [filters.near]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (origin?.source === 'device') return;
+    locationAllowed().then((ok) => { if (ok) locate(); });   // already allowed: no prompt
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const choosePlace = (p: PlaceChoice) => {
+    setPlace(p);
+    rememberPlace(p);
+    if (p === 'device' && origin?.source !== 'device') locate();
+  };
+
+  const nearYou = useMemo(() => {
+    const physical = upcoming.filter((e) => e.format !== 'Online');
+    if (place.startsWith('country:') || place.startsWith('region:')) {
+      const [kind, name] = place.split(/:(.*)/) as ['country' | 'region', string];
+      return { label: shortPlace(name), events: physical.filter((e) => e[kind] === name), scope: kind };
+    }
+    if (!origin || (place === 'device' && origin.source !== 'device')) return null;
+    const { events, scope } = eventsNear(upcoming, origin);
+    const label = scope === 'region' ? origin.region! : scope === 'country' ? shortPlace(origin.country!) : '';
+    return { label, events, scope };
+  }, [place, origin]);
 
   const now = useNow();
-  const near = useMemo(
-    () => (filters.near && origin ? eventsNear(applyFilters(upcoming, filters), origin) : null),
-    [filters, origin],
-  );
-  const results = useMemo(
-    () => (near ? near.events : filters.near ? [] : applyFilters(upcoming, filters)),
-    [filters, near],
-  );
+  const results = useMemo(() => applyFilters(upcoming, filters), [filters]);
   // Each event appears once on the page: events already featured in the hero
   // aren't repeated below, unless the visitor is searching or filtering.
   const listed = useMemo(
@@ -98,53 +102,51 @@ export function HomePage({ heroVariant = 'live' }: { heroVariant?: 'live' | 'lab
   const groups = useMemo(() => {
     const byType = groupByType(listed, now);
     // Only on the unfiltered page: when searching or filtering, the results are what matter
-    if (!SHOW_CLOSE_TO_YOU || hasActiveFilters(filters) || !closeToYou.length) return byType;
-    return [{ key: 'close', label: 'Close to you', events: closeToYou }, ...byType];
-  }, [listed, now, filters, closeToYou]);
+    if (hasActiveFilters(filters) || !nearYou) return byType;
+    return [{ key: 'near', label: nearYou.label ? `Near you · ${nearYou.label}` : 'Near you', events: nearYou.events }, ...byType];
+  }, [listed, now, filters, nearYou]);
 
   const unit = (() => { try { return ['US', 'GB'].includes(new Intl.Locale(navigator.language).maximize().region ?? '') ? 'miles' : 'km'; } catch { return 'km'; } })();
   const area = unit === 'miles' ? `${Math.round(NEARBY_KM * 0.621371 / 10) * 10} miles` : `${NEARBY_KM} km`;
-  const closeNote = origin && (
-    <>
-      <p role="status">
-        {locating === 'locating' && 'Finding your location…'}
-        {locating === 'denied' && 'Location access is blocked, so we’re still using your timezone. You can allow it in your browser’s site settings.'}
-        {locating === 'unavailable' && 'We couldn’t get your location, so we’re still using your timezone.'}
-        {locating === 'idle' && (origin.source === 'device'
-          ? `In-person and hybrid events within ${area} of you, nearest first.`
-          : origin.country
-            ? `In-person and hybrid events in ${countryName(origin.country)} or within ${area} of ${origin.label}, nearest first. A rough guess from your device’s timezone.`
-            : `In-person and hybrid events within ${area} of ${origin.label}, nearest first. A rough guess from your device’s timezone.`)}
-      </p>
-      {origin.source !== 'device' && (
-        <button type="button" className="event-row__locate hive-hover hive-hover--on-light" onClick={locate} disabled={locating === 'locating'}>
-          <span aria-hidden="true">📍</span> Use my exact location
-        </button>
-      )}
-    </>
+  const openMore = () => {
+    const btn = document.querySelector<HTMLButtonElement>('.filter-bar__more');
+    if (btn?.getAttribute('aria-expanded') === 'false') btn.click();
+    requestAnimationFrame(() => {
+      const sel = document.getElementById('filter-location');
+      sel?.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      sel?.focus({ preventScroll: true });
+    });
+  };
+  const change = <> Change it under <button type="button" className="link-button near-note__link" onClick={openMore}><em>More filters</em></button>.</>;
+  const nearNote = nearYou && (
+    <p className="near-note">
+      {nearYou.scope === 'country' || nearYou.scope === 'region'
+        ? place
+          ? 'You picked this place.'
+          : origin?.source === 'device'
+            ? nearYou.scope === 'region'
+              ? `Nothing in ${origin.country ? countryName(origin.country) : 'your country'} yet, so here’s the rest of ${origin.region}. Based on your location.`
+              : 'Based on your location.'
+            : nearYou.scope === 'region'
+              ? `Nothing in ${origin?.country ? countryName(origin.country) : 'your country'} yet, so here’s the rest of ${origin?.region}. Based on your time zone.`
+              : 'Based on your time zone.'
+        : nearYou.scope === 'area'
+          ? `In-person and hybrid events within ${area} of you.`
+          : 'No in-person events near you yet. Online events are open to everyone: see the top of the page.'}
+      {change}
+    </p>
   );
 
-  const place = origin?.source === 'device' ? 'you' : origin?.label;
-  const locationNote = (
-    <>
-      <p role="status">
-        {locating === 'locating' ? 'Finding your location…'
-          : !origin ? (locating === 'denied'
-            ? 'Location access is blocked, so we can’t tell where you are. Try the Region and Country filters instead.'
-            : 'We couldn’t tell where you are. Try the Region and Country filters instead.')
-          : near?.scope === 'country' ? `In-person and hybrid events in ${countryName(origin.country!)}${origin.source === 'device' ? ` or within ${area} of you` : ''}.`
-          : near?.scope === 'area' ? `In-person and hybrid events within ${area} of you.`
-          : near?.scope === 'region' ? `Nothing in ${origin.country ? countryName(origin.country) : `your area`} yet, so here’s the rest of ${origin.region}.`
-          : `Nothing near ${place} yet. Online events are open to everyone: see the top of the page.`}
-        {origin && locating === 'idle' && origin.source !== 'device' && ' A guess from your device’s timezone.'}
-        {locating === 'denied' && origin && ' Location access is blocked, so we’re using your timezone.'}
-      </p>
-      {origin && origin.source !== 'device' && locating !== 'denied' && (
-        <button type="button" className="filter-bar__locate hive-hover hive-hover--on-light" onClick={locate} disabled={locating === 'locating'}>
-          <span aria-hidden="true">📍</span> Use my exact location
-        </button>
-      )}
-    </>
+  // Under More filters > Location
+  const locationStatus = (
+    <p role="status">
+      {locating === 'locating' && 'Finding your location…'}
+      {locating === 'denied' && 'Location access is blocked in your browser, so we’re using your time zone.'}
+      {locating === 'unavailable' && 'We couldn’t get your location, so we’re using your time zone.'}
+      {locating === 'idle' && !place && (origin
+        ? origin.source === 'device' ? 'Using your exact location.' : 'Detected from your device’s time zone. It never leaves your device.'
+        : 'We couldn’t tell where you are from your time zone. Pick a place, or use your exact location.')}
+    </p>
   );
 
   const clear = () => {
@@ -184,9 +186,14 @@ export function HomePage({ heroVariant = 'live' }: { heroVariant?: 'live' | 'lab
           // The total includes the featured events in the hero, so it doesn't jump when a filter is turned on
           resultCount={results.length}
           countriesByRegion={countriesByRegion}
-          locationNote={locationNote}
+          location={{
+            value: place,
+            onChange: choosePlace,
+            detected: origin ? (origin.source === 'device' ? 'My exact location' : origin.country ?? origin.region ?? origin.label) : '',
+            status: locationStatus,
+          }}
         />
-        {listed.length > 0 ? <EventList groups={groups} now={now} notes={{ close: closeNote }} /> : <EmptyState onClear={clear} />}
+        {listed.length > 0 ? <EventList groups={groups} now={now} notes={{ near: nearNote }} /> : <EmptyState onClear={clear} />}
       </section>
     </>
   );

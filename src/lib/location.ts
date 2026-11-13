@@ -217,3 +217,16 @@ export function eventsNear<T extends { format: string; country: string; region: 
   const region = origin.region ? physical.filter((e) => e.region === origin.region) : [];
   return region.length ? { events: region, scope: 'region' } : { events: [], scope: 'none' };
 }
+
+/** Short names for the row heading: "Near you · UK" */
+const SHORT: Record<string, string> = { 'United Kingdom': 'UK', 'United States': 'US', 'United Arab Emirates': 'UAE' };
+export const shortPlace = (p: string) => SHORT[p] ?? p;
+
+/**
+ * Where "Near you" points. '' = detected automatically (exact location if already allowed,
+ * otherwise the timezone), 'device' = exact location, 'region:Europe', 'country:Germany'.
+ */
+export type PlaceChoice = '' | 'device' | `region:${string}` | `country:${string}`;
+let rememberedPlace: PlaceChoice = '';
+export const getRememberedPlace = () => rememberedPlace;
+export const rememberPlace = (p: PlaceChoice) => { rememberedPlace = p; };
