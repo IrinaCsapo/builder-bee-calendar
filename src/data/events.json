@@ -2005,5 +2005,50 @@
     "registration_url": "https://luma.com/9r247fq5",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/sx/bfb17aed-530a-4ace-ab38-868cbcf9cd5b.png",
     "source": "https://luma.com/9r247fq5"
+  },
+  {
+    "id": "wdai-branded-not-generated-2026",
+    "title": "Branded, Not Generated with Jitka Hruzova: Choosing Colours That Feel Like You",
+    "organiser": "Women Defining AI",
+    "event_type": "Workshop",
+    "format": "Online",
+    "start_date": "2026-12-02",
+    "end_date": "2026-12-02",
+    "timezone": "America/New_York",
+    "city": "",
+    "country": "",
+    "region": "Global",
+    "themes": [
+      "AI",
+      "Design"
+    ],
+    "audience": "Women in AI and tech (Women Defining AI community)",
+    "level": "All levels",
+    "cost": "Free",
+    "registration_url": "https://luma.com/women-spnd",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/api-uploads/91/a706d1d6-fa5c-48f6-b0d1-7e054a702717.jpg",
+    "source": "https://luma.com/women-spnd"
+  },
+  {
+    "id": "wcc-ai-in-the-sdlc-ci-cd-2026",
+    "title": "AI in the SDLC & CI/CD (AI Learning Series, Session 5)",
+    "organiser": "Women Coding Community",
+    "event_type": "Workshop",
+    "format": "Online",
+    "start_date": "2026-11-17",
+    "end_date": "2026-11-17",
+    "timezone": "Europe/London",
+    "city": "",
+    "country": "",
+    "region": "Global",
+    "themes": [
+      "AI"
+    ],
+    "audience": "Women in tech (Women Coding Community). Intermediate, hands-on session.",
+    "level": "All levels",
+    "cost": "Paid",
+    "registration_url": "https://www.meetup.com/women-coding-community/events/317373732/",
+    "image_url": "https://secure.meetupstatic.com/photos/event/5/4/b/c/600_537081692.jpeg",
+    "source": "https://www.meetup.com/women-coding-community/events/317373732/"
   }
 ]
