@@ -63,7 +63,7 @@ const inside = (z: Zone, x: number, y: number) => x > z.l && x < z.r && y > z.t 
 interface FlyingBeeProps {
   /** Where it starts (and rests with reduced motion), as fractions of the hero */
   start?: { x: number; y: number };
-  /** Size multiplier (1 = 104×96px on desktop) */
+  /** Size multiplier (1 = 91×84px on desktop) */
   scale?: number;
   /** Speed multiplier */
   speed?: number;
