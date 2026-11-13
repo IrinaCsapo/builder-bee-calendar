@@ -1,3 +1,4 @@
+import { CalendarDaysIcon } from '@heroicons/react/20/solid';
 import { useState } from 'react';
 import type { CalendarEvent } from '../../types/event';
 import { downloadIcs } from '../../lib/ics';
@@ -19,7 +20,7 @@ export function AddToCalendar({ event }: { event: CalendarEvent }) {
   return (
     <div className="add-to-calendar">
       <button type="button" className="add-to-calendar__button hive-hover" onClick={add} aria-describedby="add-to-calendar-hint">
-        <span aria-hidden="true">📅</span> Add to calendar
+        <CalendarDaysIcon className="icon" aria-hidden="true" /> Add to calendar
       </button>
       <p id="add-to-calendar-hint" className="add-to-calendar__hint">
         Downloads a .ics file for Apple, Google or Outlook Calendar. Added as an all-day event.

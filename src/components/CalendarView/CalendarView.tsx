@@ -1,3 +1,4 @@
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/20/solid';
 import type { CalendarEvent } from '../../types/event';
 import { addMonths, buildMonth, countInMonth } from '../../lib/calendar';
 import { formatFull, formatMonth, todayISO } from '../../lib/dates';
@@ -34,7 +35,7 @@ export function CalendarView({ month, minMonth, maxMonth, events, onMonthChange 
           onClick={() => onMonthChange(prev)}
           disabled={month <= minMonth}
         >
-          <span aria-hidden="true">←</span>
+          <ArrowLeftIcon className="icon" aria-hidden="true" />
           <span className="visually-hidden">Previous month, {formatMonth(`${prev}-01`)}</span>
         </button>
         <h3 id="calendar-title" className="calendar__title" aria-live="polite">
@@ -50,7 +51,7 @@ export function CalendarView({ month, minMonth, maxMonth, events, onMonthChange 
           onClick={() => onMonthChange(next)}
           disabled={month >= maxMonth}
         >
-          <span aria-hidden="true">→</span>
+          <ArrowRightIcon className="icon" aria-hidden="true" />
           <span className="visually-hidden">Next month, {formatMonth(`${next}-01`)}</span>
         </button>
       </div>

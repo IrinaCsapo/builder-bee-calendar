@@ -162,3 +162,12 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
   .hive-hover:hover, .hive-hover:focus-visible { transform: none; }
   .hive-hover:hover::after, .hive-hover:focus-visible::after { animation: none; }
 }
+
+/* Heroicons (20px solid set), sized to the text around them */
+.icon {
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  flex-shrink: 0;
+  vertical-align: -0.2em;
+}

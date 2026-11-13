@@ -1,3 +1,4 @@
+import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { useRef, type FormEvent } from 'react';
 import './SearchBox.css';
 
@@ -21,7 +22,7 @@ export function SearchBox({ value, onChange, onSubmit }: SearchBoxProps) {
       {/* Visually hidden but announced; the icon, placeholder and Search button make the purpose clear on screen */}
       <label htmlFor="event-search" className="visually-hidden">Search events</label>
       <div className="search-box__field">
-        <span className="search-box__icon" aria-hidden="true">🔍</span>
+        <MagnifyingGlassIcon className="icon search-box__icon" aria-hidden="true" />
         <input
           ref={inputRef}
           id="event-search"
@@ -42,7 +43,7 @@ export function SearchBox({ value, onChange, onSubmit }: SearchBoxProps) {
             className="search-box__clear"
             onClick={() => { onChange(''); inputRef.current?.focus(); }}
           >
-            <span aria-hidden="true">✕</span>
+            <XMarkIcon className="icon" aria-hidden="true" />
             <span className="visually-hidden">Clear search</span>
           </button>
         )}

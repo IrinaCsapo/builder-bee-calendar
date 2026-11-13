@@ -1,3 +1,4 @@
+import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon, PauseIcon, PlayIcon } from '@heroicons/react/20/solid';
 import { useEffect, useRef, useState } from 'react';
 import type { CalendarEvent } from '../../types/event';
 import { formatRange } from '../../lib/dates';
@@ -78,21 +79,21 @@ export function FeaturedCarousel({ events }: { events: CalendarEvent[] }) {
             <p className="featured__desc">{event.audience}</p>
             <div className="featured__actions">
               <a className="featured__cta hive-hover" href={event.registration_url} target="_blank" rel="noopener noreferrer">
-                Register <span aria-hidden="true">↗</span>
+                Register <ArrowUpRightIcon className="icon" aria-hidden="true" />
                 <span className="visually-hidden"> for {event.title} on the organiser's site (opens in a new tab)</span>
               </a>
               {count > 1 && (
                 <div className="featured__controls">
                   <button type="button" className="featured__round" onClick={() => setPlaying(!playing)}>
-                    <span aria-hidden="true">{playing ? '❚❚' : '▶'}</span>
+                    {playing ? <PauseIcon className="icon" aria-hidden="true" /> : <PlayIcon className="icon" aria-hidden="true" />}
                     <span className="visually-hidden">{playing ? 'Pause featured events' : 'Play featured events'}</span>
                   </button>
                   <button type="button" className="featured__round" onClick={() => go(index - 1)}>
-                    <span aria-hidden="true">←</span>
+                    <ArrowLeftIcon className="icon" aria-hidden="true" />
                     <span className="visually-hidden">Previous featured event</span>
                   </button>
                   <button type="button" className="featured__round" onClick={() => go(index + 1)}>
-                    <span aria-hidden="true">→</span>
+                    <ArrowRightIcon className="icon" aria-hidden="true" />
                     <span className="visually-hidden">Next featured event</span>
                   </button>
                 </div>

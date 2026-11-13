@@ -1,3 +1,4 @@
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/20/solid';
 import { useEffect, useRef, useState } from 'react';
 import { useHashRoute } from '../../lib/useHashRoute';
 import logo from '../../assets/builderbee-logo.svg';
@@ -89,7 +90,7 @@ export function Header() {
           <button
             type="button" className="header__menu" aria-expanded={menuOpen} aria-controls="main-menu"
             onClick={() => setMenuOpen((o) => !o)}>
-            <span aria-hidden="true">{menuOpen ? '✕' : '☰'}</span> Menu
+            {menuOpen ? <XMarkIcon className="icon" aria-hidden="true" /> : <Bars3Icon className="icon" aria-hidden="true" />} Menu
           </button>
         </nav>
       </div>

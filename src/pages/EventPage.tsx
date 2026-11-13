@@ -1,3 +1,4 @@
+import { ArrowLeftIcon, ArrowUpRightIcon } from '@heroicons/react/20/solid';
 import { allEvents } from '../lib/events';
 import { formatFull, formatRange, todayISO } from '../lib/dates';
 import { getListHash } from '../lib/useHashRoute';
@@ -28,7 +29,7 @@ export function EventPage({ id }: { id: string }) {
   return (
     <article className="event-page container">
       <p className="event-page__back">
-        <a href={getListHash()}><span aria-hidden="true">←&nbsp;</span>Back to all events</a>
+        <a href={getListHash()}><ArrowLeftIcon className="icon" aria-hidden="true" /> Back to all events</a>
       </p>
 
       {hasEnded && (
@@ -68,7 +69,7 @@ export function EventPage({ id }: { id: string }) {
             rel="noopener noreferrer"
           >
             Register
-            <span aria-hidden="true"> ↗</span>
+             <ArrowUpRightIcon className="icon" aria-hidden="true" />
             <span className="visually-hidden"> for {event.title} on the organiser’s site (opens in a new tab)</span>
           </a>
           <p className="event-page__register-note">

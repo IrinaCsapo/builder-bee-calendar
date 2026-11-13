@@ -1,3 +1,4 @@
+import { LinkIcon } from '@heroicons/react/20/solid';
 import { useRef, useState } from 'react';
 import './ShareLink.css';
 
@@ -32,7 +33,7 @@ export function ShareLink({ title }: ShareLinkProps) {
   return (
     <div className="share-link">
       <button type="button" className="share-link__button hive-hover hive-hover--on-light" onClick={share}>
-        <span aria-hidden="true">🔗</span> Share this event
+        <LinkIcon className="icon" aria-hidden="true" /> Share this event
       </button>
       <input
         className="share-link__url"

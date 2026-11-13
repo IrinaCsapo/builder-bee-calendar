@@ -1,3 +1,4 @@
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { useState, type ReactNode } from 'react';
 import { EVENT_TYPES, FORMATS, REGIONS, THEMES } from '../../types/event';
 import type { EventType, Region, Theme } from '../../types/event';
@@ -111,7 +112,7 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
               {moreActive + quickActive}<span className="visually-hidden"> on</span>
             </span>
           )}
-          <span className="filter-bar__chevron" aria-hidden="true">▾</span>
+          <ChevronDownIcon className="icon filter-bar__chevron" aria-hidden="true" />
         </button>
 
         <div className="filter-bar__summary">

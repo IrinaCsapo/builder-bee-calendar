@@ -1,3 +1,4 @@
+import { ArrowRightIcon, ArrowUpRightIcon } from '@heroicons/react/20/solid';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { allEvents } from '../lib/events';
 import { getUpcoming } from '../lib/dates';
@@ -41,7 +42,7 @@ export function CommunitiesPage() {
                       <a href={c.url} target="_blank" rel="noopener noreferrer">
                         {c.name}
                         <span className="visually-hidden"> (opens in a new tab)</span>
-                        <span aria-hidden="true"> ↗</span>
+                         <ArrowUpRightIcon className="icon" aria-hidden="true" />
                       </a>
                     </h3>
                     <p className="community-card__where">{c.where}</p>
@@ -50,7 +51,7 @@ export function CommunitiesPage() {
                       <a className="community-card__events" href={events.href}>
                         {events.count} upcoming {events.count === 1 ? 'event' : 'events'}
                         <span className="visually-hidden"> by {c.name} on BuilderBee</span>
-                        <span aria-hidden="true"> →</span>
+                         <ArrowRightIcon className="icon" aria-hidden="true" />
                       </a>
                     )}
                   </li>

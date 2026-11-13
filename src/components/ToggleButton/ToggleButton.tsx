@@ -1,3 +1,4 @@
+import { CheckIcon } from '@heroicons/react/20/solid';
 import type { ReactNode } from 'react';
 import './ToggleButton.css';
 
@@ -14,7 +15,7 @@ interface ToggleButtonProps {
 export function ToggleButton({ pressed, onToggle, children }: ToggleButtonProps) {
   return (
     <button type="button" className="toggle" aria-pressed={pressed} onClick={onToggle}>
-      <span className="toggle__check" aria-hidden="true">{pressed ? '✓' : ''}</span>
+      <span className="toggle__check" aria-hidden="true">{pressed && <CheckIcon className="icon" />}</span>
       {children}
     </button>
   );

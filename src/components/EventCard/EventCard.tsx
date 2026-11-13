@@ -1,3 +1,4 @@
+import { ArrowsRightLeftIcon, CalendarDaysIcon, ClockIcon, ComputerDesktopIcon, MapPinIcon, TrophyIcon, UserGroupIcon } from '@heroicons/react/20/solid';
 import type { CalendarEvent } from '../../types/event';
 import { formatRange, formatDay, formatShortMonth } from '../../lib/dates';
 import { timeLeft } from '../../lib/timeLeft';
@@ -11,7 +12,7 @@ interface EventCardProps {
   headingLevel?: 3 | 4;
 }
 
-const FORMAT_ICON = { Online: '🖥', 'In person': '👥', Hybrid: '🔀' } as const;
+const FORMAT_ICON = { Online: ComputerDesktopIcon, 'In person': UserGroupIcon, Hybrid: ArrowsRightLeftIcon } as const;
 
 /** Short visible date ("14–15 Nov"); screen readers get the full range. */
 function shortDate(e: CalendarEvent) {
@@ -33,7 +34,7 @@ export function EventCard({ event, now, headingLevel = 3 }: EventCardProps) {
 
       <ul className="event-card__badges" aria-label="Status">
         <li className={`event-card__badge event-card__badge--time${left.urgent ? ' is-urgent' : ''}`}>
-          <span aria-hidden="true">⏳</span> {left.label}
+          <ClockIcon className="icon" aria-hidden="true" /> {left.label}
         </li>
         <li className="event-card__badge">{event.level}</li>
         <li className="event-card__badge">{event.cost}</li>
@@ -46,24 +47,24 @@ export function EventCard({ event, now, headingLevel = 3 }: EventCardProps) {
 
       <ul className="event-card__chips" aria-label="Details">
         <li className="event-card__chip">
-          <span aria-hidden="true">📅</span>
+          <CalendarDaysIcon className="icon" aria-hidden="true" />
           <span aria-hidden="true">{shortDate(event)}</span>
           <span className="visually-hidden">{formatRange(event.start_date, event.end_date)}</span>
         </li>
         <li className="event-card__chip">
-          <span aria-hidden="true">{FORMAT_ICON[event.format]}</span>
+          {(() => { const Icon = FORMAT_ICON[event.format]; return <Icon className="icon" aria-hidden="true" />; })()}
           {event.format}
         </li>
         {where && (
           <li className="event-card__chip">
-            <span aria-hidden="true">📍</span>
+            <MapPinIcon className="icon" aria-hidden="true" />
             {where}
           </li>
         )}
         <li className="event-card__chip">{event.event_type}</li>
         {event.prize && (
           <li className="event-card__chip">
-            <span aria-hidden="true">🏆</span>
+            <TrophyIcon className="icon" aria-hidden="true" />
             <span className="visually-hidden">Prize: </span>
             {event.prize}
           </li>

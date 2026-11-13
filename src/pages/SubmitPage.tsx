@@ -1,3 +1,4 @@
+import { ArrowUpRightIcon } from '@heroicons/react/20/solid';
 import { useEffect, useRef, useState } from 'react';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { SUBMIT_FORM_URL, SUBMISSIONS_URL, TALLY_FORM_ID } from '../lib/site';
@@ -83,7 +84,7 @@ export function SubmitPage() {
         <>
           <a className="cta hive-hover" href={SUBMIT_FORM_URL} target="_blank" rel="noopener noreferrer">
             Open the submission form
-            <span aria-hidden="true">↗</span>
+            <ArrowUpRightIcon className="icon" aria-hidden="true" />
             <span className="visually-hidden"> (opens GitHub in a new tab)</span>
           </a>
           <p className="content-page__small">The form is on GitHub. You’ll need a free GitHub account to send it.</p>

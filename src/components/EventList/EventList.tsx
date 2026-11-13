@@ -1,3 +1,4 @@
+import { ArrowRightIcon, ArrowUpIcon } from '@heroicons/react/20/solid';
 import { useState, type ReactNode } from 'react';
 import type { EventGroup } from '../../lib/dates';
 import { EventCard } from '../EventCard/EventCard';
@@ -44,7 +45,7 @@ export function EventList({ groups, now, notes = {} }: EventListProps) {
                 >
                   {expanded ? 'Show fewer' : `Show all ${group.events.length}`}
                   <span className="visually-hidden"> {group.label.toLowerCase()}</span>
-                  <span aria-hidden="true">{expanded ? ' ↑' : ' →'}</span>
+                  {expanded ? <ArrowUpIcon className="icon" aria-hidden="true" /> : <ArrowRightIcon className="icon" aria-hidden="true" />}
                 </button>
               )}
             </div>

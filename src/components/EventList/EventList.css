@@ -42,6 +42,7 @@
 .event-row__locate:disabled { cursor: progress; }
 .event-row__count { font-family: var(--font-sans); font-size: var(--text-sm); letter-spacing: 0; }
 .event-row__toggle {
+  gap: 0.35em;
   display: inline-flex;
   align-items: center;
   min-height: var(--tap-target);

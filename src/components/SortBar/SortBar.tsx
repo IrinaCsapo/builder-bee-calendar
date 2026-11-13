@@ -1,3 +1,4 @@
+import { MapPinIcon } from '@heroicons/react/20/solid';
 import type { Origin } from '../../lib/location';
 import { ToggleButton } from '../ToggleButton/ToggleButton';
 import './SortBar.css';
@@ -32,7 +33,7 @@ export function SortBar({ nearest, origin, status, onSortByDate, onSortNearest, 
         </div>
         {origin?.source !== 'device' && (
           <button type="button" className="sort-bar__locate" onClick={onLocate} disabled={status === 'locating'}>
-            <span aria-hidden="true">📍</span> Use my exact location
+            <MapPinIcon className="icon" aria-hidden="true" /> Use my exact location
           </button>
         )}
       </div>

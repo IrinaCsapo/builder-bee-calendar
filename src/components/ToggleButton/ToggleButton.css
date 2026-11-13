@@ -23,3 +23,4 @@
   color: #fff;
 }
 .toggle[aria-pressed='true'] .toggle__check { width: 1em; }
+.toggle__check .icon { width: 1em; height: 1em; vertical-align: -0.15em; }
