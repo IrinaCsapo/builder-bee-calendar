@@ -2050,5 +2050,27 @@
     "registration_url": "https://www.meetup.com/women-coding-community/events/317373732/",
     "image_url": "https://secure.meetupstatic.com/photos/event/5/4/b/c/600_537081692.jpeg",
     "source": "https://www.meetup.com/women-coding-community/events/317373732/"
+  },
+  {
+    "id": "willa-prompt-to-passport-2027",
+    "title": "From Prompt to Passport: Using AI as a Travel Agent",
+    "organiser": "Willa (Women Innovating, Learning, and Leading in AI)",
+    "event_type": "Workshop",
+    "format": "Online",
+    "start_date": "2027-01-21",
+    "end_date": "2027-01-21",
+    "timezone": "America/New_York",
+    "city": "",
+    "country": "",
+    "region": "Global",
+    "themes": [
+      "AI"
+    ],
+    "audience": "Willa is where smart women keep up with AI",
+    "level": "All levels",
+    "cost": "Paid",
+    "registration_url": "https://luma.com/prompt-to-passport",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/6t/72a5290d-2743-475c-80fe-4edc04684506.jpg",
+    "source": "https://luma.com/prompt-to-passport"
   }
 ]
