@@ -167,14 +167,16 @@ const html = `<!doctype html>
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f4f1f7"><tr><td align="center" style="padding:24px 10px">
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;background:#ffffff;border-radius:24px;overflow:hidden">
 
-  <tr><td class="bb-pad" style="padding:20px 32px;border-bottom:1px solid #e4e4e7">
+  <tr><td class="bb-pad" style="padding:14px 32px 14px 18px;border-bottom:1px solid #e4e4e7">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>
-      <td><a href="${SITE}/"><img src="${SITE}/email/logo.png" width="160" alt="BuilderBee" style="display:block;width:160px;height:auto;border:0"></a></td>
+      <!-- The logo sits on a white rounded badge: invisible on white, a neat pill when an app switches to dark mode -->
+      <td><a href="${SITE}/"><img src="${SITE}/email/logo-badge.png" width="190" alt="BuilderBee" style="display:block;width:190px;height:auto;border:0"></a></td>
       <td align="right" style="font:600 13px/1.3 ${SANS};color:#3d3d44">${esc(weekOf)}</td>
     </tr></table>
   </td></tr>
 
-  <!-- Hero, like the site's hero lab: white, a grey honeycomb, a coloured highlight, black and white buttons, pixel bees -->
+  <!-- Hero, like the site's hero lab: white, a grey honeycomb, a coloured highlight, black and white buttons, pixel bees.
+       The honeycomb picture is see-through, so it still works when Gmail turns the background dark. -->
   <tr><td class="bb-hero" bgcolor="#ffffff" background="${SITE}/email/hive.png"
       style="padding:0;background:#ffffff url('${SITE}/email/hive.png') top center / 600px auto no-repeat">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
