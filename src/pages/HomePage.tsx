@@ -1,4 +1,6 @@
 import { CalendarDaysIcon } from '@heroicons/react/20/solid';
+import { NewsletterSignup } from '../components/NewsletterSignup/NewsletterSignup';
+import { NEWSLETTER_FORM_URL } from '../lib/site';
 import { useEffect, useMemo, useState } from 'react';
 import { Hero } from '../components/Hero/Hero';
 import { SearchBox } from '../components/SearchBox/SearchBox';
@@ -199,10 +201,14 @@ export function HomePage({ heroVariant = 'live' }: { heroVariant?: 'live' | 'lab
           }}
         />
         {listed.length > 0 ? <EventList groups={groups} now={now} notes={{ near: nearNote }} /> : <EmptyState onClear={clear} />}
-        <p className="browse__subscribe">
-          <CalendarDaysIcon className="icon" aria-hidden="true" /> Never miss an event:{' '}
-          <a href="/subscribe">subscribe to the BuilderBee calendar</a> in Google, Apple or Outlook.
-        </p>
+        {NEWSLETTER_FORM_URL ? (
+          <div className="browse__newsletter"><NewsletterSignup /></div>
+        ) : (
+          <p className="browse__subscribe">
+            <CalendarDaysIcon className="icon" aria-hidden="true" /> Never miss an event:{' '}
+            <a href="/subscribe">subscribe to the BuilderBee calendar</a> in Google, Apple or Outlook.
+          </p>
+        )}
       </section>
     </>
   );

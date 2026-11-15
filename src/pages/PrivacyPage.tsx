@@ -32,6 +32,25 @@ export function PrivacyPage() {
         <li>Filters and searches are kept in the page address so you can share them. We don’t record them.</li>
       </ul>
 
+      <h2>The weekly email</h2>
+      <ul>
+        <li>
+          If you sign up, we keep your email address to send you a weekly round-up of new events. That’s all we
+          use it for.
+        </li>
+        <li>
+          Signing up is two steps: you’ll get an email asking you to confirm, so nobody can sign you up without you
+          knowing.
+        </li>
+        <li>
+          Our mailing list is run by <a href="https://www.brevo.com/legal/privacypolicy/" target="_blank"
+          rel="noopener noreferrer">Brevo<span className="visually-hidden"> (privacy policy, opens in a new tab)</span></a>,
+          which stores the list and sends the emails for us. Like most newsletter tools, it may record whether an
+          email was opened or a link clicked.
+        </li>
+        <li>Every email has an unsubscribe link. Once you unsubscribe, we stop emailing you straight away.</li>
+      </ul>
+
       <h2>Submitting an event</h2>
       <ul>
         <li>
@@ -66,6 +85,7 @@ export function PrivacyPage() {
         </li>
         <li><strong>Umami</strong> gives us anonymous visit counts (see above). We run it ourselves, hosted on Vercel.</li>
         <li><strong>Tally</strong> runs the submission form (see above).</li>
+        <li><strong>Brevo</strong> runs the weekly email (see above).</li>
         <li>
           Event pages link to organisers’ own sites. When you register, you do it there, under their privacy policy.
           BuilderBee never asks for your details to sign you up.

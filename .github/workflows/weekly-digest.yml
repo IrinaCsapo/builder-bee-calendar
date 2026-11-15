@@ -1,0 +1,47 @@
+name: Weekly email
+
+# Every Monday at 08:00 UTC: new events from the last 7 days, registrations closing soon and
+# online events coming up, sent through Brevo to everyone on the BuilderBee list.
+# Run it by hand from the Actions tab: "test" sends only to BREVO_TEST_EMAILS.
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'test = only to the test addresses, send = everyone on the list'
+        type: choice
+        options: [test, send]
+        default: test
+
+permissions:
+  contents: read
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # "new this week" compares with events.json from 7 days ago
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Send the weekly email
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          BREVO_LIST_ID: ${{ vars.BREVO_LIST_ID }}
+          BREVO_TEST_EMAILS: ${{ vars.BREVO_TEST_EMAILS }}
+        run: |
+          if [ -z "$BREVO_API_KEY" ] || [ -z "$BREVO_LIST_ID" ]; then
+            echo "Brevo isn't set up yet (BREVO_API_KEY secret and BREVO_LIST_ID variable). Skipping."
+            exit 0
+          fi
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.mode }}" = "test" ]; then
+            npx tsx scripts/weekly-digest.ts --test
+          else
+            npx tsx scripts/weekly-digest.ts
+          fi

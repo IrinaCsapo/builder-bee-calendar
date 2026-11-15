@@ -132,7 +132,7 @@ const PAGES: Meta[] = [
   { path: '/communities', title: 'Communities · BuilderBee', description: 'Groups and organisations that run events for women, non-binary people and allies in tech. Follow the ones you like so you hear about their next event first.' },
   { path: '/how-it-works', title: 'How it works · BuilderBee', description: 'How BuilderBee finds, checks and lists hackathons, workshops, meetups and conferences for women, non-binary people and allies in tech.' },
   { path: '/submit', title: 'Submit an event · BuilderBee', description: 'Know a hackathon, meetup or workshop that welcomes women and non-binary builders? Add it to the BuilderBee calendar. No account needed.' },
-  { path: '/subscribe', title: 'Subscribe to the calendar · BuilderBee', description: 'Get every BuilderBee event in Google Calendar, Apple Calendar or Outlook. New events appear on their own.' },
+  { path: '/subscribe', title: 'Subscribe · BuilderBee', description: 'Get the latest hackathons and tech events for women and non-binary builders every week, by email or in your own calendar.' },
   { path: '/privacy', title: 'Privacy policy · BuilderBee', description: 'What BuilderBee collects (as little as possible) and why. We never sell your data or give it to anyone else.' },
   { path: '/cookies', title: 'Cookie policy · BuilderBee', description: 'BuilderBee doesn’t set any cookies, and there’s no advertising or tracking across sites.' },
 ];

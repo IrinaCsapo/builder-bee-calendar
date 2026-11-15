@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { CalendarDaysIcon, LinkIcon } from '@heroicons/react/20/solid';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
+import { NEWSLETTER_FORM_URL } from '../lib/site';
+import { NewsletterSignup } from '../components/NewsletterSignup/NewsletterSignup';
 import './ContentPage.css';
 import './SubscribePage.css';
 
@@ -15,7 +17,7 @@ const APPS = [
 ];
 
 export function SubscribePage() {
-  useDocumentTitle('Subscribe to the calendar');
+  useDocumentTitle('Subscribe');
   const [copied, setCopied] = useState('');
   const copy = async () => {
     try {
@@ -29,13 +31,17 @@ export function SubscribePage() {
 
   return (
     <div className="container content-page">
-      <h1>Get every event in your calendar</h1>
+      <h1>Never miss an event</h1>
       <p className="content-page__lede">
-        Subscribe once and BuilderBee’s events show up in your own calendar, next to everything else. New events
-        appear on their own.
+        {NEWSLETTER_FORM_URL
+          ? 'Get the latest events in your inbox every Monday, or have them appear in your own calendar.'
+          : 'Subscribe once and BuilderBee’s events show up in your own calendar, next to everything else. New events appear on their own.'}
       </p>
 
-      <h2>Choose your calendar</h2>
+      <NewsletterSignup heading="The weekly email" />
+
+      <h2 id="calendar">{NEWSLETTER_FORM_URL ? 'Or add every event to your calendar' : 'Add every event to your calendar'}</h2>
+      <p>New events appear on their own. Choose your calendar:</p>
       <ul className="subscribe__apps">
         {APPS.map((app) => (
           <li key={app.name}>

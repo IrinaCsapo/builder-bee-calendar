@@ -180,3 +180,4 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
   text-align: center;
 }
 .browse__subscribe a { font-weight: 700; }
+.browse__newsletter { margin-top: var(--space-8); }
