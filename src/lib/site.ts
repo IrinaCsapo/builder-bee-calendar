@@ -11,7 +11,8 @@ export const SUBMISSIONS_URL = `${REPO_URL}/issues?q=label%3Aevent-submission`;
 // The questions to add in Tally are in docs/tally-form.md.
 export const TALLY_FORM_ID = 'J1p2jJ';
 
-// TODO: replace with the show's real name and link
+// The show we built the site live on. Not shown anywhere yet: the About page's "Built live" section
+// was taken out until we have the details (see git history for it). TODO: real name and link.
 export const SHOW_NAME = 'the show';
 export const SHOW_URL = '/about';
 

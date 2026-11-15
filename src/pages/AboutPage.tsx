@@ -1,10 +1,9 @@
 import { useDocumentTitle } from '../lib/useDocumentTitle';
-import { FOUNDERS, REPO_URL, SHOW_NAME, SHOW_URL } from '../lib/site';
+import { FOUNDERS, REPO_URL } from '../lib/site';
 import './ContentPage.css';
 
 export function AboutPage() {
   useDocumentTitle('About');
-  const showIsExternal = SHOW_URL.startsWith('http');
 
   return (
     <div className="container content-page">
@@ -37,20 +36,6 @@ export function AboutPage() {
         Events for women and non-binary builders are out there, but they’re scattered across university sites, Meetup
         pages, newsletters and group chats. So we built the calendar we wished we’d had: every event in one list,
         filterable by format, place, theme and cost.
-      </p>
-
-      <h2>Built live</h2>
-      <p>
-        We built this site live on{' '}
-        {showIsExternal ? (
-          <a href={SHOW_URL} target="_blank" rel="noopener noreferrer">
-            {SHOW_NAME}
-            <span className="visually-hidden"> (opens in a new tab)</span>
-          </a>
-        ) : (
-          SHOW_NAME
-        )}
-        , in about three hours, one small step at a time.
       </p>
 
       <h2>Your privacy</h2>
