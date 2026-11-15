@@ -1,7 +1,8 @@
 import { useDocumentTitle } from '../lib/useDocumentTitle';
+import { CONTACT_EMAIL } from '../lib/site';
 import './ContentPage.css';
 
-const UPDATED = '12 November 2026';
+const UPDATED = '15 November 2026';
 
 export function PrivacyPage() {
   useDocumentTitle('Privacy policy');
@@ -9,8 +10,8 @@ export function PrivacyPage() {
     <div className="container content-page">
       <h1>Privacy policy</h1>
       <p className="content-page__lede">
-        BuilderBee is a free calendar of events. We collect as little as we can, and we don’t sell your data to
-        anybody.
+        BuilderBee is a free calendar of events. We collect as little as we can, and we never sell your data or
+        give it to anyone else.
       </p>
       <p className="content-page__small">Last updated {UPDATED}.</p>
 
@@ -43,8 +44,8 @@ export function PrivacyPage() {
           if we list the event.
         </li>
         <li>
-          Your email is optional. We only use it to tell you when your event is live, never for marketing, and we
-          delete it once we’ve done that.
+          Your email is optional. We use it to tell you when your event is live and, now and then, to get in touch
+          about BuilderBee. We keep it until you ask us to delete it.
         </li>
         <li>
           If you submit through GitHub instead, your submission is a public GitHub issue under your GitHub username.
@@ -63,13 +64,20 @@ export function PrivacyPage() {
           See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google’s privacy
           policy<span className="visually-hidden"> (opens in a new tab)</span></a>.
         </li>
-        <li><strong>Umami</strong> gives us anonymous visit counts (see above).</li>
+        <li><strong>Umami</strong> gives us anonymous visit counts (see above). We run it ourselves, hosted on Vercel.</li>
         <li><strong>Tally</strong> runs the submission form (see above).</li>
         <li>
           Event pages link to organisers’ own sites. When you register, you do it there, under their privacy policy.
           BuilderBee never asks for your details to sign you up.
         </li>
       </ul>
+
+      <h2>We never sell your data</h2>
+      <p>
+        We never sell, rent or trade your personal data, and we never share it with other companies or
+        organisations for their own use, including advertisers. The only services that handle it are the ones
+        that run the site, listed above, and only so the site works.
+      </p>
 
       <h2>Cookies</h2>
       <p>
@@ -79,8 +87,7 @@ export function PrivacyPage() {
       <h2>Your rights</h2>
       <p>
         You can ask us what we hold about you, or ask us to correct or delete it, for example your email from a
-        submission. Get in touch with the team through the links on the <a href="#/about">About</a> page and we’ll
-        sort it out.
+        submission. Email us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> and we’ll sort it out.
       </p>
 
       <h2>Changes</h2>

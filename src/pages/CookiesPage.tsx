@@ -1,7 +1,8 @@
 import { useDocumentTitle } from '../lib/useDocumentTitle';
+import { CONTACT_EMAIL } from '../lib/site';
 import './ContentPage.css';
 
-const UPDATED = '12 November 2026';
+const UPDATED = '15 November 2026';
 
 export function CookiesPage() {
   useDocumentTitle('Cookie policy');
@@ -44,7 +45,7 @@ export function CookiesPage() {
 
       <h2>Questions</h2>
       <p>
-        See our <a href="#/privacy">privacy policy</a>, or get in touch through the <a href="#/about">About</a> page.
+        See our <a href="#/privacy">privacy policy</a>, or email us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
       </p>
     </div>
   );
