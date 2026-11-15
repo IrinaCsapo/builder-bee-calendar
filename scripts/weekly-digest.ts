@@ -52,33 +52,83 @@ closing.forEach((e) => shown.add(e.id));
 const online = upcoming.filter((e) => e.format === 'Online' && e.start_date <= inDays(14) && !shown.has(e.id));
 
 // ---- The email --------------------------------------------------------------------
+// Looks like the website: logo, the hero's pink gradient, black date tiles, pill tags, the orange and
+// purple buttons. Built with tables and inline styles so it holds up in Gmail, Outlook and Apple Mail.
+// Pictures live on the site (public/email/), so they load like any web image.
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const short = (d: string) => `${Number(d.slice(8, 10))} ${MONTHS[Number(d.slice(5, 7)) - 1]}`;
-const dates = (e: CalendarEvent) => (e.start_date === e.end_date ? short(e.start_date) : `${short(e.start_date)} – ${short(e.end_date)}`);
+const day = (d: string) => Number(d.slice(8, 10));
+const mon = (d: string) => MONTHS[Number(d.slice(5, 7)) - 1];
+const short = (d: string) => `${day(d)} ${mon(d)}`;
 const where = (e: CalendarEvent) =>
   e.format === 'Online' ? 'Online' : [e.city, e.country].filter(Boolean).join(', ') + (e.format === 'Hybrid' ? ' + online' : '');
 
-function item(e: CalendarEvent, note = ''): string {
-  const meta = [dates(e), where(e), e.event_type, e.cost === 'Free' ? 'Free' : ''].filter(Boolean).join(' · ');
-  return `
-    <tr><td style="padding:14px 0;border-bottom:1px solid #ececf0">
-      <a href="${SITE}/event/${e.id}" style="color:#000;font-size:17px;font-weight:700;text-decoration:underline">${esc(e.title)}</a>
-      <div style="margin-top:4px;color:#3d3d44;font-size:14px">${esc(meta)}</div>
-      <div style="margin-top:2px;color:#3d3d44;font-size:14px">by ${esc(e.organiser)}${note ? ` · <strong style="color:#000">${esc(note)}</strong>` : ''}</div>
-    </td></tr>`;
+const SANS = `'DM Sans',Helvetica,Arial,sans-serif`;
+const SERIF = `'Newsreader',Georgia,'Times New Roman',serif`;
+const pill = (text: string, bg: string, border = bg, color = '#000') =>
+  `<span style="display:inline-block;margin:6px 6px 0 0;padding:3px 10px;border:1px solid ${border};border-radius:999px;background:${bg};color:${color};font:600 12px/1.4 ${SANS};white-space:nowrap">${esc(text)}</span>`;
+const button = (href: string, label: string, bg: string, color: string, border = bg) =>
+  `<table role="presentation" cellspacing="0" cellpadding="0" style="display:inline-table;margin:0 8px 8px 0"><tr>
+    <td bgcolor="${bg}" style="border-radius:999px;border:1.5px solid ${border}">
+      <a href="${href}" style="display:inline-block;padding:12px 22px;font:700 15px/1 ${SANS};color:${color};text-decoration:none;border-radius:999px">${esc(label)}</a>
+    </td></tr></table>`;
+
+/** Black tile like the site's: day in white, month in mint */
+function dateTile(e: CalendarEvent): string {
+  const sameMonth = e.start_date.slice(0, 7) === e.end_date.slice(0, 7);
+  const days = e.start_date === e.end_date ? `${day(e.start_date)}` : sameMonth ? `${day(e.start_date)}–${day(e.end_date)}` : `${day(e.start_date)}`;
+  const size = days.length > 3 ? 17 : 24;
+  return `<td width="64" valign="top" style="padding:0 14px 0 0">
+    <table role="presentation" width="64" cellspacing="0" cellpadding="0"><tr>
+      <td bgcolor="#000000" align="center" style="border-radius:14px;padding:10px 4px">
+        <div style="font:800 ${size}px/1.1 ${SANS};color:#ffffff;white-space:nowrap">${days}</div>
+        <div style="margin-top:4px;font:700 12px/1 ${SANS};letter-spacing:0.08em;text-transform:uppercase;color:#a3ffb8">${mon(e.start_date)}</div>
+      </td></tr></table>
+  </td>`;
 }
 
-function section(title: string, intro: string, list: CalendarEvent[], note?: (e: CalendarEvent) => string): string {
-  if (!list.length) return '';
-  const more = list.length > MAX_PER_SECTION
-    ? `<tr><td style="padding:12px 0"><a href="${SITE}/" style="color:#000;font-weight:700">See ${list.length - MAX_PER_SECTION} more on BuilderBee →</a></td></tr>`
+function card(e: CalendarEvent, note = ''): string {
+  const url = `${SITE}/event/${e.id}`;
+  const tags = [
+    note ? pill(note, '#ffe3cc', '#ffe3cc') : '',
+    pill(e.format, '#ffffff', '#e4e4e7'),
+    e.cost === 'Free' ? pill('Free', '#a3ffb8') : '',
+    pill(e.event_type, '#f3e9ff', '#f3e9ff'),
+  ].join('');
+  const thumb = e.image_url
+    ? `<td class="bb-thumb" width="104" valign="top" style="padding:0 0 0 14px">
+        <a href="${url}"><img src="${esc(e.image_url)}" width="104" alt="" style="display:block;width:104px;max-width:104px;height:auto;border-radius:10px;border:0"></a>
+      </td>`
     : '';
   return `
-    <h2 style="margin:32px 0 4px;font-family:Georgia,serif;font-weight:400;font-size:24px;color:#000">${esc(title)}</h2>
-    <p style="margin:0 0 4px;color:#3d3d44;font-size:14px">${esc(intro)}</p>
-    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">${list.slice(0, MAX_PER_SECTION).map((e) => item(e, note?.(e))).join('')}${more}</table>`;
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin:0 0 12px;border:1px solid #e4e4e7;border-radius:16px;background:#ffffff">
+    <tr><td style="padding:16px">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>
+        ${dateTile(e)}
+        <td valign="top">
+          <a href="${url}" style="font:700 17px/1.3 ${SANS};color:#000;text-decoration:none">${esc(e.title)}</a>
+          <div style="margin-top:4px;font:400 14px/1.4 ${SANS};color:#3d3d44">by ${esc(e.organiser)} · ${esc(where(e))}</div>
+          <div>${tags}</div>
+        </td>
+        ${thumb}
+      </tr></table>
+    </td></tr>
+  </table>`;
+}
+
+function section(kicker: string, kickerBg: string, title: string, list: CalendarEvent[], note?: (e: CalendarEvent) => string): string {
+  if (!list.length) return '';
+  const more = list.length > MAX_PER_SECTION
+    ? `<p style="margin:4px 0 0">${button(`${SITE}/`, `See ${list.length - MAX_PER_SECTION} more on BuilderBee →`, '#ffffff', '#000000', '#000000')}</p>`
+    : '';
+  return `
+  <tr><td class="bb-pad" style="padding:36px 32px 0">
+    <span style="display:inline-block;padding:4px 12px;border-radius:999px;background:${kickerBg};font:700 12px/1.4 ${SANS};letter-spacing:0.06em;text-transform:uppercase;color:#000">${esc(kicker)}</span>
+    <h2 style="margin:10px 0 16px;font:400 28px/1.15 ${SERIF};color:#000">${esc(title)}</h2>
+    ${list.slice(0, MAX_PER_SECTION).map((e) => card(e, note?.(e))).join('')}
+    ${more}
+  </td></tr>`;
 }
 
 const total = fresh.length + closing.length + online.length;
@@ -87,27 +137,65 @@ const subject = fresh.length
   : closing.length
     ? `Registration closing soon: ${closing[0].title}${closing.length > 1 ? ` and ${closing.length - 1} more` : ''}`
     : 'Online events coming up this fortnight';
+const headline = fresh.length
+  ? `<span style="color:#7000f0">${fresh.length} new</span> ${fresh.length === 1 ? 'event' : 'events'} this week`
+  : 'Your week in tech events';
+// Shown as the grey preview line in inbox lists
+const preheader = [...fresh, ...closing, ...online].slice(0, 3).map((e) => e.title).join(', ') + (total > 3 ? ' and more' : '');
+const weekOf = `Week of ${day(today)} ${mon(today)} ${today.slice(0, 4)}`;
 
 const html = `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${esc(subject)}</title></head>
-<body style="margin:0;padding:0;background:#f6f6f8">
-<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f6f6f8"><tr><td align="center" style="padding:24px 12px">
-<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;background:#fff;border-radius:16px">
-<tr><td style="padding:28px 28px 8px;font-family:Helvetica,Arial,sans-serif;color:#000">
-  <a href="${SITE}/" style="color:#000;text-decoration:none;font-family:Georgia,serif;font-size:26px">🐝 BuilderBee</a>
-  <p style="margin:12px 0 0;font-size:16px;line-height:1.5">Your weekly round-up of hackathons, workshops and meetups for women, non-binary people and allies in tech.</p>
-  ${section('New this week', 'Just added to the calendar.', fresh)}
-  ${section('Registration closing soon', 'Last chance to sign up.', closing, (e) => `Register by ${short(e.deadline!)}`)}
-  ${section('Online in the next two weeks', 'Join from anywhere.', online)}
-  <p style="margin:32px 0 0">
-    <a href="${SITE}/" style="display:inline-block;padding:12px 22px;border-radius:999px;background:#000;color:#fff;font-weight:700;text-decoration:none">Browse all events</a>
-  </p>
-  <p style="margin:24px 0 0;font-size:14px;color:#3d3d44;line-height:1.5">Know an event we’re missing? <a href="${SITE}/submit" style="color:#000">Submit it</a>.</p>
-</td></tr>
-<tr><td style="padding:20px 28px 28px;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.5;color:#55555e;border-top:1px solid #ececf0">
-  You’re getting this because you signed up at <a href="${SITE}/" style="color:#55555e">builderbee.club</a>. We never sell your data or give it to anyone else.<br>
-  <a href="{{ unsubscribe }}" style="color:#55555e">Unsubscribe</a> · <a href="${SITE}/privacy" style="color:#55555e">Privacy policy</a> · Questions? Reply to this email.
-</td></tr>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light">
+<title>${esc(subject)}</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&family=Newsreader:opsz@6..72&display=swap" rel="stylesheet">
+<style>
+  @media (max-width: 480px) {
+    .bb-pad { padding-left: 18px !important; padding-right: 18px !important; }
+    .bb-thumb { display: none !important; }
+    .bb-hero h1 { font-size: 32px !important; }
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background:#f4f1f7">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:#f4f1f7">${esc(preheader)}</div>
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f4f1f7"><tr><td align="center" style="padding:24px 10px">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;background:#ffffff;border-radius:24px;overflow:hidden">
+
+  <tr><td class="bb-pad" style="padding:22px 32px">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>
+      <td><a href="${SITE}/"><img src="${SITE}/email/logo.png" width="170" alt="BuilderBee" style="display:block;width:170px;height:auto;border:0"></a></td>
+      <td align="right" style="font:600 13px/1.3 ${SANS};color:#3d3d44">${esc(weekOf)}</td>
+    </tr></table>
+  </td></tr>
+
+  <tr><td class="bb-pad bb-hero" bgcolor="#f7d6f2" background="${SITE}/email/header.jpg"
+      style="padding:44px 32px 36px;background:#f7d6f2 url('${SITE}/email/header.jpg') center / cover no-repeat">
+    <h1 style="margin:0;font:400 40px/1.1 ${SERIF};color:#000">${headline}</h1>
+    <p style="margin:14px 0 22px;font:400 17px/1.5 ${SANS};color:#000">Hackathons, workshops and meetups for women, non-binary people and allies in tech. Online and around the world.</p>
+    ${button(`${SITE}/`, 'Browse events', '#ff6a00', '#000000')}${button(`${SITE}/submit`, 'Submit an event', '#7000f0', '#ffffff')}
+  </td></tr>
+
+  ${section('New this week', '#a3ffb8', 'Just added to the calendar', fresh)}
+  ${section('Closing soon', '#ffe3cc', 'Last chance to register', closing, (e) => `Register by ${short(e.deadline!)}`)}
+  ${section('Online', '#f3e9ff', 'Join from anywhere in the next two weeks', online)}
+
+  <tr><td class="bb-pad" style="padding:36px 32px 32px">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>
+      <td bgcolor="#a3ffb8" style="border-radius:20px;padding:24px">
+        <h2 style="margin:0 0 6px;font:400 24px/1.2 ${SERIF};color:#000">Know an event we’re missing?</h2>
+        <p style="margin:0 0 16px;font:400 15px/1.5 ${SANS};color:#000">Hackathons, workshops, meetups: if it welcomes women and non-binary builders, we’d love to list it.</p>
+        ${button(`${SITE}/submit`, 'Submit an event', '#000000', '#ffffff')}
+      </td></tr></table>
+  </td></tr>
+
+  <tr><td class="bb-pad" style="padding:0 32px 32px;font:400 12px/1.6 ${SANS};color:#55555e">
+    You’re getting this because you signed up at <a href="${SITE}/" style="color:#55555e">builderbee.club</a>. We never sell your data or give it to anyone else.
+    Prefer your calendar? <a href="${SITE}/subscribe#calendar" style="color:#55555e">Subscribe there</a>.<br>
+    <a href="{{ unsubscribe }}" style="color:#55555e">Unsubscribe</a> · <a href="${SITE}/privacy" style="color:#55555e">Privacy policy</a> · Questions? Just reply.
+  </td></tr>
+
 </table></td></tr></table>
 </body></html>`;
 
