@@ -1,18 +1,14 @@
 import { ArrowRightIcon, ArrowUpRightIcon } from '@heroicons/react/20/solid';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { allEvents } from '../lib/events';
-import { getUpcoming } from '../lib/dates';
-import { applyFilters, EMPTY_FILTERS, filtersToQuery } from '../lib/filters';
-import { COMMUNITY_GROUPS } from '../data/communities';
+import { communityEvents } from '../lib/communityEvents';
+import { COMMUNITY_GROUPS, communitySlug, type Community } from '../data/communities';
 import './ContentPage.css';
 import './CommunitiesPage.css';
 
-const upcoming = getUpcoming(allEvents);
-
-/** How many upcoming events on BuilderBee match a group's search, and the link to them */
-function eventsFor(search: string) {
-  const filters = { ...EMPTY_FILTERS, query: search };
-  return { count: applyFilters(upcoming, filters).length, href: `/?${filtersToQuery(filters)}` };
+/** How many upcoming events on BuilderBee are by this group, and the link to its own page */
+function eventsFor(c: Community) {
+  return { count: communityEvents(c, allEvents).length, href: `/community/${communitySlug(c)}` };
 }
 
 const total = COMMUNITY_GROUPS.reduce((n, g) => n + g.communities.length, 0);
@@ -35,7 +31,7 @@ export function CommunitiesPage() {
             <h2 id={headingId}>{group.title}</h2>
             <ul className="communities__list">
               {group.communities.map((c) => {
-                const events = c.search ? eventsFor(c.search) : null;
+                const events = c.search ? eventsFor(c) : null;
                 return (
                   <li key={c.url} className="community-card">
                     <h3 className="community-card__name">

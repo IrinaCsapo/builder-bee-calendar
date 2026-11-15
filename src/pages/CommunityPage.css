@@ -1,0 +1,7 @@
+/* A community's own page: who they are, then their events in the same grid as the home page */
+.community-page { padding-block: var(--space-6) var(--space-9, 6rem); }
+.community-page h1 { margin-top: var(--space-3); }
+.community-page__where { margin-top: var(--space-3); font-weight: 700; }
+.community-page__about { max-width: 46rem; margin-top: var(--space-2); font-size: var(--text-lg); }
+.community-page__site { display: inline-flex; align-items: center; gap: 0.3em; min-height: var(--tap-target); font-weight: 700; }
+.community-page section { margin-top: var(--space-7); }

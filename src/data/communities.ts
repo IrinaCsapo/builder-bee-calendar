@@ -235,3 +235,11 @@ export const COMMUNITY_GROUPS: CommunityGroup[] = [
     ],
   },
 ];
+
+/** Every community, in page order */
+export const ALL_COMMUNITIES: Community[] = COMMUNITY_GROUPS.flatMap((g) => g.communities);
+
+/** Address of a community's page: "She Leads Tech by Unlock Her Tech" -> "she-leads-tech-by-unlock-her-tech" */
+export const communitySlug = (c: Community) =>
+  c.name.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase()
+    .replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');

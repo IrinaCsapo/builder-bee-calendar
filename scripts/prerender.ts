@@ -3,6 +3,7 @@
 // description, preview image and address:
 //   dist/event/<id>.html   → builderbee.club/event/<id>   (plus Google "Event" structured data)
 //   dist/about.html        → builderbee.club/about        (and the other pages)
+//   dist/community/<slug>.html    → a community and its upcoming events
 //   dist/404.html          → anything else; the app shows its own "not found" page
 //   dist/sitemap.xml, dist/robots.txt, dist/calendar.ics (the subscribable calendar)
 // Each file is the normal app; the browser takes over as usual once it loads.
@@ -10,6 +11,8 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import type { CalendarEvent } from '../src/types/event';
 import { buildFeed } from '../src/lib/ics';
+import { ALL_COMMUNITIES, communitySlug } from '../src/data/communities';
+import { communityEvents } from '../src/lib/communityEvents';
 
 const SITE = 'https://builderbee.club';
 const DIST = new URL('../dist/', import.meta.url);
@@ -135,6 +138,18 @@ const PAGES: Meta[] = [
 ];
 for (const p of PAGES) write(`${p.path.slice(1)}.html`, render(p));
 
+// One page per community (/communities/<slug>), with its upcoming events
+const slugs = new Set<string>();
+const COMMUNITY_PAGES: Meta[] = ALL_COMMUNITIES.map((c) => {
+  const slug = communitySlug(c);
+  if (slugs.has(slug)) throw new Error(`prerender: two communities share the address /community/${slug}`);
+  slugs.add(slug);
+  const n = communityEvents(c, events).length;
+  const count = n ? ` ${n} upcoming ${n === 1 ? 'event' : 'events'} on BuilderBee.` : '';
+  return { path: `/community/${slug}`, title: `${c.name} events · BuilderBee`, description: `${c.about}${count}` };
+});
+for (const p of COMMUNITY_PAGES) write(`${p.path.slice(1)}.html`, render(p));
+
 // The home page gets its canonical address too; anything unknown falls back to the app
 const home = template.replace('</head>', `    <link rel="canonical" href="${SITE}/" />\n  </head>`);
 write('index.html', home);
@@ -153,6 +168,7 @@ const upcoming = events.filter((e) => e.end_date >= today);
 const urls = [
   { loc: `${SITE}/`, changefreq: 'daily', priority: '1.0' },
   ...PAGES.map((p) => ({ loc: SITE + p.path, changefreq: 'monthly', priority: '0.5' })),
+  ...COMMUNITY_PAGES.map((p) => ({ loc: SITE + p.path, changefreq: 'weekly', priority: '0.6' })),
   ...upcoming.map((e) => ({ loc: `${SITE}/event/${e.id}`, changefreq: 'weekly', priority: '0.8' })),
 ];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
@@ -162,4 +178,4 @@ ${urls.map((u) => `  <url><loc>${esc(u.loc)}</loc><lastmod>${today}</lastmod><ch
 `);
 write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /hero-lab\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
-console.log(`prerender: ${events.length} event pages, ${PAGES.length} other pages, sitemap with ${urls.length} addresses, calendar feed with ${feedEvents.length} events`);
+console.log(`prerender: ${events.length} event pages, ${PAGES.length} other pages, ${COMMUNITY_PAGES.length} community pages, sitemap with ${urls.length} addresses, calendar feed with ${feedEvents.length} events`);

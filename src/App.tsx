@@ -11,11 +11,13 @@ import { CookiesPage } from './pages/CookiesPage';
 import { HowItWorksPage } from './pages/HowItWorksPage';
 import { CommunitiesPage } from './pages/CommunitiesPage';
 import { SubscribePage } from './pages/SubscribePage';
+import { CommunityPage } from './pages/CommunityPage';
 import { useRoute } from './lib/router';
 
 export function App() {
   const { path } = useRoute();
   const eventMatch = path.match(/^\/event\/([a-z0-9-]+)\/?$/);
+  const communityMatch = path.match(/^\/community\/([a-z0-9-]+)\/?$/);
 
   let page;
   if (path === '/') page = <HomePage />;
@@ -24,6 +26,7 @@ export function App() {
   else if (eventMatch) page = <EventPage id={eventMatch[1]} />;
   else if (path === '/submit') page = <SubmitPage />;
   else if (path === '/communities') page = <CommunitiesPage />;
+  else if (communityMatch) page = <CommunityPage slug={communityMatch[1]} />;
   else if (path === '/how-it-works') page = <HowItWorksPage />;
   else if (path === '/about') page = <AboutPage />;
   else if (path === '/subscribe') page = <SubscribePage />;
