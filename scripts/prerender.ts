@@ -4,11 +4,12 @@
 //   dist/event/<id>.html   → builderbee.club/event/<id>   (plus Google "Event" structured data)
 //   dist/about.html        → builderbee.club/about        (and the other pages)
 //   dist/404.html          → anything else; the app shows its own "not found" page
-//   dist/sitemap.xml, dist/robots.txt
+//   dist/sitemap.xml, dist/robots.txt, dist/calendar.ics (the subscribable calendar)
 // Each file is the normal app; the browser takes over as usual once it loads.
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import type { CalendarEvent } from '../src/types/event';
+import { buildFeed } from '../src/lib/ics';
 
 const SITE = 'https://builderbee.club';
 const DIST = new URL('../dist/', import.meta.url);
@@ -128,6 +129,7 @@ const PAGES: Meta[] = [
   { path: '/communities', title: 'Communities · BuilderBee', description: 'Groups and organisations that run events for women, non-binary people and allies in tech. Follow the ones you like so you hear about their next event first.' },
   { path: '/how-it-works', title: 'How it works · BuilderBee', description: 'How BuilderBee finds, checks and lists hackathons, workshops, meetups and conferences for women, non-binary people and allies in tech.' },
   { path: '/submit', title: 'Submit an event · BuilderBee', description: 'Know a hackathon, meetup or workshop that welcomes women and non-binary builders? Add it to the BuilderBee calendar. No account needed.' },
+  { path: '/subscribe', title: 'Subscribe to the calendar · BuilderBee', description: 'Get every BuilderBee event in Google Calendar, Apple Calendar or Outlook. New events appear on their own.' },
   { path: '/privacy', title: 'Privacy policy · BuilderBee', description: 'What BuilderBee collects (as little as possible) and why. We never sell your data or give it to anyone else.' },
   { path: '/cookies', title: 'Cookie policy · BuilderBee', description: 'BuilderBee doesn’t set any cookies, and there’s no advertising or tracking across sites.' },
 ];
@@ -137,6 +139,12 @@ for (const p of PAGES) write(`${p.path.slice(1)}.html`, render(p));
 const home = template.replace('</head>', `    <link rel="canonical" href="${SITE}/" />\n  </head>`);
 write('index.html', home);
 write('404.html', home.replace(/\s*<link rel="canonical"[^>]*>/, ''));
+
+// ---- Calendar feed: upcoming events plus the last month, so recent ones don't vanish mid-event ----
+
+const monthAgo = new Date(Date.now() - 31 * 864e5).toISOString().slice(0, 10);
+const feedEvents = events.filter((e) => e.end_date >= monthAgo).sort((a, b) => a.start_date.localeCompare(b.start_date));
+write('calendar.ics', buildFeed(feedEvents, SITE));
 
 // ---- Sitemap and robots.txt ---------------------------------------------------
 
@@ -154,4 +162,4 @@ ${urls.map((u) => `  <url><loc>${esc(u.loc)}</loc><lastmod>${today}</lastmod><ch
 `);
 write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /hero-lab\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
-console.log(`prerender: ${events.length} event pages, ${PAGES.length} other pages, sitemap with ${urls.length} addresses`);
+console.log(`prerender: ${events.length} event pages, ${PAGES.length} other pages, sitemap with ${urls.length} addresses, calendar feed with ${feedEvents.length} events`);

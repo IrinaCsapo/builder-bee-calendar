@@ -53,6 +53,12 @@ export function AboutPage() {
         , in about three hours, one small step at a time.
       </p>
 
+      <h2>Your privacy</h2>
+      <p>
+        We collect as little personal data about you as we can, to keep BuilderBee safe and secure for everyone who
+        uses it. We never sell your data or give it to anyone else. Read our <a href="/privacy">privacy policy</a>.
+      </p>
+
       <h2>Help it grow</h2>
       <p>
         The calendar is only as good as the events in it. If you know one we’re missing,{' '}

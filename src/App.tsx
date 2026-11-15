@@ -10,6 +10,7 @@ import { PrivacyPage } from './pages/PrivacyPage';
 import { CookiesPage } from './pages/CookiesPage';
 import { HowItWorksPage } from './pages/HowItWorksPage';
 import { CommunitiesPage } from './pages/CommunitiesPage';
+import { SubscribePage } from './pages/SubscribePage';
 import { useRoute } from './lib/router';
 
 export function App() {
@@ -25,6 +26,7 @@ export function App() {
   else if (path === '/communities') page = <CommunitiesPage />;
   else if (path === '/how-it-works') page = <HowItWorksPage />;
   else if (path === '/about') page = <AboutPage />;
+  else if (path === '/subscribe') page = <SubscribePage />;
   else if (path === '/privacy') page = <PrivacyPage />;
   else if (path === '/cookies') page = <CookiesPage />;
   else page = <NotFoundPage />;

@@ -171,3 +171,12 @@ a { color: var(--color-link); text-underline-offset: 0.2em; }
   flex-shrink: 0;
   vertical-align: -0.2em;
 }
+
+/* Under the event list: subscribe to the whole calendar */
+.browse__subscribe {
+  margin: var(--space-8) 0 0;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+}
+.browse__subscribe a { font-weight: 700; }

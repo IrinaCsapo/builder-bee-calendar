@@ -24,6 +24,7 @@ export function AddToCalendar({ event }: { event: CalendarEvent }) {
       </button>
       <p id="add-to-calendar-hint" className="add-to-calendar__hint">
         Downloads a .ics file for Apple, Google or Outlook Calendar. Added as an all-day event.
+        Want them all? <a href="/subscribe">Subscribe to the calendar</a>.
       </p>
       <p className="add-to-calendar__status" role="status">{message}</p>
     </div>

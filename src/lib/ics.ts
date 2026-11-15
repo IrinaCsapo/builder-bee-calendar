@@ -4,7 +4,7 @@ import type { CalendarEvent } from '../types/event';
 
 // Text values must escape backslashes, semicolons, commas and newlines (RFC 5545 §3.3.11).
 const escapeText = (s: string) =>
-  s.replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+  s.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
 
 // Lines longer than 75 bytes must be folded: CRLF followed by a space (§3.1).
 function fold(line: string): string {
@@ -28,7 +28,8 @@ const nextDay = (iso: string) => {
 };
 const stamp = () => new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); // 20261107T101500Z
 
-export function buildIcs(event: CalendarEvent, pageUrl: string): string {
+/** The VEVENT lines for one event (all-day, since we only know dates). */
+function eventLines(event: CalendarEvent, pageUrl: string, stampNow: string): string[] {
   const location = event.format === 'Online'
     ? 'Online'
     : [event.venue, event.city, event.country].filter(Boolean).join(', ');
@@ -40,16 +41,10 @@ export function buildIcs(event: CalendarEvent, pageUrl: string): string {
     `Times and details may change, so check the organiser's page.`,
     `Found on BuilderBee: ${pageUrl}`,
   ].join('\n');
-
-  const lines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//BuilderBee//EN',
-    'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
+  return [
     'BEGIN:VEVENT',
     `UID:${event.id}@builder-bee-calendar`,
-    `DTSTAMP:${stamp()}`,
+    `DTSTAMP:${stampNow}`,
     // We only know dates, not times, so these are all-day events. DTEND is exclusive.
     `DTSTART;VALUE=DATE:${compactDate(event.start_date)}`,
     `DTEND;VALUE=DATE:${compactDate(nextDay(event.end_date))}`,
@@ -59,9 +54,33 @@ export function buildIcs(event: CalendarEvent, pageUrl: string): string {
     `URL:${event.registration_url}`,
     'TRANSP:TRANSPARENT', // all-day: don't mark the whole day as busy
     'END:VEVENT',
-    'END:VCALENDAR',
   ];
-  return lines.map(fold).join('\r\n') + '\r\n';
+}
+
+const calendar = (header: string[], body: string[]) =>
+  ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//BuilderBee//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', ...header, ...body, 'END:VCALENDAR']
+    .map(fold).join('\r\n') + '\r\n';
+
+/** One event, for the "Add to calendar" button. */
+export function buildIcs(event: CalendarEvent, pageUrl: string): string {
+  return calendar([], eventLines(event, pageUrl, stamp()));
+}
+
+/**
+ * The subscribable feed (builderbee.club/calendar.ics, made at build time by scripts/prerender.ts).
+ * Calendar apps check it again every so often, so new events appear on their own.
+ */
+export function buildFeed(events: CalendarEvent[], siteUrl: string): string {
+  const now = stamp();
+  return calendar(
+    [
+      'X-WR-CALNAME:BuilderBee',
+      `X-WR-CALDESC:${escapeText(`Hackathons, buildathons, meetups and workshops for women, non-binary people and allies in tech. ${siteUrl}`)}`,
+      'REFRESH-INTERVAL;VALUE=DURATION:PT12H',
+      'X-PUBLISHED-TTL:PT12H',
+    ],
+    events.flatMap((e) => eventLines(e, `${siteUrl}/event/${e.id}`, now)),
+  );
 }
 
 /** Triggers a download of the .ics file. */

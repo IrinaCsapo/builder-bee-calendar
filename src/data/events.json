@@ -1052,6 +1052,7 @@
     "level": "All levels",
     "cost": "Paid",
     "registration_url": "https://ghci.anitabindia.org/",
+    "image_url": "https://ghci.anitabindia.org/architects-of-ghci.png",
     "source": "https://ghci.anitabindia.org/"
   },
   {
@@ -1122,6 +1123,7 @@
     "level": "Beginner friendly",
     "cost": "Free",
     "registration_url": "https://innovateherhacks.org/",
+    "image_url": "https://innovateherhacks.org/assets/logo.jpg",
     "source": "https://innovateherhacks.org/"
   },
   {
@@ -1168,6 +1170,7 @@
     "cost": "Paid",
     "registration_url": "https://celebration.ocwic.org/registration/",
     "deadline": "2027-02-01",
+    "image_url": "https://celebration.ocwic.org/wp-content/uploads/2024/06/2025_compressed-1024x670.jpg",
     "source": "https://celebration.ocwic.org/"
   },
   {
@@ -1257,6 +1260,7 @@
     "level": "All levels",
     "cost": "Paid",
     "registration_url": "https://atlantatechvillage.com/events/women-tech-meetup-20261209",
+    "image_url": "https://cdn.prod.website-files.com/69b229b944390829b5d3189d/6a849d79b79122ab8a098696_https%253A%252F%252Fcdn.evbuc.com%252Fimages%252F923492773%252F1148945218563%252F1%252Foriginal.jpeg",
     "source": "https://atlantatechvillage.com/events/women-tech-meetup-20261209"
   },
   {
@@ -1911,6 +1915,7 @@
     "level": "Beginner friendly",
     "cost": "Paid",
     "registration_url": "https://itch.io/jam/gamerella2026",
+    "image_url": "https://img.itch.zone/aW1nLzI5Mjk4ODYwLnBuZw==/original/bFow%2BX.png",
     "source": "https://itch.io/jam/gamerella2026"
   },
   {
