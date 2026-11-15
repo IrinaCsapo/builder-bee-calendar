@@ -98,17 +98,12 @@
 .about__one {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: 14px 26px;
+  padding: 16px 30px;
   border-radius: var(--radius-pill);
   background: #000;
-  color: #fff;
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  text-decoration: none;
-  white-space: nowrap;
 }
-.about__one-bee { width: 2rem; }
+/* The site logo is black on white; flipped, it's the white logo on the black pill */
+.about__one img { display: block; width: 11rem; height: auto; filter: invert(1); }
 
 /* ---- Values ---- */
 .about__values {

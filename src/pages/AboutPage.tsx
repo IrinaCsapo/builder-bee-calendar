@@ -3,6 +3,7 @@ import { CodeBracketIcon, LockClosedIcon, PlusCircleIcon } from '@heroicons/reac
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { FOUNDERS, REPO_URL } from '../lib/site';
 import { PixelBee } from '../components/PixelBee/PixelBee';
+import logo from '../assets/builderbee-logo.svg';
 import './HowItWorksPage.css';
 import './AboutPage.css';
 
@@ -71,7 +72,7 @@ export function AboutPage() {
           </ul>
           <ArrowRightIcon className="about__arrow" aria-hidden="true" />
           <a className="about__one" href="/">
-            <PixelBee className="about__one-bee" /> BuilderBee
+            <img src={logo} alt="BuilderBee" width={1286} height={324} />
           </a>
         </div>
       </section>

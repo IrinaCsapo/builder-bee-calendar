@@ -3,7 +3,8 @@ import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { allEvents } from '../lib/events';
 import { communityEvents } from '../lib/communityEvents';
 import { useNow } from '../lib/timeLeft';
-import { ALL_COMMUNITIES, communitySlug } from '../data/communities';
+import { ALL_COMMUNITIES, COMMUNITY_GROUPS, communitySlug } from '../data/communities';
+import { GROUP_COLOURS, initials } from './CommunitiesPage';
 import { EventCard } from '../components/EventCard/EventCard';
 import { NotFoundPage } from './NotFoundPage';
 import '../components/EventList/EventList.css';
@@ -18,21 +19,30 @@ export function CommunityPage({ slug }: { slug: string }) {
   if (!community) return <NotFoundPage message="We couldn't find that community. It may have been renamed." />;
 
   const events = communityEvents(community, allEvents);
+  const gi = COMMUNITY_GROUPS.findIndex((g) => g.communities.includes(community));
+  const group = COMMUNITY_GROUPS[gi];
+  const colour = GROUP_COLOURS[Math.max(gi, 0) % GROUP_COLOURS.length];
 
   return (
     <div className="container community-page">
       <p className="event-page__back">
         <a href="/communities"><ArrowLeftIcon className="icon" aria-hidden="true" /> All communities</a>
       </p>
-      <h1>{community.name}</h1>
-      <p className="community-page__where">{community.where}</p>
-      <p className="community-page__about">{community.about}</p>
-      <p>
-        <a className="community-page__site" href={community.url} target="_blank" rel="noopener noreferrer">
-          Visit {community.name}<span className="visually-hidden"> (opens in a new tab)</span>{' '}
-          <ArrowUpRightIcon className="icon" aria-hidden="true" />
-        </a>
-      </p>
+      <header className="community-page__head" style={{ ['--group' as string]: colour }}>
+        <span className="community-page__avatar" aria-hidden="true">{initials(community.name)}</span>
+        <div>
+          <p className="community-page__kicker">{group?.title ?? 'Community'}</p>
+          <h1>{community.name}</h1>
+          <p className="community-page__about">{community.about}</p>
+          <div className="community-page__meta">
+            <span className="community-page__where">{community.where}</span>
+            <a className="community-page__site" href={community.url} target="_blank" rel="noopener noreferrer">
+              Visit their site<span className="visually-hidden"> (opens in a new tab)</span>
+              <ArrowUpRightIcon className="icon" aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+      </header>
 
       <section aria-labelledby="community-events">
         <div className="event-row__head">
