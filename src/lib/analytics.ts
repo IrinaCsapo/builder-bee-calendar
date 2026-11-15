@@ -4,15 +4,19 @@ type Umami = { track: (payload: (props: Record<string, unknown>) => Record<strin
 
 /**
  * Loads Umami (cookieless, anonymous visit counts) on the live site only.
- * The site's pages live after the "#" (#/event/…), which Umami doesn't follow on its own,
- * so we switch off its auto-tracking and send each page view ourselves, with the page as a
- * normal path: #/event/herhack-2026 is counted as /event/herhack-2026.
+ * We send each page view ourselves (auto-tracking is off) so that changing filters,
+ * which rewrites the address, isn't counted as a new page view. Only the path is sent.
  */
 export function startAnalytics() {
   if (!UMAMI_WEBSITE_ID || import.meta.env.DEV || location.hostname === 'localhost') return;
 
-  const path = () => location.hash.replace(/^#/, '') || '/';
-  const send = () => (window as unknown as { umami?: Umami }).umami?.track((props) => ({ ...props, url: path() }));
+  let last = '';
+  const send = () => {
+    const url = location.pathname.replace(/(.)\/$/, '$1');
+    if (url === last) return;
+    last = url;
+    (window as unknown as { umami?: Umami }).umami?.track((props) => ({ ...props, url }));
+  };
 
   const script = document.createElement('script');
   script.defer = true;
@@ -21,5 +25,6 @@ export function startAnalytics() {
   script.dataset.autoTrack = 'false';
   script.onload = send;
   document.head.appendChild(script);
-  window.addEventListener('hashchange', send);
+  window.addEventListener('routechange', send);
+  window.addEventListener('popstate', send);
 }

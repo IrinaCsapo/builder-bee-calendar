@@ -1,21 +1,21 @@
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/20/solid';
 import { useEffect, useRef, useState } from 'react';
-import { useHashRoute } from '../../lib/useHashRoute';
+import { useRoute } from '../../lib/router';
 import logo from '../../assets/builderbee-logo.svg';
 import { Today } from '../Today/Today';
 import './Header.css';
 
 const NAV = [
-  { href: '#/', path: '/', label: 'Events' },
-  { href: '#/communities', path: '/communities', label: 'Communities' },
-  { href: '#/how-it-works', path: '/how-it-works', label: 'How it works' },
-  { href: '#/about', path: '/about', label: 'About' },
+  { href: '/', path: '/', label: 'Events' },
+  { href: '/communities', path: '/communities', label: 'Communities' },
+  { href: '/how-it-works', path: '/how-it-works', label: 'How it works' },
+  { href: '/about', path: '/about', label: 'About' },
   // Last, shown as an outlined button
-  { href: '#/submit', path: '/submit', label: 'Submit an event', button: true },
+  { href: '/submit', path: '/submit', label: 'Submit an event', button: true },
 ];
 
 export function Header() {
-  const { path } = useHashRoute();
+  const { path } = useRoute();
   // Event detail pages count as part of "Events"
   const section = path.startsWith('/event/') ? '/' : path;
 
@@ -67,7 +67,7 @@ export function Header() {
     <header ref={ref} className={`header${hidden ? ' is-hidden' : ''}`}>
       <Today />
       <div className="container header__inner">
-        <a className="header__brand" href="#/">
+        <a className="header__brand" href="/">
           {/* The logo reads "BuilderBee", so that's its text alternative (plus where the link goes) */}
           <img className="header__logo" src={logo} alt="BuilderBee, home" width={1286} height={324} />
         </a>

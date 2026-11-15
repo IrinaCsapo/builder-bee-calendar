@@ -37,7 +37,7 @@ You can still add events by hand:
 2. Check the event is real, upcoming, and open to women and non-binary builders.
 3. Add it to [`src/data/events.json`](src/data/events.json). Copy an existing event and change the values. The form's fields have the same names as the JSON.
 4. Run `npm run validate`, commit and push. The site updates in a minute or two.
-5. Comment on the issue with the event link (`.../#/event/<id>`) and close it.
+5. Comment on the issue with the event link (`https://builderbee.club/event/<id>`) and close it.
 
 ### Event fields
 
@@ -87,7 +87,7 @@ npm run import-csv -- ~/Downloads/events.csv --merge   # add/update by id, keep 
 
 ## Add a community
 
-The Communities page (`#/communities`) lists groups that run events for women, non-binary people and
+The Communities page (`/communities`) lists groups that run events for women, non-binary people and
 allies in tech. Add one to `src/data/communities.ts`: name, website, a one-line description, where they
 are, and optionally a `search` word that finds their events on BuilderBee.
 
@@ -103,7 +103,7 @@ Watch it under the repo's **Actions** tab. A red cross usually means an event fa
 
 One-time setup on GitHub: **Settings → Pages → Source: GitHub Actions**, and an `event-submission` label under **Issues → Labels**.
 
-The site uses hash URLs (`#/event/femmehacks-2027`, `#/?format=Online`) so every page and filtered view works on GitHub Pages with no server setup. If you rename the repo, update `base` in [`vite.config.ts`](vite.config.ts) and the links in [`src/lib/site.ts`](src/lib/site.ts).
+Pages have normal addresses (`/event/femmehacks-2027`, `/about`, `/?format=Online`). GitHub Pages only serves files, so after `vite build`, [`scripts/prerender.ts`](scripts/prerender.ts) writes an HTML file for every event and page, each with its own title, description, link-preview image and (for events) Google "Event" structured data, plus `sitemap.xml` and `robots.txt`. Anything else falls back to `404.html`, which is the app. Old `#/…` links are redirected to the new addresses in the browser.
 
 ## Project structure
 

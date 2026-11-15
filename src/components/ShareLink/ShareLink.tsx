@@ -10,7 +10,7 @@ interface ShareLinkProps {
 export function ShareLink({ title }: ShareLinkProps) {
   const [message, setMessage] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-  const url = window.location.href;
+  const url = window.location.origin + window.location.pathname;   // the event's own address, without extras
 
   const share = async () => {
     try {

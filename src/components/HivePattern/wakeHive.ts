@@ -1,5 +1,5 @@
 /**
- * Halftone honeycomb with an ASCII wake (hero lab, #/hero-lab).
+ * Halftone honeycomb with an ASCII wake (hero lab, /hero-lab).
  *
  * At rest the honeycomb is a screen of light grey dots, biggest on the hexagon walls and shrinking
  * away from them. Moving the pointer over the hero leaves a warm wake: under the pointer the dots

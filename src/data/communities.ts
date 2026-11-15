@@ -1,6 +1,6 @@
 /**
  * Groups and organisations that run events for women, non-binary people and allies in tech.
- * Shown on the Communities page (#/communities).
+ * Shown on the Communities page (/communities).
  *
  * To add one: pick a group, add an entry, and keep `about` short and in the organiser's own spirit.
  * `search` (optional) is what the page types into the event search to list their upcoming events on

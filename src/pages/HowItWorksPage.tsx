@@ -20,7 +20,7 @@ export function HowItWorksPage() {
         </li>
         <li>
           <strong>Or you tell us</strong>
-          Know an event we’re missing? <a href="#/submit">Submit it</a>: name, dates, location, who it’s for and a
+          Know an event we’re missing? <a href="/submit">Submit it</a>: name, dates, location, who it’s for and a
           registration link. It takes about two minutes, and you don’t need an account.
         </li>
         <li>
@@ -45,12 +45,12 @@ export function HowItWorksPage() {
       <h2>Find your people</h2>
       <p>
         Most events come from groups that run them all year round. Follow the ones you like on the{' '}
-        <a href="#/communities">Communities</a> page so you hear about their next event first.
+        <a href="/communities">Communities</a> page so you hear about their next event first.
       </p>
 
       <div className="content-page__actions">
-        <a className="cta hive-hover" href="#/">Browse events</a>
-        <a className="cta cta--outline hive-hover hive-hover--on-light" href="#/submit">Submit an event</a>
+        <a className="cta hive-hover" href="/">Browse events</a>
+        <a className="cta cta--outline hive-hover hive-hover--on-light" href="/submit">Submit an event</a>
       </div>
     </div>
   );

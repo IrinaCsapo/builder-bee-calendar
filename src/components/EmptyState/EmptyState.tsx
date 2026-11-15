@@ -16,7 +16,7 @@ export function EmptyState({ onClear }: EmptyStateProps) {
         ) : (
           'clearing a filter'
         )}
-        , or <a href="#/submit">submit one you know about</a>.
+        , or <a href="/submit">submit one you know about</a>.
       </p>
     </div>
   );

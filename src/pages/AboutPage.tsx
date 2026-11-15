@@ -56,14 +56,14 @@ export function AboutPage() {
       <h2>Help it grow</h2>
       <p>
         The calendar is only as good as the events in it. If you know one we’re missing,{' '}
-        <a href="#/submit">submit it</a>. The code is open on{' '}
+        <a href="/submit">submit it</a>. The code is open on{' '}
         <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
           GitHub<span className="visually-hidden"> (opens in a new tab)</span>
         </a>
         .
       </p>
 
-      <a className="cta hive-hover" href="#/">
+      <a className="cta hive-hover" href="/">
         Find an event
       </a>
     </div>

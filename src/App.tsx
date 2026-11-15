@@ -10,10 +10,10 @@ import { PrivacyPage } from './pages/PrivacyPage';
 import { CookiesPage } from './pages/CookiesPage';
 import { HowItWorksPage } from './pages/HowItWorksPage';
 import { CommunitiesPage } from './pages/CommunitiesPage';
-import { useHashRoute } from './lib/useHashRoute';
+import { useRoute } from './lib/router';
 
 export function App() {
-  const { path } = useHashRoute();
+  const { path } = useRoute();
   const eventMatch = path.match(/^\/event\/([a-z0-9-]+)\/?$/);
 
   let page;

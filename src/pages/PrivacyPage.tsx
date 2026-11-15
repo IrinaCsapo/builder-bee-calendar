@@ -81,7 +81,7 @@ export function PrivacyPage() {
 
       <h2>Cookies</h2>
       <p>
-        BuilderBee itself doesn’t set any cookies. See the <a href="#/cookies">cookie policy</a> for the details.
+        BuilderBee itself doesn’t set any cookies. See the <a href="/cookies">cookie policy</a> for the details.
       </p>
 
       <h2>Your rights</h2>

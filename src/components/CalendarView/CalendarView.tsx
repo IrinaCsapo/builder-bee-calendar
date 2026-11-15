@@ -81,7 +81,7 @@ export function CalendarView({ month, minMonth, maxMonth, events, onMonthChange 
                       <ul className="calendar__events">
                         {day.events.map((e) => (
                           <li key={e.id}>
-                            <a className="calendar__event" href={`#/event/${e.id}`} title={e.title}>{e.title}</a>
+                            <a className="calendar__event" href={`/event/${e.id}`} title={e.title}>{e.title}</a>
                           </li>
                         ))}
                       </ul>
@@ -111,7 +111,7 @@ export function CalendarView({ month, minMonth, maxMonth, events, onMonthChange 
                 <ul className="calendar__agenda-events">
                   {day.events.map((e) => (
                     <li key={e.id}>
-                      <a href={`#/event/${e.id}`}>{e.title}</a>
+                      <a href={`/event/${e.id}`}>{e.title}</a>
                       <span className="calendar__agenda-meta">
                         {e.event_type} · {e.format === 'Online' ? 'Online' : e.city}
                       </span>

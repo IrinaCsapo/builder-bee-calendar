@@ -14,7 +14,7 @@ interface HeroProps {
   onBrowse: () => void;
   /** The featured events card, which overlaps the bottom of the gradient. */
   featured: ReactNode;
-  /** 'lab' is the test version at #/hero-lab: the honeycomb reacts to the pointer */
+  /** 'lab' is the test version at /hero-lab: the honeycomb reacts to the pointer */
   variant?: 'live' | 'lab';
 }
 
@@ -47,7 +47,7 @@ export function Hero({ onBrowse, featured, variant = 'live' }: HeroProps) {
             <button type="button" className="hero__button hero__button--browse hive-hover" onClick={onBrowse}>
               Browse events
             </button>
-            <a className={`hero__button hero__button--submit hive-hover${variant === 'lab' ? ' hive-hover--on-light' : ''}`} href="#/submit">Submit event</a>
+            <a className={`hero__button hero__button--submit hive-hover${variant === 'lab' ? ' hive-hover--on-light' : ''}`} href="/submit">Submit event</a>
           </div>
         </div>
       </div>

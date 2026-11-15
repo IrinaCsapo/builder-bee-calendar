@@ -54,7 +54,7 @@ export function SubmitPage() {
             we’ll let you know when it’s live.
           </p>
           <div className="submit-thanks__actions">
-            <a className="cta hive-hover" href="#/">Browse events</a>
+            <a className="cta hive-hover" href="/">Browse events</a>
             <button type="button" className="submit-thanks__again" onClick={() => setSent(false)}>
               Submit another event
             </button>
@@ -71,7 +71,7 @@ export function SubmitPage() {
             title="Submit an event form"
           />
           <p className="content-page__small">
-            <strong>We don’t sell your data to anybody.</strong> See our <a href="#/privacy">privacy policy</a>.
+            <strong>We don’t sell your data to anybody.</strong> See our <a href="/privacy">privacy policy</a>.
           </p>
           <p className="content-page__small">
             No account needed. Prefer GitHub?{' '}
@@ -92,7 +92,7 @@ export function SubmitPage() {
       )}
 
       <p className="content-page__small">
-        Wondering what happens next? See <a href="#/how-it-works">how it works</a>.
+        Wondering what happens next? See <a href="/how-it-works">how it works</a>.
       </p>
 
       <h2>What we list</h2>

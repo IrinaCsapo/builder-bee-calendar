@@ -1,7 +1,7 @@
 import { ArrowLeftIcon, ArrowUpRightIcon } from '@heroicons/react/20/solid';
 import { allEvents } from '../lib/events';
 import { formatFull, formatRange, todayISO } from '../lib/dates';
-import { getListHash } from '../lib/useHashRoute';
+import { getListHref } from '../lib/router';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { Badge } from '../components/Badge/Badge';
 import { Chip } from '../components/Chip/Chip';
@@ -29,7 +29,7 @@ export function EventPage({ id }: { id: string }) {
   return (
     <article className="event-page container">
       <p className="event-page__back">
-        <a href={getListHash()}><ArrowLeftIcon className="icon" aria-hidden="true" /> Back to all events</a>
+        <a href={getListHref()}><ArrowLeftIcon className="icon" aria-hidden="true" /> Back to all events</a>
       </p>
 
       {hasEnded && (

@@ -12,7 +12,7 @@ const upcoming = getUpcoming(allEvents);
 /** How many upcoming events on BuilderBee match a group's search, and the link to them */
 function eventsFor(search: string) {
   const filters = { ...EMPTY_FILTERS, query: search };
-  return { count: applyFilters(upcoming, filters).length, href: `#/?${filtersToQuery(filters)}` };
+  return { count: applyFilters(upcoming, filters).length, href: `/?${filtersToQuery(filters)}` };
 }
 
 const total = COMMUNITY_GROUPS.reduce((n, g) => n + g.communities.length, 0);
@@ -67,7 +67,7 @@ export function CommunitiesPage() {
         Submit one of their events and we’ll add them here too. Our daily event scout also checks many of these groups
         every morning.
       </p>
-      <a className="cta hive-hover" href="#/submit">
+      <a className="cta hive-hover" href="/submit">
         Submit an event
       </a>
     </div>

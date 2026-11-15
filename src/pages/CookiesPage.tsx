@@ -45,7 +45,7 @@ export function CookiesPage() {
 
       <h2>Questions</h2>
       <p>
-        See our <a href="#/privacy">privacy policy</a>, or email us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+        See our <a href="/privacy">privacy policy</a>, or email us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
       </p>
     </div>
   );

@@ -70,7 +70,7 @@ export function FeaturedCarousel({ events }: { events: CalendarEvent[] }) {
               <p className="featured__organiser"><span className="visually-hidden">Organised by </span>{event.organiser}</p>
             </div>
             <h3 className="featured__title">
-              <a href={`#/event/${event.id}`}>{event.title}</a>
+              <a href={`/event/${event.id}`}>{event.title}</a>
             </h3>
             <p className="featured__meta">
               <time dateTime={event.start_date}>{formatRange(event.start_date, event.end_date)}</time>

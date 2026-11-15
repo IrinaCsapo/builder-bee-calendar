@@ -8,7 +8,7 @@ import { FeaturedCarousel } from '../components/FeaturedCarousel/FeaturedCarouse
 import { allEvents } from '../lib/events';
 import { getUpcoming, groupByType } from '../lib/dates';
 import { applyFilters, EMPTY_FILTERS, filtersFromQuery, filtersToQuery, hasActiveFilters, type Filters } from '../lib/filters';
-import { parseHash, replaceHashQuery } from '../lib/useHashRoute';
+import { parseLocation, replaceQuery } from '../lib/router';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { useNow } from '../lib/timeLeft';
 import { countryName, eventsNear, getDeviceLocation, getRemembered, getRememberedPlace, guessFromTimezone, locationAllowed, NEARBY_KM, remember, rememberPlace, shortPlace, type Origin, type PlaceChoice } from '../lib/location';
@@ -40,21 +40,25 @@ function jumpTo(target: HTMLElement | null, focusEl: HTMLElement | null) {
   window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 16, behavior: smooth ? 'smooth' : 'auto' });
 }
 
-/** heroVariant 'lab' = the test hero at #/hero-lab (not linked anywhere) */
+/** heroVariant 'lab' = the test hero at /hero-lab (not linked anywhere) */
 export function HomePage({ heroVariant = 'live' }: { heroVariant?: 'live' | 'lab' } = {}) {
   useDocumentTitle();
-  // Filters live in the URL (#/?format=Online&region=Europe) so a filtered view can be shared.
-  const [filters, setFilters] = useState<Filters>(() => filtersFromQuery(parseHash().query));
-  useEffect(() => replaceHashQuery(filtersToQuery(filters)), [filters]);
+  // Filters live in the URL (/?format=Online&region=Europe) so a filtered view can be shared.
+  const [filters, setFilters] = useState<Filters>(() => filtersFromQuery(parseLocation().query));
+  useEffect(() => replaceQuery(filtersToQuery(filters)), [filters]);
 
-  // Someone pastes a new filtered link into the same tab
+  // A link to a filtered view (or plain "Events") while already on this page, or Back/Forward
   useEffect(() => {
-    const onHash = () => {
-      const route = parseHash();
+    const onRoute = () => {
+      const route = parseLocation();
       if (route.path === '/') setFilters(filtersFromQuery(route.query));
     };
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
+    window.addEventListener('routechange', onRoute);
+    window.addEventListener('popstate', onRoute);
+    return () => {
+      window.removeEventListener('routechange', onRoute);
+      window.removeEventListener('popstate', onRoute);
+    };
   }, []);
 
   // "Near you": a row at the top, worked out automatically from the timezone (no prompt), or the

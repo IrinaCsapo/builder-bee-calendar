@@ -9,7 +9,7 @@ export function AddToCalendar({ event }: { event: CalendarEvent }) {
 
   const add = () => {
     try {
-      downloadIcs(event, window.location.href);
+      downloadIcs(event, window.location.origin + window.location.pathname);
       setMessage(`Downloaded ${event.id}.ics. Open it to add the event to your calendar.`);
     } catch {
       setMessage('Sorry, the calendar file could not be created.');

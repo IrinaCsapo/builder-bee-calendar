@@ -42,7 +42,7 @@ export function EventCard({ event, now, headingLevel = 3 }: EventCardProps) {
 
       <Title className="event-card__title">
         {/* The link covers the whole card (see ::after in CSS) */}
-        <a className="event-card__link" href={`#/event/${event.id}`}>{event.title}</a>
+        <a className="event-card__link" href={`/event/${event.id}`}>{event.title}</a>
       </Title>
 
       <ul className="event-card__chips" aria-label="Details">
