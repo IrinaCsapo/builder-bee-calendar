@@ -1,7 +1,8 @@
 // Site-wide links. Change them here and they update everywhere.
 // The Brevo signup form for the weekly email: its "action" link, from Brevo → Contacts → Forms →
 // your form → Share → HTML code (looks like https://xxxx.sibforms.com/serve/MUIF...). Empty = no signup box.
-export const NEWSLETTER_FORM_URL = '';
+export const NEWSLETTER_FORM_URL =
+  'https://966df7bf.sibforms.com/serve/MUIFACVcDKD-wQvxIe7z6BLD_8r7ehVnAgavUagUS3vA9jtyVuIj3d_qTCqcsi6sTbi46DI5FIZ2erUaSLYhWRzH8UTN6eoae_-It2AxSV9favVb-3FagMHGawrmYbfg2lfOCsKNHCF_XjaFssUd_AF0Fby1Mehv8ejkcjS3qj1-XsuEfii-pmcU6iqCNQZ1cKQX7IqHTK3cTmLqzg==';
 
 // Shown in the privacy and cookie policies for questions and data requests
 export const CONTACT_EMAIL = 'hello@builderbee.club';
