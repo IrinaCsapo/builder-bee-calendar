@@ -1,6 +1,10 @@
-import { useId, useState } from 'react';
-import { EnvelopeIcon } from '@heroicons/react/20/solid';
+import { useId, useMemo, useState } from 'react';
+import { CheckCircleIcon } from '@heroicons/react/20/solid';
 import { NEWSLETTER_FORM_URL } from '../../lib/site';
+import { allEvents } from '../../lib/events';
+import { getUpcoming } from '../../lib/dates';
+import { DateBlock } from '../DateBlock/DateBlock';
+import heroBg from '../../assets/hero-bg.jpg';
 import './NewsletterSignup.css';
 
 /**
@@ -8,10 +12,12 @@ import './NewsletterSignup.css';
  * (double opt-in: Brevo emails a confirmation link), so BuilderBee itself never stores it.
  * Renders nothing until NEWSLETTER_FORM_URL is set.
  */
-export function NewsletterSignup({ heading = 'Get new events every Monday', compact = false }: { heading?: string; compact?: boolean }) {
+export function NewsletterSignup({ heading = 'Get new events every Monday' }: { heading?: string }) {
   const id = useId();
   const [email, setEmail] = useState('');
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
+  // A peek at what the email looks like: the next few events, as mini cards (decorative)
+  const preview = useMemo(() => getUpcoming(allEvents).slice(0, 3), []);
   if (!NEWSLETTER_FORM_URL) return null;
 
   const submit = async (e: React.FormEvent) => {
@@ -31,36 +37,58 @@ export function NewsletterSignup({ heading = 'Get new events every Monday', comp
   };
 
   return (
-    <section className={`newsletter${compact ? ' newsletter--compact' : ''}`} aria-labelledby={`${id}-h`}>
-      <h2 id={`${id}-h`} className="newsletter__heading">
-        <EnvelopeIcon className="icon" aria-hidden="true" /> {heading}
-      </h2>
-      <p className="newsletter__intro">
-        A short email with the latest hackathons, workshops and meetups for women, non-binary people and allies in
-        tech. Unsubscribe any time. We never sell your data.
-      </p>
-      {state === 'done' ? (
-        <p className="newsletter__done" role="status">
-          Nearly there! Check your inbox for a confirmation email from BuilderBee and click the link in it.
+    <div className="newsletter-wrap">
+    <section className="newsletter" aria-labelledby={`${id}-h`} style={{ ['--newsletter-bg' as string]: `url(${heroBg})` }}>
+      <div className="newsletter__main">
+        <p className="newsletter__kicker">The weekly email</p>
+        <h2 id={`${id}-h`} className="newsletter__heading">{heading}</h2>
+        <p className="newsletter__intro">
+          The latest hackathons, workshops and meetups for women, non-binary people and allies in tech, in one short
+          email. Unsubscribe any time. We never sell your data.
         </p>
-      ) : (
-        <form className="newsletter__form" onSubmit={submit}>
-          <label className="visually-hidden" htmlFor={`${id}-email`}>Email address</label>
-          <input
-            id={`${id}-email`} className="newsletter__input" type="email" name="EMAIL" required autoComplete="email"
-            placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)}
-          />
-          <button type="submit" className="newsletter__button hive-hover" disabled={state === 'sending'}>
-            {state === 'sending' ? 'Signing up…' : 'Sign me up'}
-          </button>
-          {state === 'error' && (
-            <p className="newsletter__error" role="alert">Something went wrong. Please try again in a moment.</p>
-          )}
-        </form>
+
+        {state === 'done' ? (
+          <p className="newsletter__done" role="status">
+            <CheckCircleIcon className="icon" aria-hidden="true" />
+            <span>Nearly there! Check your inbox for a confirmation email from BuilderBee and click the link in it.</span>
+          </p>
+        ) : (
+          <form className="newsletter__form" onSubmit={submit}>
+            <label className="visually-hidden" htmlFor={`${id}-email`}>Email address</label>
+            <div className="newsletter__field">
+              <input
+                id={`${id}-email`} className="newsletter__input" type="email" name="EMAIL" required autoComplete="email"
+                data-1p-ignore data-lpignore="true"
+                placeholder="Your email" value={email} onChange={(e) => setEmail(e.target.value)}
+              />
+              <button type="submit" className="newsletter__button hive-hover" disabled={state === 'sending'}>
+                {state === 'sending' ? 'Signing up…' : 'Sign me up'}
+              </button>
+            </div>
+            {state === 'error' && (
+              <p className="newsletter__error" role="alert">Something went wrong. Please try again in a moment.</p>
+            )}
+          </form>
+        )}
+        <p className="newsletter__small">
+          See our <a href="/privacy">privacy policy</a>. Prefer your calendar? <a href="/subscribe#calendar">Subscribe there</a>.
+        </p>
+      </div>
+
+      {preview.length > 0 && (
+        <div className="newsletter__preview" aria-hidden="true">
+          {preview.map((e) => (
+            <div key={e.id} className="newsletter__mini">
+              <DateBlock start={e.start_date} end={e.end_date} />
+              <div>
+                <p className="newsletter__mini-title">{e.title}</p>
+                <p className="newsletter__mini-org">{e.organiser}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
-      <p className="newsletter__small">
-        See our <a href="/privacy">privacy policy</a>. Prefer your calendar? <a href="/subscribe#calendar">Subscribe there</a>.
-      </p>
     </section>
+    </div>
   );
 }

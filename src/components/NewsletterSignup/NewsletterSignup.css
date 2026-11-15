@@ -1,44 +1,129 @@
-/* Weekly email signup: a soft card with one field and one button */
+/* Sizes follow the box's own width (it sits in narrow and wide columns) */
+.newsletter-wrap { container-type: inline-size; }
+
+/* Weekly email signup: the hero's gradient, a pill-shaped field with the button inside,
+   and (on wide screens) a little stack of event cards to show what the email looks like. */
 .newsletter {
-  padding: var(--space-6);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg, 20px);
-  background: var(--color-surface);
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+  padding: var(--space-6) var(--space-5);
+  border-radius: 28px;
+  background: #f7d6f2 var(--newsletter-bg) center / cover no-repeat;
+  color: #000;
+  overflow: hidden;
 }
-.newsletter__heading {
+@container (min-width: 44rem) {
+  .newsletter { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); padding: var(--space-7); }
+}
+
+.newsletter__kicker {
+  display: inline-block;
+  margin: 0;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-mint);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.newsletter h2.newsletter__heading {
+  margin: var(--space-3) 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 2.5vw + 1rem, 2.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+}
+.newsletter__intro { max-width: 34rem; margin: var(--space-3) 0 var(--space-5); font-size: 1.0625rem; }
+
+/* One white pill with the field and the button inside */
+.newsletter__field {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1.5rem, 1.2vw + 1rem, 2rem);
-}
-.newsletter h2.newsletter__heading { margin-top: 0; }
-.newsletter__intro { max-width: 40rem; margin: var(--space-2) 0 var(--space-4); }
-.newsletter__form { display: flex; flex-wrap: wrap; gap: var(--space-3); }
-.newsletter__input {
-  flex: 1 1 16rem;
-  min-height: var(--tap-target);
-  padding: 0 var(--space-4);
+  max-width: 34rem;
+  padding: 6px;
   border: 1.5px solid #000;
   border-radius: var(--radius-pill);
   background: #fff;
-  font: inherit;
 }
+.newsletter__field:focus-within { outline: 3px solid #000; outline-offset: 2px; }
+.newsletter__input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 1rem;
+}
+.newsletter__input:focus { outline: none; }
 .newsletter__button {
-  min-height: var(--tap-target);
+  flex: none;
+  min-height: 44px;
   padding: 0 var(--space-5);
   border: 0;
   border-radius: var(--radius-pill);
-  background: #000;
+  background: var(--color-purple);   /* white on purple: 7.13:1 */
   color: #fff;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
 }
-.newsletter__button:disabled { cursor: progress; opacity: 0.8; }
-.newsletter__done { margin: 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--color-mint-soft, #e6f9ea); font-weight: 700; }
-.newsletter__error { flex-basis: 100%; margin: 0; color: #b00020; font-weight: 700; }
-.newsletter__small { margin: var(--space-3) 0 0; font-size: var(--text-sm); }
-.newsletter--compact { padding: var(--space-5); }
+.newsletter__button:hover { background: var(--color-purple-strong); }
+.newsletter__button:disabled { cursor: progress; opacity: 0.85; }
+
+.newsletter__done {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  max-width: 34rem;
+  margin: 0;
+  padding: var(--space-4) var(--space-5);
+  border-radius: 20px;
+  background: #fff;
+  font-weight: 700;
+}
+.newsletter__done .icon { width: 1.4em; height: 1.4em; flex: none; color: #0a7a35; }
+.newsletter__error { margin: var(--space-2) 0 0; font-weight: 700; }
+.newsletter__small { margin: var(--space-4) 0 0; font-size: var(--text-sm); }
+.newsletter__small a { color: #000; }
+
+/* The little stack of cards */
+.newsletter__preview { display: none; }
+@container (min-width: 44rem) {
+  .newsletter__preview { display: grid; gap: var(--space-3); }
+  .newsletter__mini {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-3);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 10px 30px rgba(80, 20, 120, 0.12);
+  }
+  .newsletter__mini:nth-child(1) { transform: rotate(-2deg) translateX(-8px); }
+  .newsletter__mini:nth-child(2) { transform: rotate(1.5deg) translateX(14px); }
+  .newsletter__mini:nth-child(3) { transform: rotate(-1deg); }
+  .newsletter__mini .date-block { min-width: 3.6rem; padding: 6px; border-radius: 12px; }
+  .newsletter__mini .date-block__day { font-size: 1.15rem; }
+  .newsletter__mini .date-block__month { font-size: 0.7rem; }
+  .newsletter__mini-title {
+    margin: 0;
+    font-weight: 700;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .newsletter__mini-org { margin: 2px 0 0; font-size: var(--text-sm); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .newsletter__mini { transition: transform 200ms ease; }
+  .newsletter:hover .newsletter__mini { transform: none; }
+}
+.content-page .newsletter-wrap { margin-top: var(--space-5); }

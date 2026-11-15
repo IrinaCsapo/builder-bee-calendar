@@ -38,7 +38,7 @@ export function SubscribePage() {
           : 'Subscribe once and BuilderBee’s events show up in your own calendar, next to everything else. New events appear on their own.'}
       </p>
 
-      <NewsletterSignup heading="The weekly email" />
+      <NewsletterSignup />
 
       <h2 id="calendar">{NEWSLETTER_FORM_URL ? 'Or add every event to your calendar' : 'Add every event to your calendar'}</h2>
       <p>New events appear on their own. Choose your calendar:</p>
