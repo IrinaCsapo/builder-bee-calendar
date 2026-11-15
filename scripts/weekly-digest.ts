@@ -137,13 +137,11 @@ const subject = fresh.length
   : closing.length
     ? `Registration closing soon: ${closing[0].title}${closing.length > 1 ? ` and ${closing.length - 1} more` : ''}`
     : 'Online events coming up this fortnight';
-// The headline's highlight takes one of the hero lab's word colours, a different one each week
-const LAB_COLORS = ['#7B00DA', '#FF6600', '#0006FA', '#FE06E5', '#21B700', '#009BE9'];
-const accent = LAB_COLORS[Math.floor(Date.now() / (7 * 864e5)) % LAB_COLORS.length];
-const mark = (t: string) => `<span style="color:${accent};border-bottom:4px solid ${accent}">${t}</span>`;
-const headline = fresh.length
-  ? `${mark(`${fresh.length} new`)} ${fresh.length === 1 ? 'event' : 'events'} this week`
-  : `Your week in ${mark('tech events')}`;
+// The hero is a picture (scripts/email-hero.py draws hero-0.gif … hero-5.gif): Gmail's dark mode on phones
+// flips colours but never pictures, so this keeps it looking like the site's hero lab everywhere.
+// A different lab word and colour each week.
+const HERO_WORDS = ['hackathon', 'workshop', 'buildathon', 'meetup', 'bootcamp', 'conference'];
+const heroIndex = Math.floor(Date.now() / (7 * 864e5)) % HERO_WORDS.length;
 // Shown as the grey preview line in inbox lists
 const preheader = [...fresh, ...closing, ...online].slice(0, 3).map((e) => e.title).join(', ') + (total > 3 ? ' and more' : '');
 const weekOf = `Week of ${day(today)} ${mon(today)} ${today.slice(0, 4)}`;
@@ -158,7 +156,6 @@ const html = `<!doctype html>
   @media (max-width: 480px) {
     .bb-pad { padding-left: 18px !important; padding-right: 18px !important; }
     .bb-thumb { display: none !important; }
-    .bb-hero h1 { font-size: 34px !important; }
   }
 </style>
 </head>
@@ -167,34 +164,25 @@ const html = `<!doctype html>
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f4f1f7"><tr><td align="center" style="padding:24px 10px">
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;background:#ffffff;border-radius:24px;overflow:hidden">
 
-  <tr><td class="bb-pad" style="padding:14px 32px 14px 18px;border-bottom:1px solid #e4e4e7">
+  <tr><td class="bb-pad" style="padding:14px 32px 14px 22px;border-bottom:1px solid #e4e4e7">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>
       <!-- The logo sits on a white rounded badge: invisible on white, a neat pill when an app switches to dark mode -->
-      <td><a href="${SITE}/"><img src="${SITE}/email/logo-badge.png" width="190" alt="BuilderBee" style="display:block;width:190px;height:auto;border:0"></a></td>
+      <td><a href="${SITE}/"><img src="${SITE}/email/logo-badge.png" width="140" alt="BuilderBee" style="display:block;width:140px;height:auto;border:0"></a></td>
       <td align="right" style="font:600 13px/1.3 ${SANS};color:#3d3d44">${esc(weekOf)}</td>
     </tr></table>
   </td></tr>
 
-  <!-- Hero, like the site's hero lab: white, a grey honeycomb, a coloured highlight, black and white buttons, pixel bees.
-       The honeycomb picture is see-through, so it still works when Gmail turns the background dark. -->
-  <tr><td class="bb-hero" bgcolor="#ffffff" background="${SITE}/email/hive.png"
-      style="padding:0;background:#ffffff url('${SITE}/email/hive.png') top center / 600px auto no-repeat">
-    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
-      <tr><td align="right" style="padding:14px 28px 0;line-height:0">
-        <img src="${SITE}/email/bee-2.gif" width="66" alt="" style="display:inline-block;width:66px;height:auto;border:0">
-      </td></tr>
-      <tr><td class="bb-pad" align="center" style="padding:0 32px">
-        <h1 style="margin:0;font:400 44px/1.1 ${SERIF};letter-spacing:-0.01em;color:#000">${headline}</h1>
-        <p style="margin:18px auto 26px;max-width:460px;font:400 17px/1.5 ${SANS};color:#000">Hackathons, buildathons, meetups and workshops for women, non-binary people and allies in tech. Online and around the world.</p>
-        ${button(`${SITE}/`, 'Browse events', '#000000', '#ffffff')}${button(`${SITE}/submit`, 'Submit an event', '#ffffff', '#000000', '#000000')}
-      </td></tr>
-      <tr><td align="left" style="padding:6px 0 18px 26px;line-height:0">
-        <img src="${SITE}/email/bee-1.gif" width="84" alt="" style="display:inline-block;width:84px;height:auto;border:0">
-      </td></tr>
-    </table>
+  <!-- Hero: one picture (see heroIndex above), then the intro and the buttons as normal text -->
+  <tr><td style="padding:0;line-height:0;font-size:0">
+    <a href="${SITE}/"><img src="${SITE}/email/hero-${heroIndex}.gif" width="600" alt="Find your next ${HERO_WORDS[heroIndex]}"
+      style="display:block;width:100%;max-width:600px;height:auto;border:0;font:400 28px/1.2 ${SERIF};color:#000"></a>
+  </td></tr>
+  <tr><td class="bb-pad" align="center" bgcolor="#ffffff" style="padding:2px 32px 6px">
+    <p style="margin:0 auto 22px;max-width:460px;font:400 17px/1.5 ${SANS};color:#000">Hackathons, buildathons, meetups and workshops for women, non-binary people and allies in tech. Online and around the world.</p>
+    ${button(`${SITE}/`, 'Browse events', '#000000', '#ffffff')}${button(`${SITE}/submit`, 'Submit an event', '#ffffff', '#000000', '#000000')}
   </td></tr>
 
-  ${section('New this week', '#a3ffb8', 'Just added to the calendar', fresh)}
+  ${section('New this week', '#a3ffb8', `${fresh.length} just added to the calendar`, fresh)}
   ${section('Closing soon', '#ffe3cc', 'Last chance to register', closing, (e) => `Register by ${short(e.deadline!)}`)}
   ${section('Online', '#f3e9ff', 'Join from anywhere in the next two weeks', online)}
 
