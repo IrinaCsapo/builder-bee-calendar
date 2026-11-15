@@ -62,6 +62,6 @@
   --radius-lg: 20px;
   --radius-pill: 999px;
   --tap-target: 44px;
-  --content-width: 76rem;
+  --content-width: 90rem;      /* 1440px: roomier event rows on big screens */
   --focus-ring: 3px solid var(--color-focus);
 }
