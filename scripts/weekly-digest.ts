@@ -128,7 +128,7 @@ if (total === 0) {
 // ---- Send through Brevo ---------------------------------------------------------------
 
 const key = process.env.BREVO_API_KEY;
-const listId = Number(process.env.BREVO_LIST_ID);
+const listId = Number((process.env.BREVO_LIST_ID ?? '').replace(/\D/g, ''));   // "#2" or "2"
 if (!key || !listId) {
   console.error('BREVO_API_KEY and BREVO_LIST_ID must be set.');
   process.exit(1);
