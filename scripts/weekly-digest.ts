@@ -137,9 +137,13 @@ const subject = fresh.length
   : closing.length
     ? `Registration closing soon: ${closing[0].title}${closing.length > 1 ? ` and ${closing.length - 1} more` : ''}`
     : 'Online events coming up this fortnight';
+// The headline's highlight takes one of the hero lab's word colours, a different one each week
+const LAB_COLORS = ['#7B00DA', '#FF6600', '#0006FA', '#FE06E5', '#21B700', '#009BE9'];
+const accent = LAB_COLORS[Math.floor(Date.now() / (7 * 864e5)) % LAB_COLORS.length];
+const mark = (t: string) => `<span style="color:${accent};border-bottom:4px solid ${accent}">${t}</span>`;
 const headline = fresh.length
-  ? `<span style="color:#7000f0">${fresh.length} new</span> ${fresh.length === 1 ? 'event' : 'events'} this week`
-  : 'Your week in tech events';
+  ? `${mark(`${fresh.length} new`)} ${fresh.length === 1 ? 'event' : 'events'} this week`
+  : `Your week in ${mark('tech events')}`;
 // Shown as the grey preview line in inbox lists
 const preheader = [...fresh, ...closing, ...online].slice(0, 3).map((e) => e.title).join(', ') + (total > 3 ? ' and more' : '');
 const weekOf = `Week of ${day(today)} ${mon(today)} ${today.slice(0, 4)}`;
@@ -154,7 +158,7 @@ const html = `<!doctype html>
   @media (max-width: 480px) {
     .bb-pad { padding-left: 18px !important; padding-right: 18px !important; }
     .bb-thumb { display: none !important; }
-    .bb-hero h1 { font-size: 32px !important; }
+    .bb-hero h1 { font-size: 34px !important; }
   }
 </style>
 </head>
@@ -163,18 +167,29 @@ const html = `<!doctype html>
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" bgcolor="#f4f1f7"><tr><td align="center" style="padding:24px 10px">
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;background:#ffffff;border-radius:24px;overflow:hidden">
 
-  <tr><td class="bb-pad" style="padding:22px 32px">
+  <tr><td class="bb-pad" style="padding:20px 32px;border-bottom:1px solid #e4e4e7">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>
-      <td><a href="${SITE}/"><img src="${SITE}/email/logo.png" width="170" alt="BuilderBee" style="display:block;width:170px;height:auto;border:0"></a></td>
+      <td><a href="${SITE}/"><img src="${SITE}/email/logo.png" width="160" alt="BuilderBee" style="display:block;width:160px;height:auto;border:0"></a></td>
       <td align="right" style="font:600 13px/1.3 ${SANS};color:#3d3d44">${esc(weekOf)}</td>
     </tr></table>
   </td></tr>
 
-  <tr><td class="bb-pad bb-hero" bgcolor="#f7d6f2" background="${SITE}/email/header.jpg"
-      style="padding:44px 32px 36px;background:#f7d6f2 url('${SITE}/email/header.jpg') center / cover no-repeat">
-    <h1 style="margin:0;font:400 40px/1.1 ${SERIF};color:#000">${headline}</h1>
-    <p style="margin:14px 0 22px;font:400 17px/1.5 ${SANS};color:#000">Hackathons, workshops and meetups for women, non-binary people and allies in tech. Online and around the world.</p>
-    ${button(`${SITE}/`, 'Browse events', '#ff6a00', '#000000')}${button(`${SITE}/submit`, 'Submit an event', '#7000f0', '#ffffff')}
+  <!-- Hero, like the site's hero lab: white, a grey honeycomb, a coloured highlight, black and white buttons, pixel bees -->
+  <tr><td class="bb-hero" bgcolor="#ffffff" background="${SITE}/email/hive.png"
+      style="padding:0;background:#ffffff url('${SITE}/email/hive.png') top center / 600px auto no-repeat">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+      <tr><td align="right" style="padding:14px 28px 0;line-height:0">
+        <img src="${SITE}/email/bee-2.gif" width="66" alt="" style="display:inline-block;width:66px;height:auto;border:0">
+      </td></tr>
+      <tr><td class="bb-pad" align="center" style="padding:0 32px">
+        <h1 style="margin:0;font:400 44px/1.1 ${SERIF};letter-spacing:-0.01em;color:#000">${headline}</h1>
+        <p style="margin:18px auto 26px;max-width:460px;font:400 17px/1.5 ${SANS};color:#000">Hackathons, buildathons, meetups and workshops for women, non-binary people and allies in tech. Online and around the world.</p>
+        ${button(`${SITE}/`, 'Browse events', '#000000', '#ffffff')}${button(`${SITE}/submit`, 'Submit an event', '#ffffff', '#000000', '#000000')}
+      </td></tr>
+      <tr><td align="left" style="padding:6px 0 18px 26px;line-height:0">
+        <img src="${SITE}/email/bee-1.gif" width="84" alt="" style="display:inline-block;width:84px;height:auto;border:0">
+      </td></tr>
+    </table>
   </td></tr>
 
   ${section('New this week', '#a3ffb8', 'Just added to the calendar', fresh)}
