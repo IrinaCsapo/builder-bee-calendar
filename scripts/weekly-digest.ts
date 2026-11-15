@@ -75,16 +75,26 @@ const button = (href: string, label: string, bg: string, color: string, border =
     </td></tr></table>`;
 
 /** Black tile like the site's: day in white, month in mint */
+/**
+ * Black tile like the site's: day in white, month in mint. On phones the event's picture sits under the
+ * tile (bb-mthumb, shown by the media query), so the title keeps the full width.
+ */
 function dateTile(e: CalendarEvent): string {
   const sameMonth = e.start_date.slice(0, 7) === e.end_date.slice(0, 7);
   const days = e.start_date === e.end_date ? `${day(e.start_date)}` : sameMonth ? `${day(e.start_date)}–${day(e.end_date)}` : `${day(e.start_date)}`;
-  const size = days.length > 3 ? 17 : 24;
-  return `<td width="64" valign="top" style="padding:0 14px 0 0">
-    <table role="presentation" width="64" cellspacing="0" cellpadding="0"><tr>
+  const long = days.length > 3;
+  const phonePic = e.image_url
+    ? `<div class="bb-mthumb" style="display:none;max-height:0;overflow:hidden;mso-hide:all">
+        <a href="${SITE}/event/${e.id}"><img src="${esc(e.image_url)}" width="56" alt="" style="display:block;width:56px;height:auto;margin-top:10px;border-radius:10px;border:0"></a>
+      </div>`
+    : '';
+  return `<td class="bb-date" width="64" valign="top" style="padding:0 14px 0 0">
+    <table role="presentation" class="bb-tile" width="64" cellspacing="0" cellpadding="0"><tr>
       <td bgcolor="#000000" align="center" style="border-radius:14px;padding:10px 4px">
-        <div style="font:800 ${size}px/1.1 ${SANS};color:#ffffff;white-space:nowrap">${days}</div>
-        <div style="margin-top:4px;font:700 12px/1 ${SANS};letter-spacing:0.08em;text-transform:uppercase;color:#a3ffb8">${mon(e.start_date)}</div>
+        <div class="${long ? 'bb-day-long' : 'bb-day'}" style="font:800 ${long ? 17 : 24}px/1.1 ${SANS};color:#ffffff;white-space:nowrap">${days}</div>
+        <div class="bb-mon" style="margin-top:4px;font:700 12px/1 ${SANS};letter-spacing:0.08em;text-transform:uppercase;color:#a3ffb8">${mon(e.start_date)}</div>
       </td></tr></table>
+    ${phonePic}
   </td>`;
 }
 
@@ -156,6 +166,13 @@ const html = `<!doctype html>
   @media (max-width: 480px) {
     .bb-pad { padding-left: 18px !important; padding-right: 18px !important; }
     .bb-thumb { display: none !important; }
+    /* Phones: a slightly smaller date tile, with the event's picture under it */
+    .bb-date { width: 56px !important; padding-right: 12px !important; }
+    .bb-tile { width: 56px !important; }
+    .bb-day { font-size: 20px !important; }
+    .bb-day-long { font-size: 15px !important; }
+    .bb-mon { font-size: 11px !important; }
+    .bb-mthumb { display: block !important; max-height: none !important; overflow: visible !important; }
   }
 </style>
 </head>
