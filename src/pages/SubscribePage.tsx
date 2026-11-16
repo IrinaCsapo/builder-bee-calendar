@@ -77,7 +77,21 @@ export function SubscribePage() {
           Calendar apps check for new events every few hours. Google Calendar can take up to a day to show new
           ones.
         </li>
-        <li>To stop, remove or unsubscribe from the “BuilderBee” calendar in your app.</li>
+        <li>
+          To stop, remove the “BuilderBee” calendar from your app, and its events disappear:
+          <ul>
+            <li>
+              <strong>Google Calendar:</strong> under “Other calendars”, hover over BuilderBee, click the three dots,
+              then “Unsubscribe”.
+            </li>
+            <li>
+              <strong>Apple Calendar:</strong> on a Mac, right-click BuilderBee and choose “Unsubscribe”. On an iPhone,
+              tap Calendars, then the ⓘ next to BuilderBee, then “Unsubscribe” at the bottom.
+            </li>
+            <li><strong>Outlook:</strong> right-click BuilderBee in your calendar list and choose “Remove”.</li>
+          </ul>
+        </li>
+        <li>The weekly email is separate: every email has an unsubscribe link at the bottom.</li>
         <li>Subscribing doesn’t tell us who you are: we don’t get your name, email or calendar.</li>
       </ul>
     </div>
