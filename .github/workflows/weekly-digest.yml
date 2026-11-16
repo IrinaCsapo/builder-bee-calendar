@@ -6,7 +6,8 @@ name: Weekly email
 
 on:
   schedule:
-    - cron: '0 8 * * 1'
+    # Mondays 07:17 UTC. Off the hour on purpose: GitHub delays or drops scheduled runs at :00 when it's busy
+    - cron: '17 7 * * 1'
   workflow_dispatch:
     inputs:
       mode:

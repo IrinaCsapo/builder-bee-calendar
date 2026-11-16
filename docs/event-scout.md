@@ -82,6 +82,26 @@ Then open each event and apply section 1 as usual (some calendars also list even
 If you find a new organiser that keeps posting women-focused events, mention it in your summary so it can
 be added here.
 
+### Next, search Eventbrite and Luma directly (every run)
+
+Most women-in-tech events are listed on Eventbrite or Luma, and web search mostly misses the upcoming
+ones. So search the two sites themselves:
+
+```bash
+python3 scripts/scout-search.py > /tmp/leads.txt; wc -l /tmp/leads.txt
+```
+
+It runs about 15 Eventbrite searches online, plus a few cities that change each day, and about 50 Luma
+searches, worldwide and near 14 cities. It takes a few minutes. It prints upcoming events that aren't on
+BuilderBee yet and whose title names the audience (women, female, girls, non-binary…), online first. These
+are **leads, not finds**: many are networking, wellness or business events. Go through the list and open the
+ones that look like tech, AI, data, design, gaming or creative-tech events (hackathons, buildathons, build
+nights, game jams, workshops, bootcamps, conferences), then apply section 1 as usual. Read their dates
+with the Luma/Eventbrite tricks below.
+
+If Eventbrite stops answering (it blocks bursts of requests), the script says so and carries on with
+Luma. If neither site can be reached at all, note it in the log and go on with web search.
+
 ### Then search more widely (always, even if the watchlist gave you some)
 
 The watchlist is checked every day, so most of its events will already be listed. **Don't stop there.**
@@ -93,7 +113,7 @@ search that returned nothing new. Mix:
   Mexico City, Bengaluru, Singapore, Sydney, Toronto, NYC, SF…). Also known calendars: Women in AI,
   Women Techmakers, Lovable SheBuilds, She Builds, Femcode, Willa, Audacious AF, WOMEN x AI, She Ships,
   Unlock Her Tech, Women Defining AI, We Create.
-- **Eventbrite / Meetup**: "women in tech", "women who code", "women in marketing", "women in design",
+- **Meetup** (Eventbrite is covered by the script above, but add your own searches when useful): "women in tech", "women who code", "women in marketing", "women in design",
   "women in games", "women in gaming", "game jam women", "women creative coding".
 - **Gaming & arts hackathons (every run, at least 4 of your searches)**: game jams and gaming or arts
   hackathons for women and non-binary people. A game jam counts as a `Hackathon`. Tag gaming ones
