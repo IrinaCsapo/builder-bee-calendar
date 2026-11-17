@@ -2328,5 +2328,57 @@
     "registration_url": "https://luma.com/fgsyrg80",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/wo/5b1ba4af-b512-4364-9446-1dbd741b4a53.png",
     "source": "https://luma.com/fgsyrg80"
+  },
+  {
+    "id": "wtm-montreal-ai-buildathon-2026",
+    "title": "AI Buildathon - Women Techmakers Montreal + IVADO + Prompts2Products",
+    "organiser": "Women Techmakers Montréal",
+    "event_type": "Buildathon",
+    "format": "In person",
+    "start_date": "2026-12-03",
+    "end_date": "2026-12-03",
+    "timezone": "America/Toronto",
+    "city": "Montréal",
+    "country": "Canada",
+    "region": "North America",
+    "venue": "IVADO",
+    "lat": 45.5017,
+    "lng": -73.5673,
+    "themes": [
+      "AI",
+      "No-code"
+    ],
+    "audience": "Women Techmakers Montréal invites developers, students, product people, creatives and people discovering code with AI to build a prototype in one evening",
+    "level": "All levels",
+    "cost": "Free",
+    "registration_url": "https://luma.com/rasl3edo",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/bk/e0f03579-6cf2-450d-a0ab-10cebc09ec4b.jpg",
+    "source": "https://luma.com/rasl3edo"
+  },
+  {
+    "id": "lire-buildathon-women-built-world-2027",
+    "title": "Buildathon: Women in the Built World",
+    "organiser": "Ladies in Real Estate (LiRE) New York",
+    "event_type": "Buildathon",
+    "format": "In person",
+    "start_date": "2027-01-28",
+    "end_date": "2027-01-28",
+    "timezone": "America/New_York",
+    "city": "New York",
+    "country": "United States",
+    "region": "North America",
+    "venue": "5th Avenue",
+    "lat": 40.7128,
+    "lng": -74.006,
+    "themes": [
+      "AI",
+      "No-code"
+    ],
+    "audience": "Women across real estate, investment, proptech, architecture, law and entrepreneurship; no traditional coding experience required",
+    "level": "Beginner friendly",
+    "cost": "Free",
+    "registration_url": "https://luma.com/xpokx91z",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/em/32780d6a-f0c9-4a32-bece-4fab1d175cf7.jpg",
+    "source": "https://luma.com/xpokx91z"
   }
 ]
