@@ -6,7 +6,8 @@
  * become characters, densest right under it (". : - = + * # % @"), and along the path they cool
  * back to dots. The warm characters flicker between neighbours like a terminal redraw, lean a
  * little towards the pointer. A click or tap sends out a ring.
- * The warm characters darken from grey to black.
+ * The wake is a rainbow: its colour moves round the colour wheel as the pointer travels, and each
+ * cell keeps the colour it had when the pointer passed, so the path reads as a rainbow stroke.
  *
  * Based on an "ASCII wake" effect: one number of heat per cell, cooled a little every frame,
  * read off a ramp of characters.
@@ -51,8 +52,12 @@ function hash(k: number, n: number) {
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 
-// The wake darkens from light to mid grey as it warms (a few steps, so no colour strings per cell)
-const INKS = ['#c4c4ca', '#a4a4ac', '#86868f', '#6a6a73'];
+// The rainbow wake: HUES steps round the colour wheel, each in 4 shades that deepen as a cell warms
+// (worked out once, so no colour strings are made per cell)
+const HUES = 36;
+const HUE_PX = 14;   // pointer travel (px) per step, so a full rainbow every ~500px
+const RAINBOW = Array.from({ length: HUES }, (_, i) =>
+  [[90, 78], [90, 68], [88, 60], [85, 52]].map(([sat, light]) => `hsl(${i * (360 / HUES)} ${sat}% ${light}%)`));
 // Each click ring takes the next pastel in turn: pink, green, purple, blue (light, then a bit deeper)
 const RING_INKS = [
   ['#f7a8cf', '#ef86bb'],
@@ -68,6 +73,8 @@ export class WakeHive {
   private cols = 0; private rows = 0; private cw = 0; private ch = 0; private size = 12;
   private mask = new Float32Array(0);   // how much honeycomb wall is in each cell, 0..1
   private heat = new Float32Array(0);   // the wake
+  private hue = new Uint8Array(0);      // the rainbow step each cell was warmed with
+  private hueNow = Math.random() * HUES;
   private hx = -9999; private hy = -9999; private lx = NaN; private ly = NaN;
   private inside = false; private near = 0;
   private rings: { x: number; y: number; t: number; c: number }[] = [];
@@ -114,6 +121,7 @@ export class WakeHive {
     this.rows = Math.ceil(this.H / this.ch) + 1;
     this.mask = new Float32Array(this.cols * this.rows);
     this.heat = new Float32Array(this.cols * this.rows);
+    this.hue = new Uint8Array(this.cols * this.rows);
 
     const R = small ? 40 : 58;          // hexagon size
     const wall = R * 0.3;               // how far the dots reach from each wall
@@ -166,7 +174,9 @@ export class WakeHive {
         if (q >= 1) continue;
         const k = j * this.cols + i;
         const t = 1 - q;
-        this.heat[k] = Math.min(1, this.heat[k] + amt * t * t);
+        const add = amt * t * t;
+        if (add > 0.04) this.hue[k] = Math.floor(this.hueNow) % HUES;   // newest colour wins
+        this.heat[k] = Math.min(1, this.heat[k] + add);
       }
     }
   }
@@ -183,8 +193,10 @@ export class WakeHive {
     if (Number.isNaN(this.lx)) { this.lx = x; this.ly = y; }
     // Stamp along the whole line since the last event, so a fast flick is one stroke
     const n = Math.max(1, Math.ceil(Math.hypot(x - this.lx, y - this.ly) / (rad / 3)));
+    const step = Math.hypot(x - this.lx, y - this.ly) / n;
     for (let k = 1; k <= n; k++) {
       const f = k / n;
+      this.hueNow = (this.hueNow + step / HUE_PX) % HUES;
       this.stamp(this.lx + (x - this.lx) * f, this.ly + (y - this.ly) * f, rad, 0.5);
     }
     this.lx = x; this.ly = y; this.hx = x; this.hy = y;
@@ -262,9 +274,11 @@ export class WakeHive {
         if (m <= 0) continue;
         const { x: cx, y: cy } = this.centre(i, j);
         let h = this.heat[k];
+        let tint = this.hue[k];
         if (anyHand) {
           const q = ((cx - this.hx) ** 2 + (cy - this.hy) ** 2) / R2;
-          if (q < 1) h = Math.max(h, 0.95 * this.near * (1 - q) * (1 - q));
+          const hand = q < 1 ? 0.95 * this.near * (1 - q) * (1 - q) : 0;
+          if (hand > h) { h = hand; tint = Math.floor(this.hueNow) % HUES; }   // under the pointer: the current colour
         }
         // The ring that adds the most to this cell colours it, if it outweighs the hover wake
         const base = h;
@@ -295,7 +309,7 @@ export class WakeHive {
             x += (dx / d) * s; y += (dy / d) * s;
           }
         }
-        ctx.fillStyle = ink >= 0 ? RING_INKS[ink][v > 0.35 ? 1 : 0] : INKS[Math.min(3, Math.floor(v * 4))];
+        ctx.fillStyle = ink >= 0 ? RING_INKS[ink][v > 0.35 ? 1 : 0] : RAINBOW[tint][Math.min(3, Math.floor(v * 4))];
         ctx.fillText(RAMP[idx], x, y);
       }
     }
