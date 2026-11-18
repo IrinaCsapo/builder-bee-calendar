@@ -1,0 +1,24 @@
+name: Brevo signup emails
+
+# Creates or updates the "confirm" and "welcome" emails in Brevo (scripts/brevo-templates.ts).
+# Run by hand after changing them: Actions → Brevo signup emails → Run workflow.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  templates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Upload the templates to Brevo
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+        run: npx tsx scripts/brevo-templates.ts

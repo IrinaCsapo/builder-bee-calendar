@@ -11,6 +11,7 @@ import { CookiesPage } from './pages/CookiesPage';
 import { HowItWorksPage } from './pages/HowItWorksPage';
 import { CommunitiesPage } from './pages/CommunitiesPage';
 import { SubscribePage } from './pages/SubscribePage';
+import { SubscribedPage } from './pages/SubscribedPage';
 import { CommunityPage } from './pages/CommunityPage';
 import { CollectionPage } from './pages/CollectionPage';
 import { useRoute } from './lib/router';
@@ -37,6 +38,7 @@ export function App() {
   else if (path === '/how-it-works') page = <HowItWorksPage />;
   else if (path === '/about') page = <AboutPage />;
   else if (path === '/subscribe') page = <SubscribePage />;
+  else if (path === '/subscribed') page = <SubscribedPage />;
   else if (path === '/privacy') page = <PrivacyPage />;
   else if (path === '/cookies') page = <CookiesPage />;
   else if (collection) page = <CollectionPage key={collection.path} collection={collection} />;

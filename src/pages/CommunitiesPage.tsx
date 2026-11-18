@@ -4,6 +4,7 @@ import { allEvents } from '../lib/events';
 import { communityEvents } from '../lib/communityEvents';
 import { ALL_COMMUNITIES, COMMUNITY_GROUPS, communitySlug, type Community } from '../data/communities';
 import './HowItWorksPage.css';
+import { NewsletterSignup } from '../components/NewsletterSignup/NewsletterSignup';
 import './CommunitiesPage.css';
 
 // One hero-lab colour per group
@@ -83,6 +84,10 @@ export function CommunitiesPage() {
           </section>
         );
       })}
+
+      <div className="newsletter-spot">
+        <NewsletterSignup heading="Every group’s new events, every Monday" />
+      </div>
 
       <section className="how__people communities__missing" aria-labelledby="communities-missing">
         <div>

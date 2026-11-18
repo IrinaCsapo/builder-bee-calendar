@@ -50,7 +50,7 @@ export function NewsletterSignup({ heading = 'Get new events every Monday' }: { 
         {state === 'done' ? (
           <p className="newsletter__done" role="status">
             <CheckCircleIcon className="icon" aria-hidden="true" />
-            <span>Nearly there! Check your inbox for a confirmation email from BuilderBee and click the link in it.</span>
+            <span>Nearly there! Check your inbox for an email from BuilderBee (hello@builderbee.club) and click “Yes, send me the weekly email”. It can take a minute, so check spam too.</span>
           </p>
         ) : (
           <form className="newsletter__form" onSubmit={submit}>

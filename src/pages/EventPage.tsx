@@ -11,6 +11,7 @@ import { DetailList } from '../components/DetailList/DetailList';
 import { ShareLink } from '../components/ShareLink/ShareLink';
 import { AddToCalendar } from '../components/AddToCalendar/AddToCalendar';
 import { NotFoundPage } from './NotFoundPage';
+import { NewsletterSignup } from '../components/NewsletterSignup/NewsletterSignup';
 import './EventPage.css';
 
 export function EventPage({ id }: { id: string }) {
@@ -118,6 +119,10 @@ export function EventPage({ id }: { id: string }) {
             ]}
           />
         </section>
+      </div>
+
+      <div className="newsletter-spot">
+        <NewsletterSignup heading="Never miss an event like this" />
       </div>
     </article>
   );

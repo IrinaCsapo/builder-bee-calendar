@@ -5,6 +5,7 @@ import { FOUNDERS, REPO_URL } from '../lib/site';
 import { PixelBee } from '../components/PixelBee/PixelBee';
 import logo from '../assets/builderbee-logo.svg';
 import './HowItWorksPage.css';
+import { NewsletterSignup } from '../components/NewsletterSignup/NewsletterSignup';
 import './AboutPage.css';
 
 // Where events for women in tech usually hide, before BuilderBee
@@ -108,6 +109,10 @@ export function AboutPage() {
           </li>
         </ul>
       </section>
+
+      <div className="newsletter-spot">
+        <NewsletterSignup />
+      </div>
 
       <section className="how__end" aria-labelledby="about-end">
         <h2 id="about-end">Find something to join this month</h2>

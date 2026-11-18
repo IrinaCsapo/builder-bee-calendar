@@ -127,3 +127,6 @@
   .newsletter:hover .newsletter__mini { transform: none; }
 }
 .content-page .newsletter-wrap { margin-top: var(--space-5); }
+
+/* Where a page places the box in its flow */
+.newsletter-spot { margin-top: var(--space-8); }

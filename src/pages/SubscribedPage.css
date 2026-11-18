@@ -1,0 +1,42 @@
+/* After confirming the weekly email: builds on HowItWorksPage.css and AboutPage.css */
+.subscribed { padding-bottom: var(--space-8); }
+
+/* The three sections of the email, as coloured cards like the email's own section labels */
+.subscribed__what {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 48rem) { .subscribed__what { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.subscribed__what li { padding: var(--space-5); border-radius: 20px; background: var(--what); }
+.subscribed__what li + li { margin-top: 0; }
+.subscribed__what p { margin-top: var(--space-2); }
+.subscribed__small { display: flex; gap: var(--space-2); align-items: flex-start; max-width: 46rem; margin-top: var(--space-5) !important; }
+.subscribed__small .icon { flex: none; margin-top: 3px; }
+
+/* What to do next */
+.subscribed__next {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 48rem) { .subscribed__next { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.subscribed__next li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+}
+.subscribed__next li + li { margin-top: 0; }
+.subscribed__next p { flex: 1; }
+.subscribed__icon { width: 2rem; height: 2rem; }
+.subscribed__next button { font: inherit; font-weight: 700; cursor: pointer; }

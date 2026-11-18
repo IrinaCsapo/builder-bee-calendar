@@ -107,6 +107,8 @@ Pages have normal addresses (`/event/femmehacks-2027`, `/about`, `/?format=Onlin
 
 Landing pages for common searches live in [`src/lib/collections.ts`](src/lib/collections.ts): topics (`/hackathons`, `/online`, `/ai`…), regions (`/europe`…) and a page for every city (`/city/london`). Those with at least two upcoming events are linked under "Browse events" and listed in the sitemap. Every prerendered file also carries a plain HTML version of its content for crawlers that don't run JavaScript; browsers hide it and show the app.
 
+**Signup emails.** [`scripts/brevo-templates.ts`](scripts/brevo-templates.ts) holds the confirmation email and the welcome email people get when they sign up for the weekly email; the "Brevo signup emails" workflow uploads them to Brevo. In Brevo, the weekly email form uses them (Contacts → Forms → the form → Settings), and sends people to `/subscribed` after they confirm.
+
 For search engines and AI tools: the home and About pages describe BuilderBee as an Organization (schema.org), landing pages carry an ItemList of their events and a FAQPage, the build writes `llms.txt` (a plain summary of the site and its events), and after each deploy [`scripts/indexnow.ts`](scripts/indexnow.ts) tells Bing and other IndexNow search engines which event pages changed. To send every page once, run the Deploy workflow by hand with "Also send every page to IndexNow" ticked.
 
 ## Project structure

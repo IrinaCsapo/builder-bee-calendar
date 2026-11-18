@@ -34,6 +34,7 @@ interface Meta {
   imageAlt?: string;
   jsonLd?: object;
   body?: string;         // plain HTML of the page's content, for crawlers that don't run JavaScript
+  noindex?: boolean;     // keep it out of search results
 }
 
 function render(m: Meta): string {
@@ -55,6 +56,7 @@ function render(m: Meta): string {
     set(/(<meta property="og:image:alt" content=")[^"]*/, `$1${esc(m.imageAlt ?? m.title)}`);
   }
   const extra = [`<link rel="canonical" href="${esc(url)}" />`];
+  if (m.noindex) extra.push('<meta name="robots" content="noindex" />');
   if (m.jsonLd) extra.push(`<script type="application/ld+json">${JSON.stringify(m.jsonLd).replace(/</g, '\\u003c')}</script>`);
   set(/<\/head>/, `    ${extra.join('\n    ')}\n  </head>`);
   if (m.body) set(/<div id="root"><\/div>/, `<div id="root">${staticPage(m.body)}</div>`);
@@ -218,6 +220,14 @@ for (const p of PAGES) {
     body: `<h1>${esc(heading)}</h1><p>${esc(p.description)}</p>${extra}`,
   }));
 }
+
+// Where people land after confirming the weekly email (not in the sitemap or search results)
+write('subscribed.html', render({
+  path: '/subscribed', noindex: true,
+  title: 'You’re subscribed · BuilderBee',
+  description: 'You’re subscribed to the BuilderBee weekly email: new hackathons, workshops and meetups for women, non-binary people and allies in tech, every Monday.',
+  body: '<h1>You’re subscribed to the BuilderBee weekly email</h1><p>Every Monday morning you’ll get one short email with new hackathons, workshops and meetups for women, non-binary people and allies in tech.</p><p><a href="/">Browse events</a></p>',
+}));
 
 // One page per community (/communities/<slug>), with its upcoming events
 const slugs = new Set<string>();

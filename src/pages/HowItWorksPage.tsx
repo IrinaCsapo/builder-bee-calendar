@@ -8,6 +8,7 @@ import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { allEvents } from '../lib/events';
 import { getUpcoming } from '../lib/dates';
 import { ALL_COMMUNITIES } from '../data/communities';
+import { NewsletterSignup } from '../components/NewsletterSignup/NewsletterSignup';
 import './HowItWorksPage.css';
 
 type Icon = ComponentType<SVGProps<SVGSVGElement>>;
@@ -110,6 +111,10 @@ export function HowItWorksPage() {
           <li className="how__chips-more">and {ALL_COMMUNITIES.length - SAMPLE.length} more</li>
         </ul>
       </section>
+
+      <div className="newsletter-spot">
+        <NewsletterSignup />
+      </div>
 
       <section className="how__end" aria-labelledby="how-end">
         <h2 id="how-end">Ready to find your next event?</h2>

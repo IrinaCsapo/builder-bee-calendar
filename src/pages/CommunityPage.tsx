@@ -9,6 +9,7 @@ import { EventCard } from '../components/EventCard/EventCard';
 import { NotFoundPage } from './NotFoundPage';
 import '../components/EventList/EventList.css';
 import './EventPage.css';
+import { NewsletterSignup } from '../components/NewsletterSignup/NewsletterSignup';
 import './CommunityPage.css';
 
 /** One community and all its upcoming events (/community/<slug>) */
@@ -67,6 +68,10 @@ export function CommunityPage({ slug }: { slug: string }) {
           </p>
         )}
       </section>
+
+      <div className="newsletter-spot">
+        <NewsletterSignup heading="Hear about their next event" />
+      </div>
     </div>
   );
 }
