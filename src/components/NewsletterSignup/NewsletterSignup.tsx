@@ -4,7 +4,6 @@ import { NEWSLETTER_FORM_URL } from '../../lib/site';
 import { allEvents } from '../../lib/events';
 import { getUpcoming } from '../../lib/dates';
 import { DateBlock } from '../DateBlock/DateBlock';
-import heroBg from '../../assets/hero-bg.jpg';
 import './NewsletterSignup.css';
 
 /**
@@ -38,7 +37,7 @@ export function NewsletterSignup({ heading = 'Get new events every Monday' }: { 
 
   return (
     <div className="newsletter-wrap">
-    <section className="newsletter" aria-labelledby={`${id}-h`} style={{ ['--newsletter-bg' as string]: `url(${heroBg})` }}>
+    <section className="newsletter" aria-labelledby={`${id}-h`}>
       <div className="newsletter__main">
         <p className="newsletter__kicker">The weekly email</p>
         <h2 id={`${id}-h`} className="newsletter__heading">{heading}</h2>

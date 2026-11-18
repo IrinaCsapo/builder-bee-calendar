@@ -243,6 +243,6 @@ write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 ${urls.map((u) => `  <url><loc>${esc(u.loc)}</loc><lastmod>${today}</lastmod><changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority></url>`).join('\n')}
 </urlset>
 `);
-write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /hero-lab\n\nSitemap: ${SITE}/sitemap.xml\n`);
+write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /hero-lab\nDisallow: /hero-old\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
 console.log(`prerender: ${events.length} event pages, ${PAGES.length} other pages, ${COMMUNITY_PAGES.length} community pages, ${COLLECTIONS.length} topic/region/city pages (${linkable(COLLECTIONS).length} in the sitemap), sitemap with ${urls.length} addresses, calendar feed with ${feedEvents.length} events`);

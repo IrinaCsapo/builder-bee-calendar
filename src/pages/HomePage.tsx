@@ -44,8 +44,8 @@ function jumpTo(target: HTMLElement | null, focusEl: HTMLElement | null) {
   window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 16, behavior: smooth ? 'smooth' : 'auto' });
 }
 
-/** heroVariant 'lab' = the test hero at /hero-lab (not linked anywhere) */
-export function HomePage({ heroVariant = 'live' }: { heroVariant?: 'live' | 'lab' } = {}) {
+/** heroVariant 'live' = the previous hero, kept at /hero-old (not linked anywhere) for comparison */
+export function HomePage({ heroVariant = 'lab' }: { heroVariant?: 'live' | 'lab' } = {}) {
   useDocumentTitle();
   // Filters live in the URL (/?format=Online&region=Europe) so a filtered view can be shared.
   const [filters, setFilters] = useState<Filters>(() => filtersFromQuery(parseLocation().query));
