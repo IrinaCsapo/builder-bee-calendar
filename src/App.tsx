@@ -12,12 +12,18 @@ import { HowItWorksPage } from './pages/HowItWorksPage';
 import { CommunitiesPage } from './pages/CommunitiesPage';
 import { SubscribePage } from './pages/SubscribePage';
 import { CommunityPage } from './pages/CommunityPage';
+import { CollectionPage } from './pages/CollectionPage';
 import { useRoute } from './lib/router';
+import { allEvents } from './lib/events';
+import { allCollections } from './lib/collections';
+
+const COLLECTIONS = allCollections(allEvents);
 
 export function App() {
   const { path } = useRoute();
   const eventMatch = path.match(/^\/event\/([a-z0-9-]+)\/?$/);
   const communityMatch = path.match(/^\/community\/([a-z0-9-]+)\/?$/);
+  const collection = COLLECTIONS.find((c) => c.path === path.replace(/\/$/, ''));
 
   let page;
   if (path === '/') page = <HomePage />;
@@ -32,6 +38,7 @@ export function App() {
   else if (path === '/subscribe') page = <SubscribePage />;
   else if (path === '/privacy') page = <PrivacyPage />;
   else if (path === '/cookies') page = <CookiesPage />;
+  else if (collection) page = <CollectionPage key={collection.path} collection={collection} />;
   else page = <NotFoundPage />;
 
   // On page change (not on filter changes): scroll to top and move focus to

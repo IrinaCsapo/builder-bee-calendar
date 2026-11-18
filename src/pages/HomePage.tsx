@@ -1,6 +1,7 @@
 import { CalendarDaysIcon } from '@heroicons/react/20/solid';
 import { NewsletterSignup } from '../components/NewsletterSignup/NewsletterSignup';
 import { NEWSLETTER_FORM_URL } from '../lib/site';
+import { BrowseLinks } from '../components/BrowseLinks/BrowseLinks';
 import { useEffect, useMemo, useState } from 'react';
 import { Hero } from '../components/Hero/Hero';
 import { SearchBox } from '../components/SearchBox/SearchBox';
@@ -209,6 +210,7 @@ export function HomePage({ heroVariant = 'live' }: { heroVariant?: 'live' | 'lab
             <a href="/subscribe">subscribe to the BuilderBee calendar</a> in Google, Apple or Outlook.
           </p>
         )}
+        <BrowseLinks />
       </section>
     </>
   );

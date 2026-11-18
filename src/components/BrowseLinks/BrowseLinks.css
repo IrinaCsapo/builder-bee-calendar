@@ -1,0 +1,36 @@
+/* "Browse events": pill links to the topic, region and city pages, with their event counts */
+.browse-links { margin-top: var(--space-8); padding-top: var(--space-6); border-top: 1px solid var(--color-border); }
+.browse-links > h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.6rem, 1.5vw + 1rem, 2.2rem); }
+.browse-links__group { margin-top: var(--space-5); }
+.browse-links__group h3 {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.browse-links ul { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-3) 0 0; padding: 0; list-style: none; }
+.browse-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  padding: 0 var(--space-4);
+  border: 1.5px solid #000;
+  border-radius: var(--radius-pill);
+  color: #000;
+  font-weight: 700;
+  text-decoration: none;
+}
+.browse-links a span {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-mint);
+  font-size: var(--text-sm);
+}
+.browse-links a:hover, .browse-links a[aria-current='page'] { background: #000; color: #fff; }
+.browse-links a:hover span, .browse-links a[aria-current='page'] span { color: #000; }

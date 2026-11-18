@@ -105,6 +105,8 @@ One-time setup on GitHub: **Settings → Pages → Source: GitHub Actions**, and
 
 Pages have normal addresses (`/event/femmehacks-2027`, `/about`, `/?format=Online`). GitHub Pages only serves files, so after `vite build`, [`scripts/prerender.ts`](scripts/prerender.ts) writes an HTML file for every event and page, each with its own title, description, link-preview image and (for events) Google "Event" structured data, plus `sitemap.xml` and `robots.txt`. Anything else falls back to `404.html`, which is the app. Old `#/…` links are redirected to the new addresses in the browser.
 
+Landing pages for common searches live in [`src/lib/collections.ts`](src/lib/collections.ts): topics (`/hackathons`, `/online`, `/ai`…), regions (`/europe`…) and a page for every city (`/city/london`). Those with at least two upcoming events are linked under "Browse events" and listed in the sitemap. Every prerendered file also carries a plain HTML version of its content for crawlers that don't run JavaScript; browsers hide it and show the app.
+
 ## Project structure
 
 ```

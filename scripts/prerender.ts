@@ -4,6 +4,9 @@
 //   dist/event/<id>.html   → builderbee.club/event/<id>   (plus Google "Event" structured data)
 //   dist/about.html        → builderbee.club/about        (and the other pages)
 //   dist/community/<slug>.html    → a community and its upcoming events
+//   dist/hackathons.html, dist/europe.html, dist/city/<slug>.html → topic, region and city pages
+// Every page also carries a plain HTML version of its content inside #root, for crawlers that don't
+// run JavaScript (Bing, AI search tools). Browsers hide it and show the app (see index.html).
 //   dist/404.html          → anything else; the app shows its own "not found" page
 //   dist/sitemap.xml, dist/robots.txt, dist/calendar.ics (the subscribable calendar)
 // Each file is the normal app; the browser takes over as usual once it loads.
@@ -13,6 +16,7 @@ import type { CalendarEvent } from '../src/types/event';
 import { buildFeed } from '../src/lib/ics';
 import { ALL_COMMUNITIES, communitySlug } from '../src/data/communities';
 import { communityEvents } from '../src/lib/communityEvents';
+import { allCollections, MIN_EVENTS, TOPICS, REGIONS, cityCollections, type Collection } from '../src/lib/collections';
 
 const SITE = 'https://builderbee.club';
 const DIST = new URL('../dist/', import.meta.url);
@@ -28,6 +32,7 @@ interface Meta {
   image?: string;        // absolute URL; default is the site's preview image
   imageAlt?: string;
   jsonLd?: object;
+  body?: string;         // plain HTML of the page's content, for crawlers that don't run JavaScript
 }
 
 function render(m: Meta): string {
@@ -51,6 +56,7 @@ function render(m: Meta): string {
   const extra = [`<link rel="canonical" href="${esc(url)}" />`];
   if (m.jsonLd) extra.push(`<script type="application/ld+json">${JSON.stringify(m.jsonLd).replace(/</g, '\\u003c')}</script>`);
   set(/<\/head>/, `    ${extra.join('\n    ')}\n  </head>`);
+  if (m.body) set(/<div id="root"><\/div>/, `<div id="root">${staticPage(m.body)}</div>`);
   return html;
 }
 
@@ -58,6 +64,32 @@ function write(file: string, html: string) {
   const target = new URL(file, DIST);
   mkdirSync(new URL('.', target), { recursive: true });
   writeFileSync(target, html);
+}
+
+// ---- Plain HTML for crawlers ----------------------------------------------------------
+
+const today = new Date().toISOString().slice(0, 10);
+const upcoming = events.filter((e) => e.end_date >= today).sort((a, b) => a.start_date.localeCompare(b.start_date));
+const upcomingIn = (c: Collection) => upcoming.filter(c.match);
+const linkable = (list: Collection[]) => list.filter((c) => upcomingIn(c).length >= MIN_EVENTS);
+
+const NAV = [['/', 'Events'], ['/communities', 'Communities'], ['/how-it-works', 'How it works'], ['/about', 'About'], ['/submit', 'Submit an event'], ['/subscribe', 'Subscribe']];
+
+function staticPage(main: string): string {
+  const browse = [['By type', linkable(TOPICS)], ['By region', linkable(REGIONS)], ['By city', linkable(cityCollections(events))]] as const;
+  return `<div class="static-page">
+<header><p><a href="/"><strong>BuilderBee</strong></a>: hackathons and tech events for women, non-binary people and allies</p>
+<nav><ul>${NAV.map(([href, text]) => `<li><a href="${href}">${text}</a></li>`).join('')}</ul></nav></header>
+<main>${main}</main>
+<nav><h2>Browse events</h2>${browse.filter(([, l]) => l.length).map(([title, list]) =>
+    `<h3>${title}</h3><ul>${list.map((c) => `<li><a href="${c.path}">${esc(c.label)}</a> (${upcomingIn(c).length})</li>`).join('')}</ul>`).join('')}</nav>
+<footer><p>BuilderBee Club. Made by builders, for builders. <a href="/privacy">Privacy policy</a></p></footer>
+</div>`;
+}
+
+function eventItems(list: CalendarEvent[]): string {
+  if (!list.length) return '<p>No upcoming events here right now. New events are added every morning.</p>';
+  return `<ul>${list.map((e) => `<li><a href="/event/${e.id}">${esc(e.title)}</a>: ${esc(e.event_type)} by ${esc(e.organiser)}, ${dateRange(e.start_date, e.end_date)}, ${esc(place(e))}${e.cost === 'Free' ? ', free' : ''}</li>`).join('\n')}</ul>`;
 }
 
 // ---- Events ---------------------------------------------------------------
@@ -122,6 +154,12 @@ for (const e of events) {
     image: e.image_url,
     imageAlt: e.title,
     jsonLd: eventJsonLd(e, SITE + path),
+    body: `<article><h1>${esc(e.title)}</h1>
+<p>${esc(e.event_type)} by ${esc(e.organiser)}</p>
+<p>${dateRange(e.start_date, e.end_date)} · ${esc(place(e))}${e.venue ? ` · ${esc(e.venue)}` : ''}</p>
+<p>${esc(e.audience)}</p>
+<p>${[e.level, e.cost, ...e.themes].map(esc).join(' · ')}${e.prize ? ` · Prize: ${esc(e.prize)}` : ''}${e.deadline ? ` · Register by ${dateRange(e.deadline, e.deadline)}` : ''}</p>
+<p><a href="${esc(e.registration_url)}">Register on the organiser's site</a></p></article>`,
   }));
 }
 
@@ -136,7 +174,13 @@ const PAGES: Meta[] = [
   { path: '/privacy', title: 'Privacy policy · BuilderBee', description: 'What BuilderBee collects (as little as possible) and why. We never sell your data or give it to anyone else.' },
   { path: '/cookies', title: 'Cookie policy · BuilderBee', description: 'BuilderBee doesn’t set any cookies, and there’s no advertising or tracking across sites.' },
 ];
-for (const p of PAGES) write(`${p.path.slice(1)}.html`, render(p));
+for (const p of PAGES) {
+  const heading = p.title.replace(/ · BuilderBee$/, '');
+  const extra = p.path === '/communities'
+    ? `<ul>${ALL_COMMUNITIES.map((c) => `<li><a href="/community/${communitySlug(c)}">${esc(c.name)}</a>: ${esc(c.about)}</li>`).join('')}</ul>`
+    : '';
+  write(`${p.path.slice(1)}.html`, render({ ...p, body: `<h1>${esc(heading)}</h1><p>${esc(p.description)}</p>${extra}` }));
+}
 
 // One page per community (/communities/<slug>), with its upcoming events
 const slugs = new Set<string>();
@@ -146,14 +190,38 @@ const COMMUNITY_PAGES: Meta[] = ALL_COMMUNITIES.map((c) => {
   slugs.add(slug);
   const n = communityEvents(c, events).length;
   const count = n ? ` ${n} upcoming ${n === 1 ? 'event' : 'events'} on BuilderBee.` : '';
-  return { path: `/community/${slug}`, title: `${c.name} events · BuilderBee`, description: `${c.about}${count}` };
+  return {
+    path: `/community/${slug}`, title: `${c.name} events · BuilderBee`, description: `${c.about}${count}`,
+    body: `<h1>${esc(c.name)}</h1><p>${esc(c.about)}</p><p>${esc(c.where)} · <a href="${esc(c.url)}">Visit their site</a></p>
+<h2>Upcoming events</h2>${eventItems(communityEvents(c, events))}`,
+  };
 });
 for (const p of COMMUNITY_PAGES) write(`${p.path.slice(1)}.html`, render(p));
 
-// The home page gets its canonical address too; anything unknown falls back to the app
-const home = template.replace('</head>', `    <link rel="canonical" href="${SITE}/" />\n  </head>`);
+// Topic, region and city pages (/hackathons, /europe, /city/london)
+const COLLECTIONS = allCollections(events);
+for (const c of COLLECTIONS) {
+  const n = upcomingIn(c).length;
+  write(`${c.path.slice(1)}.html`, render({
+    path: c.path,
+    title: `${c.title} · BuilderBee`,
+    description: `${c.intro}${n ? ` ${n} upcoming ${n === 1 ? 'event' : 'events'}.` : ''}`,
+    body: `<h1>${esc(c.heading)}</h1><p>${esc(c.intro)}</p><h2>Coming up</h2>${eventItems(upcomingIn(c))}`,
+  }));
+}
+
+// The home page: canonical address and the full list of upcoming events. Anything unknown falls back to the app.
+const homeDescription = 'Hackathons, buildathons, meetups and workshops for women, non-binary people and allies in tech. Online and around the world.';
+const home = render({
+  path: '/',
+  title: 'BuilderBee: hackathons and tech events for women, non-binary people and allies',
+  description: homeDescription,
+  body: `<h1>Find your next hackathon</h1>
+<p>${homeDescription} ${upcoming.length} upcoming events, checked and updated every day.</p>
+<h2>Upcoming events</h2>${eventItems(upcoming)}`,
+}).replace(/(<meta property="og:title" content=")[^"]*/, '$1BuilderBee: find your next hackathon');
 write('index.html', home);
-write('404.html', home.replace(/\s*<link rel="canonical"[^>]*>/, ''));
+write('404.html', template);
 
 // ---- Calendar feed: upcoming events plus the last month, so recent ones don't vanish mid-event ----
 
@@ -163,12 +231,11 @@ write('calendar.ics', buildFeed(feedEvents, SITE));
 
 // ---- Sitemap and robots.txt ---------------------------------------------------
 
-const today = new Date().toISOString().slice(0, 10);
-const upcoming = events.filter((e) => e.end_date >= today);
 const urls = [
   { loc: `${SITE}/`, changefreq: 'daily', priority: '1.0' },
   ...PAGES.map((p) => ({ loc: SITE + p.path, changefreq: 'monthly', priority: '0.5' })),
   ...COMMUNITY_PAGES.map((p) => ({ loc: SITE + p.path, changefreq: 'weekly', priority: '0.6' })),
+  ...linkable(COLLECTIONS).map((c) => ({ loc: SITE + c.path, changefreq: 'daily', priority: c.kind === 'Topic' ? '0.9' : '0.7' })),
   ...upcoming.map((e) => ({ loc: `${SITE}/event/${e.id}`, changefreq: 'weekly', priority: '0.8' })),
 ];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
@@ -178,4 +245,4 @@ ${urls.map((u) => `  <url><loc>${esc(u.loc)}</loc><lastmod>${today}</lastmod><ch
 `);
 write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /hero-lab\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
-console.log(`prerender: ${events.length} event pages, ${PAGES.length} other pages, ${COMMUNITY_PAGES.length} community pages, sitemap with ${urls.length} addresses, calendar feed with ${feedEvents.length} events`);
+console.log(`prerender: ${events.length} event pages, ${PAGES.length} other pages, ${COMMUNITY_PAGES.length} community pages, ${COLLECTIONS.length} topic/region/city pages (${linkable(COLLECTIONS).length} in the sitemap), sitemap with ${urls.length} addresses, calendar feed with ${feedEvents.length} events`);
