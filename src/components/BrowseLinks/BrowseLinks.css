@@ -34,3 +34,4 @@
 }
 .browse-links a:hover, .browse-links a[aria-current='page'] { background: #000; color: #fff; }
 .browse-links a:hover span, .browse-links a[aria-current='page'] span { color: #000; }
+.browse-links__summary { max-width: 46rem; margin-top: var(--space-2); }

@@ -16,7 +16,8 @@ import type { CalendarEvent } from '../src/types/event';
 import { buildFeed } from '../src/lib/ics';
 import { ALL_COMMUNITIES, communitySlug } from '../src/data/communities';
 import { communityEvents } from '../src/lib/communityEvents';
-import { allCollections, MIN_EVENTS, TOPICS, REGIONS, cityCollections, type Collection } from '../src/lib/collections';
+import { allCollections, MIN_EVENTS, TOPICS, REGIONS, cityCollections, collectionFaq, collectionSummary, siteSummary, type Collection, type Faq } from '../src/lib/collections';
+import { CONTACT_EMAIL, FOUNDERS, REPO_URL } from '../src/lib/site';
 
 const SITE = 'https://builderbee.club';
 const DIST = new URL('../dist/', import.meta.url);
@@ -91,6 +92,38 @@ function eventItems(list: CalendarEvent[]): string {
   if (!list.length) return '<p>No upcoming events here right now. New events are added every morning.</p>';
   return `<ul>${list.map((e) => `<li><a href="/event/${e.id}">${esc(e.title)}</a>: ${esc(e.event_type)} by ${esc(e.organiser)}, ${dateRange(e.start_date, e.end_date)}, ${esc(place(e))}${e.cost === 'Free' ? ', free' : ''}</li>`).join('\n')}</ul>`;
 }
+
+function faqHtml(faq: Faq[]): string {
+  return `<h2>Questions</h2>${faq.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join('')}`;
+}
+
+// ---- Structured data (schema.org), read by search engines and AI tools ----
+
+const ORGANIZATION = {
+  '@type': 'Organization',
+  '@id': `${SITE}/#organization`,
+  name: 'BuilderBee',
+  alternateName: 'BuilderBee Club',
+  url: `${SITE}/`,
+  logo: `${SITE}/logo.png`,
+  email: CONTACT_EMAIL,
+  description: 'A free calendar of hackathons, workshops, meetups and conferences for women, non-binary people and allies in tech, online and around the world, updated every day.',
+  founder: FOUNDERS.map((f) => ({ '@type': 'Person', name: f.name, ...(f.linkedin ? { sameAs: [f.linkedin] } : {}) })),
+  sameAs: [REPO_URL],
+};
+const WEBSITE = { '@type': 'WebSite', '@id': `${SITE}/#website`, name: 'BuilderBee', url: `${SITE}/`, publisher: { '@id': `${SITE}/#organization` } };
+
+const itemList = (name: string, list: CalendarEvent[]) => ({
+  '@type': 'ItemList',
+  name,
+  numberOfItems: list.length,
+  itemListElement: list.map((e, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}/event/${e.id}`, name: e.title })),
+});
+const faqPage = (faq: Faq[]) => ({
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+});
+const graph = (...items: object[]) => ({ '@context': 'https://schema.org', '@graph': items });
 
 // ---- Events ---------------------------------------------------------------
 
@@ -179,7 +212,11 @@ for (const p of PAGES) {
   const extra = p.path === '/communities'
     ? `<ul>${ALL_COMMUNITIES.map((c) => `<li><a href="/community/${communitySlug(c)}">${esc(c.name)}</a>: ${esc(c.about)}</li>`).join('')}</ul>`
     : '';
-  write(`${p.path.slice(1)}.html`, render({ ...p, body: `<h1>${esc(heading)}</h1><p>${esc(p.description)}</p>${extra}` }));
+  write(`${p.path.slice(1)}.html`, render({
+    ...p,
+    ...(p.path === '/about' ? { jsonLd: graph(ORGANIZATION) } : {}),
+    body: `<h1>${esc(heading)}</h1><p>${esc(p.description)}</p>${extra}`,
+  }));
 }
 
 // One page per community (/communities/<slug>), with its upcoming events
@@ -202,11 +239,14 @@ for (const p of COMMUNITY_PAGES) write(`${p.path.slice(1)}.html`, render(p));
 const COLLECTIONS = allCollections(events);
 for (const c of COLLECTIONS) {
   const n = upcomingIn(c).length;
+  const faq = collectionFaq(c, upcoming);
   write(`${c.path.slice(1)}.html`, render({
     path: c.path,
     title: `${c.title} · BuilderBee`,
     description: `${c.intro}${n ? ` ${n} upcoming ${n === 1 ? 'event' : 'events'}.` : ''}`,
-    body: `<h1>${esc(c.heading)}</h1><p>${esc(c.intro)}</p><h2>Coming up</h2>${eventItems(upcomingIn(c))}`,
+    jsonLd: graph(itemList(c.title, upcomingIn(c)), faqPage(faq)),
+    body: `<h1>${esc(c.heading)}</h1><p>${esc(c.intro)}</p><p>${esc(collectionSummary(c, upcoming))}</p>
+<h2>Coming up</h2>${eventItems(upcomingIn(c))}${faqHtml(faq)}`,
   }));
 }
 
@@ -216,8 +256,9 @@ const home = render({
   path: '/',
   title: 'BuilderBee: hackathons and tech events for women, non-binary people and allies',
   description: homeDescription,
+  jsonLd: graph(ORGANIZATION, WEBSITE, itemList('Upcoming events for women and non-binary people in tech', upcoming)),
   body: `<h1>Find your next hackathon</h1>
-<p>${homeDescription} ${upcoming.length} upcoming events, checked and updated every day.</p>
+<p>${homeDescription}</p><p>${esc(siteSummary(upcoming))}</p>
 <h2>Upcoming events</h2>${eventItems(upcoming)}`,
 }).replace(/(<meta property="og:title" content=")[^"]*/, '$1BuilderBee: find your next hackathon');
 write('index.html', home);
@@ -242,6 +283,34 @@ write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((u) => `  <url><loc>${esc(u.loc)}</loc><lastmod>${today}</lastmod><changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority></url>`).join('\n')}
 </urlset>
+`);
+// llms.txt: a plain summary of the site for AI tools (a proposed convention, https://llmstxt.org)
+const linkLine = (c: Collection) => `- [${c.title}](${SITE}${c.path}): ${upcomingIn(c).length} upcoming`;
+write('llms.txt', `# BuilderBee
+
+> ${ORGANIZATION.description}
+
+${siteSummary(upcoming)} Every event is for women and/or non-binary people in tech (some also welcome allies). A daily scout checks organisers' calendars, Luma, Eventbrite and the web, and only lists events whose dates and registration link are confirmed on the official page. Anyone can submit an event. BuilderBee is free, has no ads, sets no cookies and never sells data. Made by Irina and Tracey.
+
+## Browse
+- [All upcoming events](${SITE}/)
+${linkable(TOPICS).map(linkLine).join('\n')}
+
+## By region and city
+${[...linkable(REGIONS), ...linkable(cityCollections(events))].map(linkLine).join('\n')}
+
+## About
+- [About BuilderBee](${SITE}/about)
+- [How it works](${SITE}/how-it-works)
+- [Communities that run these events](${SITE}/communities)
+- [Submit an event](${SITE}/submit)
+- [Weekly email and calendar feed](${SITE}/subscribe)
+- [Calendar feed (iCal)](${SITE}/calendar.ics)
+
+## Upcoming events
+${upcoming.map((e) => `- [${e.title}](${SITE}/event/${e.id}): ${e.event_type} by ${e.organiser}, ${dateRange(e.start_date, e.end_date)}, ${place(e)}${e.cost === 'Free' ? ', free' : ''}`).join('\n')}
+
+Contact: ${CONTACT_EMAIL}
 `);
 write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /hero-lab\nDisallow: /hero-old\n\nSitemap: ${SITE}/sitemap.xml\n`);
 

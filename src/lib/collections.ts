@@ -128,3 +128,79 @@ export function allCollections(events: CalendarEvent[]): Collection[] {
 
 /** Collections worth linking to and listing in the sitemap: at least this many upcoming events */
 export const MIN_EVENTS = 2;
+
+// ---- Plain facts and FAQs (shown on the pages, and as structured data for search engines and AI tools) ----
+
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+/** "2026-11-21" -> "21 November" */
+const shortDate = (iso: string) => `${Number(iso.slice(8, 10))} ${MONTH_NAMES[Number(iso.slice(5, 7)) - 1]}`;
+const where = (e: CalendarEvent) => (e.format === 'Online' ? 'online' : [e.city, e.country].filter(Boolean).join(', '));
+const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+
+/** One quotable sentence about the whole calendar: "BuilderBee lists 86 upcoming events … in 19 countries …" */
+export function siteSummary(upcoming: CalendarEvent[]): string {
+  const countries = new Set(upcoming.map((e) => e.country).filter(Boolean)).size;
+  const online = upcoming.filter((e) => e.format !== 'In person').length;
+  return `BuilderBee lists ${plural(upcoming.length, 'upcoming event')} for women, non-binary people and allies in tech, ` +
+    `${online} of them online and the rest in ${plural(countries, 'country', 'countries')}, checked and updated every day.`;
+}
+
+/** What a collection's events are called in a sentence: "hackathons and buildathons", "events in London" */
+function noun(c: Collection): string {
+  const NOUNS: Record<string, string> = {
+    '/hackathons': 'hackathons and buildathons', '/workshops': 'workshops and bootcamps', '/meetups': 'meetups',
+    '/conferences': 'conferences', '/online': 'online and hybrid events', '/ai': 'AI events', '/free': 'free events',
+    '/beginners': 'beginner-friendly events', '/gaming-and-arts': 'game jams and creative tech events',
+  };
+  return NOUNS[c.path] ?? `events in ${c.label}`;
+}
+
+/** One quotable sentence about a collection: "BuilderBee lists 10 upcoming hackathons … The next is …" */
+export function collectionSummary(c: Collection, upcoming: CalendarEvent[]): string {
+  const list = upcoming.filter(c.match);
+  if (!list.length) return `There are no upcoming ${noun(c)} on BuilderBee right now; new events are added every morning.`;
+  const next = list[0];
+  return `BuilderBee lists ${list.length} upcoming ${noun(c)} for women and non-binary people in tech, updated daily. ` +
+    `The next is ${next.title} on ${shortDate(next.start_date)} (${where(next)}).`;
+}
+
+export interface Faq { q: string; a: string }
+
+/** A few questions people ask about a collection, answered from the live data */
+export function collectionFaq(c: Collection, upcoming: CalendarEvent[]): Faq[] {
+  const list = upcoming.filter(c.match);
+  const n = noun(c);
+  const faq: Faq[] = [];
+  if (list.length) {
+    const first = list.slice(0, 3).map((e) => `${e.title} (${shortDate(e.start_date)}, ${where(e)})`);
+    faq.push({
+      q: `What ${n} for women are coming up?`,
+      a: `There ${list.length === 1 ? 'is' : 'are'} ${list.length} upcoming ${n} on BuilderBee. The next ${first.length === 1 ? 'one is' : 'ones are'} ${first.join('; ')}.`,
+    });
+    const free = list.filter((e) => e.cost === 'Free').length;
+    faq.push({
+      q: `Are they free?`,
+      a: free === list.length
+        ? `Yes, all ${list.length} are free to join.`
+        : `${free} of the ${list.length} are free to join; the others are paid. Each event is labelled Free or Paid.`,
+    });
+  }
+  if (c.path !== '/online') {
+    const online = upcoming.filter((e) => e.format !== 'In person').length;
+    faq.push({
+      q: `Can I join from anywhere?`,
+      a: `Yes: ${online} upcoming events on BuilderBee are online or hybrid, so you can join them from anywhere. See builderbee.club/online.`,
+    });
+  }
+  faq.push(
+    {
+      q: 'Who are these events for?',
+      a: 'Every event on BuilderBee is for women and/or non-binary people in tech (some also welcome allies). Each listing quotes the organiser’s own words about who it’s for, so check that before you register.',
+    },
+    {
+      q: 'How does BuilderBee find events?',
+      a: 'Every morning a scout checks organisers’ calendars and searches Luma, Eventbrite and the web, and only adds events whose dates and registration link it has confirmed on the official page. Anyone can also submit an event at builderbee.club/submit.',
+    },
+  );
+  return faq;
+}

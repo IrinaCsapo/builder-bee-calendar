@@ -1,6 +1,6 @@
 import { allEvents } from '../../lib/events';
 import { getUpcoming } from '../../lib/dates';
-import { cityCollections, MIN_EVENTS, REGIONS, TOPICS, type Collection } from '../../lib/collections';
+import { cityCollections, MIN_EVENTS, REGIONS, siteSummary, TOPICS, type Collection } from '../../lib/collections';
 import './BrowseLinks.css';
 
 const upcoming = getUpcoming(allEvents);
@@ -19,6 +19,7 @@ export function BrowseLinks({ current }: { current?: string }) {
   return (
     <nav className="browse-links" aria-labelledby="browse-links-title">
       <h2 id="browse-links-title">Browse events</h2>
+      <p className="browse-links__summary">{siteSummary(upcoming)}</p>
       {GROUPS.filter((g) => g.items.length).map((g) => (
         <div key={g.title} className="browse-links__group">
           <h3>{g.title}</h3>

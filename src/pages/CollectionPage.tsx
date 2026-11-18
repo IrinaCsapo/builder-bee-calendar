@@ -3,13 +3,14 @@ import { useDocumentTitle } from '../lib/useDocumentTitle';
 import { allEvents } from '../lib/events';
 import { getUpcoming } from '../lib/dates';
 import { useNow } from '../lib/timeLeft';
-import type { Collection } from '../lib/collections';
+import { collectionFaq, collectionSummary, type Collection } from '../lib/collections';
 import { EventCard } from '../components/EventCard/EventCard';
 import { BrowseLinks } from '../components/BrowseLinks/BrowseLinks';
 import { NewsletterSignup } from '../components/NewsletterSignup/NewsletterSignup';
 import '../components/EventList/EventList.css';
 import './EventPage.css';
 import './CommunityPage.css';
+import './CollectionPage.css';
 
 const upcoming = getUpcoming(allEvents);
 
@@ -29,6 +30,7 @@ export function CollectionPage({ collection: c }: { collection: Collection }) {
           <p className="community-page__kicker">{c.kicker}</p>
           <h1>{c.heading}</h1>
           <p className="community-page__about">{c.intro}</p>
+          <p className="collection-page__summary">{collectionSummary(c, upcoming)}</p>
           <div className="community-page__meta">
             <span className="community-page__where">
               {events.length} upcoming {events.length === 1 ? 'event' : 'events'}
@@ -62,6 +64,16 @@ export function CollectionPage({ collection: c }: { collection: Collection }) {
 
       <section aria-label="Weekly email">
         <NewsletterSignup />
+      </section>
+
+      <section className="collection-page__faq" aria-labelledby="collection-faq">
+        <h2 id="collection-faq">Questions</h2>
+        {collectionFaq(c, upcoming).map((f) => (
+          <details key={f.q}>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
       </section>
 
       <BrowseLinks current={c.path} />

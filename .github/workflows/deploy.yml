@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      indexnow_all:
+        description: 'Also send every page to IndexNow (Bing and others)'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -38,3 +43,26 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # Tell Bing and other IndexNow search engines which pages changed (new or edited events)
+  indexnow:
+    needs: deploy
+    runs-on: ubuntu-latest
+    continue-on-error: true   # never fail the deploy over this
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Send changed pages
+        env:
+          BEFORE: ${{ github.event.before }}
+          ALL: ${{ inputs.indexnow_all }}
+        run: |
+          if [ "$ALL" = "true" ]; then npx tsx scripts/indexnow.ts all
+          elif [ -n "$BEFORE" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ]; then npx tsx scripts/indexnow.ts "$BEFORE"
+          else echo "No earlier commit to compare with; nothing sent"; fi

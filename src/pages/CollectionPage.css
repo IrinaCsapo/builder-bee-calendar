@@ -1,0 +1,14 @@
+/* Topic, region and city pages: builds on CommunityPage.css */
+.collection-page__summary { max-width: 46rem; margin-top: var(--space-2); font-weight: 600; }
+
+/* Questions, as open/close rows */
+.collection-page__faq h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.6rem, 1.5vw + 1rem, 2.2rem); }
+.collection-page__faq details { max-width: 52rem; border-bottom: 1px solid var(--color-border); }
+.collection-page__faq details:first-of-type { margin-top: var(--space-4); border-top: 1px solid var(--color-border); }
+.collection-page__faq summary {
+  min-height: var(--tap-target);
+  padding: var(--space-3) 0;
+  font-weight: 700;
+  cursor: pointer;
+}
+.collection-page__faq details p { margin: 0 0 var(--space-4); max-width: 46rem; }
