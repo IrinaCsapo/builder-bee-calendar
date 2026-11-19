@@ -1,125 +1,183 @@
-import { ArrowLeftIcon, ArrowUpRightIcon } from '@heroicons/react/20/solid';
+import type { ComponentType, ReactNode, SVGProps } from 'react';
+import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon, CalendarDaysIcon, ClockIcon, MapPinIcon, TicketIcon } from '@heroicons/react/20/solid';
+import {
+  AcademicCapIcon, BuildingOfficeIcon, CalendarIcon, ClockIcon as ClockOutline, GlobeAltIcon, MapPinIcon as MapPinOutline,
+  SparklesIcon, TagIcon, TicketIcon as TicketOutline, TrophyIcon, UserGroupIcon,
+} from '@heroicons/react/24/outline';
 import { allEvents } from '../lib/events';
 import { formatFull, formatRange, todayISO } from '../lib/dates';
 import { getListHref } from '../lib/router';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
-import { Badge } from '../components/Badge/Badge';
-import { Chip } from '../components/Chip/Chip';
-import { DateBlock } from '../components/DateBlock/DateBlock';
+import { timeLeft, useNow } from '../lib/timeLeft';
+import { similarEvents } from '../lib/similar';
 import { EventImage } from '../components/EventImage/EventImage';
-import { DetailList } from '../components/DetailList/DetailList';
+import { EventCard } from '../components/EventCard/EventCard';
 import { ShareLink } from '../components/ShareLink/ShareLink';
 import { AddToCalendar } from '../components/AddToCalendar/AddToCalendar';
-import { NotFoundPage } from './NotFoundPage';
 import { NewsletterSignup } from '../components/NewsletterSignup/NewsletterSignup';
+import { NotFoundPage } from './NotFoundPage';
+import '../components/EventList/EventList.css';
 import './EventPage.css';
+
+type Icon = ComponentType<SVGProps<SVGSVGElement>>;
+
+// One hero-lab colour per type of event, for the header's top edge and the "Good to know" icons
+const TYPE_COLOURS: Record<string, string> = {
+  Hackathon: '#7B00DA', Buildathon: '#0006FA', Workshop: '#FF6600', Bootcamp: '#21B700',
+  Meetup: '#FE06E5', Conference: '#009BE9', 'Pitch night': '#7B00DA',
+};
+
+/** One "Good to know" card. Rendered only when it has something to say. */
+function Fact({ icon: Icon, term, children, wide = false }: { icon: Icon; term: string; children: ReactNode; wide?: boolean }) {
+  if (children === undefined || children === null || children === '' || children === false) return null;
+  return (
+    <div className={`event-fact${wide ? ' event-fact--wide' : ''}`}>
+      <Icon className="event-fact__icon" aria-hidden="true" />
+      <dt>{term}</dt>
+      <dd>{children}</dd>
+    </div>
+  );
+}
 
 export function EventPage({ id }: { id: string }) {
   const event = allEvents.find((e) => e.id === id);
   useDocumentTitle(event?.title ?? 'Event not found');
+  const now = useNow();
   if (!event) return <NotFoundPage message="We couldn't find that event. It may have been removed or renamed." />;
 
   const today = todayISO();
   const hasEnded = event.end_date < today;
   const deadlinePassed = !!event.deadline && event.deadline < today;
-  const location =
-    event.format === 'Online'
-      ? 'Online'
-      : [event.venue, event.city, event.country].filter(Boolean).join(', ');
+  const left = timeLeft(event, now);
+  const open = left.label.startsWith('Registration ends');
+  const place = event.format === 'Online'
+    ? 'Online'
+    : [event.city, event.country].filter(Boolean).join(', ') + (event.format === 'Hybrid' ? ' and online' : '');
+  const fullPlace = event.format === 'Online' ? 'Online' : [event.venue, event.city, event.country].filter(Boolean).join(', ');
+  const colour = TYPE_COLOURS[event.event_type] ?? '#7B00DA';
+  const similar = similarEvents(event, allEvents);
 
   return (
-    <article className="event-page container">
+    <article className="event-page container" style={{ ['--event' as string]: colour }}>
       <p className="event-page__back">
         <a href={getListHref()}><ArrowLeftIcon className="icon" aria-hidden="true" /> Back to all events</a>
       </p>
 
       {hasEnded && (
         <p className="event-page__notice" role="note">
-          <strong>This event has ended.</strong> It stays here so shared links keep working.
+          <strong>This event has ended.</strong> It stays here so shared links keep working.{' '}
+          {similar.length > 0 && <a href="#more-like-this">See similar events coming up</a>}
         </p>
       )}
 
-      <header className="event-page__header">
-        <DateBlock start={event.start_date} end={event.end_date} />
-        <div>
-          <h1 className="event-page__title">{event.title}</h1>
-          <p className="event-page__organiser">
-            <span className="visually-hidden">Organised by </span>{event.organiser}
-          </p>
-          <ul className="event-page__tags" aria-label="Highlights">
-            <li><Chip label="Format">{event.format}</Chip></li>
-            <li><Chip label="Type">{event.event_type}</Chip></li>
-            {event.cost === 'Free' && <li><Badge>Free</Badge></li>}
-            {event.level === 'Beginner friendly' && <li><Badge variant="plum">Beginner friendly</Badge></li>}
+      {/* ---- Header: what, when, where, and the Register button ---- */}
+      <header className="event-hero">
+        <div className="event-hero__text">
+          <ul className="event-hero__tags" aria-label="Highlights">
+            <li className="event-hero__tag event-hero__tag--type">{event.event_type}</li>
+            <li className="event-hero__tag">{event.format}</li>
+            {event.cost === 'Free' && <li className="event-hero__tag event-hero__tag--free">Free</li>}
+            {event.level === 'Beginner friendly' && <li className="event-hero__tag">Beginner friendly</li>}
           </ul>
+          <h1 className="event-hero__title">{event.title}</h1>
+          <p className="event-hero__organiser"><span className="visually-hidden">Organised by </span>by {event.organiser}</p>
+
+          <ul className="event-hero__facts" aria-label="Key facts">
+            <li>
+              <CalendarDaysIcon className="icon" aria-hidden="true" />
+              <time dateTime={event.start_date}>{formatRange(event.start_date, event.end_date)}</time>
+            </li>
+            <li><MapPinIcon className="icon" aria-hidden="true" />{place}</li>
+            <li><TicketIcon className="icon" aria-hidden="true" />{event.cost}</li>
+          </ul>
+
+          <div className="event-hero__cta">
+            <a className="event-hero__register hive-hover" href={event.registration_url} target="_blank" rel="noopener noreferrer">
+              {hasEnded ? 'See the organiser’s page' : 'Register'}
+              <ArrowUpRightIcon className="icon" aria-hidden="true" />
+              <span className="visually-hidden"> for {event.title} on the organiser’s site (opens in a new tab)</span>
+            </a>
+            {!hasEnded && (
+              <p className={`event-hero__countdown${left.urgent ? ' is-urgent' : ''}${open ? '' : ' is-closed'}`}>
+                <ClockIcon className="icon" aria-hidden="true" />{left.label}
+              </p>
+            )}
+          </div>
+          <p className="event-hero__note">You register on the organiser’s site. BuilderBee is free and never asks for your details.</p>
+        </div>
+
+        <div className="event-hero__media">
+          <EventImage id={event.id} title={event.title} src={event.image_url} />
         </div>
       </header>
 
+      {/* ---- Details and the side panel ---- */}
       <div className="event-page__layout">
-        {/* The event's own picture, shown whole at a size that stays sharp (beside the details on desktop) */}
-        {event.image_url && (
-          <div className="event-page__media">
-            <EventImage id={event.id} title={event.title} src={event.image_url} />
-          </div>
-        )}
-        <aside className="event-page__actions" aria-label="Register and share">
-          <a
-            className="event-page__register hive-hover"
-            href={event.registration_url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Register
-             <ArrowUpRightIcon className="icon" aria-hidden="true" />
-            <span className="visually-hidden"> for {event.title} on the organiser’s site (opens in a new tab)</span>
-          </a>
-          <p className="event-page__register-note">
-            Registration happens on the organiser’s site.
-          </p>
+        <section aria-labelledby="details-heading" className="event-page__details">
+          <h2 id="details-heading" className="event-page__h2">Good to know</h2>
+          <dl className="event-facts">
+            <Fact icon={UserGroupIcon} term="Who it’s for" wide>
+              <q className="event-page__audience">{event.audience}</q>
+            </Fact>
+            <Fact icon={CalendarIcon} term="When">
+              <time dateTime={event.start_date}>{formatRange(event.start_date, event.end_date)}</time>
+              <span className="event-fact__sub">{event.timezone.replace(/_/g, ' ')} time</span>
+            </Fact>
+            <Fact icon={MapPinOutline} term="Where">
+              {fullPlace}
+              <span className="event-fact__sub">{event.format}{event.format !== 'Online' ? ` · ${event.region}` : ''}</span>
+            </Fact>
+            <Fact icon={ClockOutline} term="Apply by">
+              {event.deadline && (
+                <>
+                  <time dateTime={event.deadline}>{formatFull(event.deadline)}</time>
+                  {deadlinePassed && <span className="event-fact__sub">Deadline passed</span>}
+                </>
+              )}
+            </Fact>
+            <Fact icon={TicketOutline} term="Cost">{event.cost}</Fact>
+            <Fact icon={AcademicCapIcon} term="Level">{event.level}</Fact>
+            <Fact icon={TagIcon} term="Type">{event.event_type}</Fact>
+            <Fact icon={TrophyIcon} term="Prize">{event.prize}</Fact>
+            <Fact icon={SparklesIcon} term="Themes">{event.themes.length ? event.themes.join(', ') : ''}</Fact>
+            <Fact icon={BuildingOfficeIcon} term="Organiser">{event.organiser}</Fact>
+          </dl>
+          {event.source !== 'placeholder' && (
+            <p className="event-page__source">
+              <GlobeAltIcon className="icon" aria-hidden="true" />
+              <span>
+                Details checked on{' '}
+                <a href={event.source} target="_blank" rel="noopener noreferrer">
+                  the organiser’s page<span className="visually-hidden"> (opens in a new tab)</span>
+                </a>. Dates can change, so check there before you go.
+              </span>
+            </p>
+          )}
+        </section>
+
+        <aside className="event-page__actions" aria-label="Save and share">
+          <p className="event-page__actions-title">Save it for later</p>
           {!hasEnded && <AddToCalendar event={event} />}
           <ShareLink title={event.title} />
         </aside>
-
-        <section aria-labelledby="details-heading" className="event-page__details">
-          <h2 id="details-heading" className="event-page__h2">Event details</h2>
-          <DetailList
-            items={[
-              { term: 'When', value: <time dateTime={event.start_date}>{formatRange(event.start_date, event.end_date)}</time> },
-              { term: 'Timezone', value: event.timezone.replace(/_/g, ' ') },
-              { term: 'Where', value: location },
-              { term: 'Region', value: event.region },
-              { term: 'Format', value: event.format },
-              { term: 'Type', value: event.event_type },
-              {
-                term: 'Themes',
-                value: event.themes.length ? (
-                  <ul className="event-page__themes">
-                    {event.themes.map((t) => <li key={t}><Chip>{t}</Chip></li>)}
-                  </ul>
-                ) : '',
-              },
-              { term: 'Who it’s for', value: <q className="event-page__audience">{event.audience}</q> },
-              { term: 'Level', value: event.level },
-              { term: 'Cost', value: event.cost },
-              { term: 'Prize', value: event.prize },
-              {
-                term: 'Apply by',
-                value: event.deadline && (
-                  <>
-                    <time dateTime={event.deadline}>{formatFull(event.deadline)}</time>
-                    {deadlinePassed && ' (deadline passed)'}
-                  </>
-                ),
-              },
-              { term: 'Organiser', value: event.organiser },
-              {
-                term: 'Source',
-                value: event.source === 'placeholder' ? 'Placeholder data, to be confirmed' : event.source,
-              },
-            ]}
-          />
-        </section>
       </div>
+
+      {/* ---- More like this ---- */}
+      {similar.length > 0 && (
+        <section className="event-page__more" aria-labelledby="more-like-this">
+          <div className="event-row__head">
+            <h2 id="more-like-this" className="event-row__title">More events like this</h2>
+            <a className="event-page__more-all" href="/">
+              All events <ArrowRightIcon className="icon" aria-hidden="true" />
+            </a>
+          </div>
+          <ul className="event-row__items is-expanded">
+            {similar.map((e) => (
+              <li key={e.id}><EventCard event={e} now={now} headingLevel={3} /></li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <div className="newsletter-spot">
         <NewsletterSignup heading="Never miss an event like this" />
