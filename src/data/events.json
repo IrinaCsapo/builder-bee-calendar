@@ -2579,5 +2579,53 @@
     "registration_url": "https://luma.com/3ayv6ap7",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/2f/85599e9b-9233-4495-a9b6-ee0c964077bf.png",
     "source": "https://luma.com/3ayv6ap7"
+  },
+  {
+    "id": "we-create-women-ai-build-night-miami-dec-2026",
+    "title": "We Create: Women AI Build Night (last one of the year)",
+    "organiser": "We Create",
+    "event_type": "Buildathon",
+    "format": "In person",
+    "start_date": "2026-12-11",
+    "end_date": "2026-12-11",
+    "timezone": "America/New_York",
+    "city": "Miami",
+    "country": "United States",
+    "region": "North America",
+    "venue": "The DOCK",
+    "lat": 25.7617,
+    "lng": -80.1918,
+    "themes": [
+      "AI"
+    ],
+    "audience": "Women builders, makers, designers, and founders, plus anyone interested in creating with AI. No experience necessary.",
+    "level": "Beginner friendly",
+    "cost": "Free",
+    "registration_url": "https://luma.com/gxu0fxw5",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/hm/a0358ed0-b7d9-4162-8c6c-3013f009c7df.jpg",
+    "source": "https://luma.com/gxu0fxw5"
+  },
+  {
+    "id": "toast-dash-2026",
+    "title": "Toast Dash 2026: Women in Tech Online Hackathon",
+    "organiser": "Toast",
+    "event_type": "Hackathon",
+    "format": "Online",
+    "start_date": "2026-11-24",
+    "end_date": "2026-11-24",
+    "timezone": "America/Edmonton",
+    "city": "",
+    "country": "",
+    "region": "Global",
+    "themes": [
+      "AI"
+    ],
+    "audience": "Women in tech: a one-day, build-for-women hackathon with Lovable, Redbrick and Leeg",
+    "level": "All levels",
+    "cost": "Paid",
+    "prize": "$1,000 in cash prizes plus a year of Leeg",
+    "registration_url": "https://luma.com/toast-gpjm",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/d7/c146f053-1a22-4288-9f4a-258f274bd319.png",
+    "source": "https://luma.com/toast-gpjm"
   }
 ]
