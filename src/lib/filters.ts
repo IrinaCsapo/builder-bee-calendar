@@ -1,5 +1,5 @@
-import { EVENT_TYPES, FORMATS, REGIONS, THEMES } from '../types/event';
-import type { CalendarEvent, EventType, Format, Level, Region, Theme } from '../types/event';
+import { EVENT_TYPES, FORMATS, PERKS, REGIONS, THEMES, perksOf } from '../types/event';
+import type { CalendarEvent, EventType, Format, Level, Perk, Region, Theme } from '../types/event';
 
 /** The levels offered as filters ("All levels" events aren't a choice of their own) */
 export const LEVEL_FILTERS = ['Beginner friendly', 'Advanced'] as const satisfies readonly Level[];
@@ -14,7 +14,13 @@ export interface Filters {
   theme: Theme | '';
   freeOnly: boolean;
   levels: LevelFilter[];      // empty = all levels
+  perk: PerkFilter;           // '' = any event, ANY_PERK = has at least one perk, or one perk
 }
+
+/** The "Perks" filter: any perk at all, or a specific one */
+export const ANY_PERK = 'Any perk';
+export type PerkFilter = Perk | typeof ANY_PERK | '';
+export const PERK_FILTERS = [ANY_PERK, ...PERKS] as const;
 
 export const EMPTY_FILTERS: Filters = {
   query: '',
@@ -25,11 +31,12 @@ export const EMPTY_FILTERS: Filters = {
   theme: '',
   freeOnly: false,
   levels: [],
+  perk: '',
 };
 
 export function hasActiveFilters(f: Filters): boolean {
   return (
-    !!f.query.trim() || f.formats.length > 0 || !!f.type || !!f.region || !!f.country || !!f.theme || f.freeOnly || f.levels.length > 0
+    !!f.query.trim() || f.formats.length > 0 || !!f.type || !!f.region || !!f.country || !!f.theme || f.freeOnly || f.levels.length > 0 || !!f.perk
   );
 }
 
@@ -57,7 +64,8 @@ export function applyFilters(events: CalendarEvent[], f: Filters): CalendarEvent
       (!f.country || e.country === f.country) &&
       (!f.theme || e.themes.includes(f.theme)) &&
       (!f.freeOnly || e.cost === 'Free') &&
-      (f.levels.length === 0 || (f.levels as string[]).includes(e.level)),
+      (f.levels.length === 0 || (f.levels as string[]).includes(e.level)) &&
+      (!f.perk || (f.perk === ANY_PERK ? perksOf(e).length > 0 : perksOf(e).includes(f.perk))),
   );
 }
 
@@ -92,6 +100,7 @@ export function filtersFromQuery(q: URLSearchParams): Filters {
     theme: pick(THEMES, q.get('theme')),
     freeOnly: q.get('free') === '1',
     levels: [...new Set([...levels, ...(q.get('beginner') === '1' ? (['Beginner friendly'] as const) : [])])],
+    perk: q.get('perk') === 'any' ? ANY_PERK : pick(PERKS, q.get('perk')),
   };
 }
 
@@ -105,5 +114,6 @@ export function filtersToQuery(f: Filters): string {
   if (f.theme) q.set('theme', f.theme);
   if (f.freeOnly) q.set('free', '1');
   if (f.levels.length) q.set('level', LEVEL_FILTERS.filter((x) => f.levels.includes(x)).join(','));
+  if (f.perk) q.set('perk', f.perk === ANY_PERK ? 'any' : f.perk);
   return q.toString();
 }

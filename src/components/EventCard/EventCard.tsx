@@ -1,5 +1,5 @@
-import { ArrowsRightLeftIcon, CalendarDaysIcon, ClockIcon, ComputerDesktopIcon, MapPinIcon, TrophyIcon, UserGroupIcon } from '@heroicons/react/20/solid';
-import type { CalendarEvent } from '../../types/event';
+import { ArrowsRightLeftIcon, CalendarDaysIcon, ClockIcon, ComputerDesktopIcon, MapPinIcon, TrophyIcon, UserGroupIcon, GiftIcon } from '@heroicons/react/20/solid';
+import { perksOf, type CalendarEvent } from '../../types/event';
 import { formatRange, formatDay, formatShortMonth } from '../../lib/dates';
 import { timeLeft } from '../../lib/timeLeft';
 import { EventImage } from '../EventImage/EventImage';
@@ -25,6 +25,8 @@ function shortDate(e: CalendarEvent) {
 export function EventCard({ event, now, headingLevel = 3 }: EventCardProps) {
   const Title = headingLevel === 4 ? 'h4' : 'h3';
   const left = timeLeft(event, now);
+  // The card already shows a stated prize as its own chip, so the perks tag leaves it out
+  const perks = perksOf(event).filter((p) => !(p === 'Prizes' && event.prize));
   // In-person and hybrid events get their own location chip
   const where = event.format === 'Online' ? '' : [event.city, event.country].filter(Boolean).join(', ');
 
@@ -38,6 +40,13 @@ export function EventCard({ event, now, headingLevel = 3 }: EventCardProps) {
         </li>
         <li className="event-card__badge">{event.level}</li>
         <li className={`event-card__badge event-card__badge--${event.cost === 'Free' ? 'free' : 'paid'}`}>{event.cost}</li>
+        {perks.length > 0 && (
+          <li className="event-card__badge event-card__badge--perk">
+            <GiftIcon className="icon" aria-hidden="true" />
+            <span className="visually-hidden">Perks: {perks.join(', ')}</span>
+            <span aria-hidden="true">{perks[0]}{perks.length > 1 ? ` +${perks.length - 1}` : ''}</span>
+          </li>
+        )}
       </ul>
 
       <Title className="event-card__title">

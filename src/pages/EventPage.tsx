@@ -1,10 +1,11 @@
 import type { ComponentType, ReactNode, SVGProps } from 'react';
 import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon, CalendarDaysIcon, ClockIcon, MapPinIcon, TicketIcon } from '@heroicons/react/20/solid';
 import {
-  AcademicCapIcon, CalendarIcon, ClockIcon as ClockOutline, GlobeAltIcon, MapPinIcon as MapPinOutline,
+  AcademicCapIcon, BriefcaseIcon, CakeIcon, CalendarIcon, ChatBubbleLeftRightIcon, FaceSmileIcon, GiftIcon, PaperAirplaneIcon, ClockIcon as ClockOutline, GlobeAltIcon, MapPinIcon as MapPinOutline,
   SparklesIcon, TicketIcon as TicketOutline, TrophyIcon, UserGroupIcon,
 } from '@heroicons/react/24/outline';
 import { allEvents } from '../lib/events';
+import { perksOf, type Perk } from '../types/event';
 import { formatFull, formatRange, todayISO } from '../lib/dates';
 import { getListHref } from '../lib/router';
 import { useDocumentTitle } from '../lib/useDocumentTitle';
@@ -25,6 +26,12 @@ type Icon = ComponentType<SVGProps<SVGSVGElement>>;
 const TYPE_COLOURS: Record<string, string> = {
   Hackathon: '#7B00DA', Buildathon: '#0006FA', Workshop: '#FF6600', Bootcamp: '#21B700',
   Meetup: '#FE06E5', Conference: '#009BE9', 'Pitch night': '#7B00DA',
+};
+
+// An icon for each kind of perk
+const PERK_ICONS: Record<Perk, Icon> = {
+  'Free credits': GiftIcon, Mentoring: ChatBubbleLeftRightIcon, Prizes: TrophyIcon, 'Food & drinks': CakeIcon,
+  Childcare: FaceSmileIcon, 'Travel support': PaperAirplaneIcon, 'Job opportunities': BriefcaseIcon,
 };
 
 /** One "Good to know" card. Rendered only when it has something to say. */
@@ -62,6 +69,7 @@ export function EventPage({ id }: { id: string }) {
     : [venueName ? cityCountry : '', event.format === 'Hybrid' ? 'In person and online' : 'In person'].filter(Boolean).join(' · ');
   const colour = TYPE_COLOURS[event.event_type] ?? '#7B00DA';
   const similar = similarEvents(event, allEvents);
+  const perks = perksOf(event);
 
   return (
     <article className="event-page container" style={{ ['--event' as string]: colour }}>
@@ -126,6 +134,19 @@ export function EventPage({ id }: { id: string }) {
             <figcaption>Who it’s for</figcaption>
             <blockquote><p>“{event.audience}”</p></blockquote>
           </figure>
+          {perks.length > 0 && (
+            <section className="event-page__perks" aria-labelledby="perks-heading">
+              <h3 id="perks-heading">What you get</h3>
+              <ul>
+                {perks.map((p) => {
+                  const PerkIcon = PERK_ICONS[p];
+                  return <li key={p}><PerkIcon className="event-fact__icon" aria-hidden="true" />{p}</li>;
+                })}
+              </ul>
+              {event.prize && <p><strong>Prize:</strong> {event.prize}</p>}
+              {event.perks_detail && <p>{event.perks_detail}</p>}
+            </section>
+          )}
           <dl className="event-facts">
             <Fact icon={CalendarIcon} term="When">
               <time dateTime={event.start_date}>{formatRange(event.start_date, event.end_date)}</time>
@@ -145,7 +166,6 @@ export function EventPage({ id }: { id: string }) {
             </Fact>
             <Fact icon={TicketOutline} term="Cost">{event.cost}</Fact>
             <Fact icon={AcademicCapIcon} term="Level">{event.level}</Fact>
-            <Fact icon={TrophyIcon} term="Prize">{event.prize}</Fact>
             <Fact icon={SparklesIcon} term="Themes">{event.themes.length ? event.themes.join(', ') : ''}</Fact>
           </dl>
           {event.source !== 'placeholder' && (

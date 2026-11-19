@@ -158,3 +158,16 @@
 /* ---- More events like this ---- */
 .event-page__more { margin-top: var(--space-8); }
 .event-page__more-all { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; }
+
+/* ---- What you get (perks) ---- */
+.event-page__perks {
+  margin-top: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-radius: 20px;
+  background: var(--color-perk);
+}
+.event-page__perks h3 { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #55555e; }
+.event-page__perks ul { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); margin: var(--space-3) 0 0; padding: 0; list-style: none; }
+.event-page__perks li { display: inline-flex; align-items: center; gap: var(--space-2); margin: 0; font-weight: 700; }
+.event-page__perks li .event-fact__icon { width: 1.4rem; height: 1.4rem; }
+.event-page__perks p { margin-top: var(--space-3); }

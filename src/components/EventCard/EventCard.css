@@ -35,6 +35,8 @@
 /* Cost: Free in mint green, Paid in soft peach (same as the event page and the emails) */
 .event-card__badge--free { background: var(--color-free); border-color: var(--color-free); }
 .event-card__badge--paid { background: var(--color-paid); border-color: var(--color-paid); }
+/* Perks: soft lilac, with a gift icon */
+.event-card__badge--perk { display: inline-flex; align-items: center; gap: 4px; background: var(--color-perk); border-color: var(--color-perk); }
 .event-card__badge--time.is-urgent { border: 2px solid #000; }
 
 .event-card__title { font-family: var(--font-sans); font-size: 1.15rem; font-weight: 400; line-height: 1.3; }

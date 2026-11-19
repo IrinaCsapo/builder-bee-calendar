@@ -4,7 +4,7 @@ import { EVENT_TYPES, FORMATS, REGIONS, THEMES } from '../../types/event';
 import type { EventType, Region, Theme } from '../../types/event';
 import type { Filters } from '../../lib/filters';
 import type { PlaceChoice } from '../../lib/location';
-import { hasActiveFilters, LEVEL_FILTERS, toggleInList } from '../../lib/filters';
+import { hasActiveFilters, LEVEL_FILTERS, PERK_FILTERS, toggleInList, type PerkFilter } from '../../lib/filters';
 import { ToggleButton } from '../ToggleButton/ToggleButton';
 import { Select } from '../Select/Select';
 import { ResultCount } from '../ResultCount/ResultCount';
@@ -40,7 +40,7 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
 
   // Only the most-used filters are always visible. Everything else is behind
   // "More filters", on every screen size, so the bar stays calm.
-  const moreActive = [filters.type, filters.region, filters.country, filters.theme].filter(Boolean).length;
+  const moreActive = [filters.type, filters.region, filters.country, filters.theme, filters.perk].filter(Boolean).length;
   // Start open if a shared link already uses one of the folded-away filters
   const [moreOpen, setMoreOpen] = useState(() => moreActive > 0);
   // (On phones a shared link with only Format/Free/Level shows the count badge on the closed button.)
@@ -151,6 +151,8 @@ export function FilterBar({ filters, onChange, onClear, resultCount, countriesBy
             value={filters.country} onChange={(v) => set({ country: v })} />
           <Select id="filter-theme" label="Theme" allLabel="All themes" options={THEMES}
             value={filters.theme} onChange={(v) => set({ theme: v as Theme | '' })} />
+          <Select id="filter-perk" label="Perks" allLabel="With or without perks" options={PERK_FILTERS}
+            value={filters.perk} onChange={(v) => set({ perk: v as PerkFilter })} />
         </div>
       </div>
     </section>

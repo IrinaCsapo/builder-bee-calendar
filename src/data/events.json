@@ -497,8 +497,12 @@
     "level": "Beginner friendly",
     "cost": "Free",
     "prize": "₹2,00,000 prize pool",
-    "registration_url": "https://herhack.devpost.com/",
     "deadline": "2026-11-10",
+    "perks": [
+      "Mentoring",
+      "Prizes"
+    ],
+    "registration_url": "https://herhack.devpost.com/",
     "image_url": "https://d112y698adiu2z.cloudfront.net/photos/production/challenge_thumbnails/005/553/888/datas/large.png",
     "source": "https://herhack.devpost.com/"
   },
@@ -545,6 +549,10 @@
     "audience": "an evening curated for women in tech — whether you're writing your first line of code or you're already building in Software, AI, and Cybersecurity",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Mentoring"
+    ],
+    "perks_detail": "Mentor matching",
     "registration_url": "https://luma.com/8n3eit8s",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/p0/06ee7939-56c3-46f0-8a01-bcfa4f5ebcb8.jpg",
     "source": "https://luma.com/8n3eit8s"
@@ -595,6 +603,11 @@
     "audience": "the most ambitious women building in Copenhagen: engineers, designers, product people, data analysts and domain experts",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Mentoring",
+      "Food & drinks"
+    ],
+    "perks_detail": "Mentors on site, lunch and a pitch dinner",
     "registration_url": "https://luma.com/co020l0x",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/wk/a89190d2-a732-4263-a0fd-9d5ce91fa087.png",
     "source": "https://luma.com/co020l0x"
@@ -641,6 +654,9 @@
     "audience": "Designed to make programming and web development more accessible to women+",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Food & drinks"
+    ],
     "registration_url": "https://luma.com/thefuture-qn9n",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/dt/0a30baca-a15b-4d8a-b8a3-1f091d8e97f1.png",
     "source": "https://luma.com/thefuture-qn9n"
@@ -666,6 +682,11 @@
     "audience": "Women builders, makers, designers, founders, and anyone excited about creating with AI. No experience necessary.",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Free credits",
+      "Mentoring"
+    ],
+    "perks_detail": "$200 of Devin credits (Max Plan) from Cognition Labs; beginners get guidance from the facilitator",
     "registration_url": "https://luma.com/g5rsdn39",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/hm/a0358ed0-b7d9-4162-8c6c-3013f009c7df.jpg",
     "source": "https://luma.com/g5rsdn39"
@@ -740,6 +761,10 @@
     "audience": "a meetup and online-based community for women and non-binary people who are ready to build and launch their own AI-coded solutions",
     "level": "All levels",
     "cost": "Free",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Snacks and drinks provided",
     "registration_url": "https://luma.com/njhy3034",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/zm/9fa388b4-9f4b-45c3-8eb3-9da273eb148e.png",
     "source": "https://luma.com/njhy3034"
@@ -815,6 +840,10 @@
     "audience": "women working in AI: developers, data scientists, researchers, product managers, designers, founders and professionals applying AI in their everyday work",
     "level": "All levels",
     "cost": "Free",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Lunch included",
     "registration_url": "https://luma.com/equals-utwi",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/zz/4922becd-1843-48db-9f08-592aa555e82e.png",
     "source": "https://luma.com/equals-utwi"
@@ -863,6 +892,11 @@
     "audience": "Ever wanted to build your own app but didn't know where to start? No coding experience needed",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Mentoring",
+      "Food & drinks"
+    ],
+    "perks_detail": "Build alongside mentors, then drinks and networking",
     "registration_url": "https://luma.com/7dresusv",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/gallery-images/c7/f478f17a-9b2c-470d-b2b6-7046bfde8674",
     "source": "https://luma.com/7dresusv"
@@ -889,6 +923,10 @@
     "level": "All levels",
     "cost": "Free",
     "prize": "Cash prizes for the top team",
+    "perks": [
+      "Prizes"
+    ],
+    "perks_detail": "Cash prizes for the top team",
     "registration_url": "https://luma.com/qorbjli1",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/j5/37e34527-80a4-4530-8d09-2813e911bdb7.png",
     "source": "https://luma.com/qorbjli1"
@@ -936,6 +974,10 @@
     "audience": "Come build alongside women who are learning, experimenting, and putting AI to work",
     "level": "Beginner friendly",
     "cost": "Paid",
+    "perks": [
+      "Mentoring"
+    ],
+    "perks_detail": "Breakout tracks guided by dedicated facilitators",
     "registration_url": "https://luma.com/5ukqdjio",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/nl/54805264-2577-4537-8b89-4287a9852e5e.jpg",
     "source": "https://luma.com/5ukqdjio"
@@ -959,6 +1001,10 @@
     "audience": "Willa is where smart women keep up with AI",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Free credits"
+    ],
+    "perks_detail": "Willa members get one month of free Lovable Pro",
     "registration_url": "https://luma.com/build-first-site-lovable",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/k2/463425e7-f001-45e5-a0b5-1d8fae971a0d.jpg",
     "source": "https://luma.com/build-first-site-lovable"
@@ -982,6 +1028,11 @@
     "audience": "Chicas y mujeres con interés en la tecnología, estés empezando o lleves años en el sector",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Mentoring",
+      "Food & drinks"
+    ],
+    "perks_detail": "Speed mentoring, coffee break and networking",
     "registration_url": "https://luma.com/nl5i4n2r",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/fk/eb626284-5477-4703-83c5-b99dd63b8bb1.png",
     "source": "https://luma.com/nl5i4n2r"
@@ -1051,6 +1102,11 @@
     "audience": "Asia's largest gathering of women and allies, building the future of technology",
     "level": "All levels",
     "cost": "Paid",
+    "perks": [
+      "Job opportunities",
+      "Food & drinks"
+    ],
+    "perks_detail": "Recruiter access and career workshops; lunch",
     "registration_url": "https://ghci.anitabindia.org/",
     "image_url": "https://ghci.anitabindia.org/architects-of-ghci.png",
     "source": "https://ghci.anitabindia.org/"
@@ -1075,6 +1131,13 @@
     "audience": "A women-only mini-hackathon for mums, mums-to-be and women curious about building with AI",
     "level": "All levels",
     "cost": "Free",
+    "perks": [
+      "Free credits",
+      "Mentoring",
+      "Food & drinks",
+      "Childcare"
+    ],
+    "perks_detail": "Lovable credits provided, 1:1 help at every table, tea and coffee; babies, toddlers and kids can come along",
     "registration_url": "https://luma.com/c6yjgde7",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/fh/291c656c-2a74-40ae-a521-1588b1f1aba3.jpg",
     "source": "https://luma.com/c6yjgde7"
@@ -1099,6 +1162,12 @@
     "audience": "open to any women identifying individual who wants to learn how to do more with AI",
     "level": "All levels",
     "cost": "Paid",
+    "perks": [
+      "Free credits",
+      "Mentoring",
+      "Food & drinks"
+    ],
+    "perks_detail": "$100 of Claude credits, breakfast, and hands-on guidance (8 students per teacher)",
     "registration_url": "https://luma.com/6jb1yuls",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/9k/17367041-64c7-4cbb-b403-ad3bba48f365.png",
     "source": "https://luma.com/6jb1yuls"
@@ -1122,6 +1191,10 @@
     "audience": "A women-centric hackathon hosted at Purdue University",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Mentoring"
+    ],
+    "perks_detail": "Mentors and workshops",
     "registration_url": "https://innovateherhacks.org/",
     "image_url": "https://innovateherhacks.org/assets/logo.jpg",
     "source": "https://innovateherhacks.org/"
@@ -1145,6 +1218,10 @@
     "audience": "a global community of female-identifying and nonbinary undergraduates",
     "level": "Beginner friendly",
     "cost": "Paid",
+    "perks": [
+      "Mentoring"
+    ],
+    "perks_detail": "Small mentorship circle discussions with speakers",
     "registration_url": "https://www.eventbrite.com/e/harvard-women-engineers-code-wecode-2027-conference-tickets-2002896612685",
     "image_url": "https://www.eventbrite.com/_next/image?url=https%3A%2F%2Fimg.evbuc.com%2Fhttps%253A%252F%252Fcdn.evbuc.com%252Fimages%252F1159041073%252F78859621087%252F1%252Foriginal.20251021-204223%3Fcrop%3Dfocalpoint%26fit%3Dcrop%26w%3D940%26auto%3Dformat%252Ccompress%26q%3D75%26sharp%3D10%26fp-x%3D0.426%26fp-y%3D0.478%26s%3De755f7ea663161706783ffecf25d1c78&w=940&q=75",
     "source": "https://www.eventbrite.com/e/harvard-women-engineers-code-wecode-2027-conference-tickets-2002896612685"
@@ -1168,8 +1245,13 @@
     "audience": "inspired and motivated college women to pursue careers in computing",
     "level": "All levels",
     "cost": "Paid",
-    "registration_url": "https://celebration.ocwic.org/registration/",
     "deadline": "2027-02-01",
+    "perks": [
+      "Travel support",
+      "Job opportunities"
+    ],
+    "perks_detail": "Student scholarships cover the room and all food and drinks; career fair",
+    "registration_url": "https://celebration.ocwic.org/registration/",
     "image_url": "https://celebration.ocwic.org/wp-content/uploads/2024/06/2025_compressed-1024x670.jpg",
     "source": "https://celebration.ocwic.org/"
   },
@@ -1191,6 +1273,10 @@
     "audience": "Designed for women in tech, with a priority on early careers and soon-to-graduate female STEM students",
     "level": "All levels",
     "cost": "Paid",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Drinks included",
     "registration_url": "https://luma.com/1ym7jjnd",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/wy/6aeeb308-1387-4614-a99f-1548f682ff0a.jpg",
     "source": "https://luma.com/1ym7jjnd"
@@ -1213,8 +1299,12 @@
     "audience": "Free programming workshop for women",
     "level": "Beginner friendly",
     "cost": "Free",
-    "registration_url": "https://djangogirls.org/en/cagayandeoro/",
     "deadline": "2027-02-07",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Food is provided",
+    "registration_url": "https://djangogirls.org/en/cagayandeoro/",
     "image_url": "https://djangogirls.org/uploads/stock_pictures/picture26.jpg",
     "source": "https://djangogirls.org/en/cagayandeoro/"
   },
@@ -1237,6 +1327,10 @@
     "audience": "Women and allies in cybersecurity from academia, research, government, and industry",
     "level": "All levels",
     "cost": "Paid",
+    "perks": [
+      "Travel support"
+    ],
+    "perks_detail": "Scholarships available",
     "registration_url": "https://www.wicys.org/events/wicys-2027/",
     "source": "https://www.wicys.org/events/wicys-2027/"
   },
@@ -2007,6 +2101,11 @@
     "audience": "Open to any women identifying individual who wants to learn how to do more with AI",
     "level": "Beginner friendly",
     "cost": "Paid",
+    "perks": [
+      "Free credits",
+      "Food & drinks"
+    ],
+    "perks_detail": "$100 of Claude credits and breakfast",
     "registration_url": "https://luma.com/9r247fq5",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/sx/bfb17aed-530a-4ace-ab38-868cbcf9cd5b.png",
     "source": "https://luma.com/9r247fq5"
@@ -2175,6 +2274,10 @@
     "audience": "Women in Tech: hands-on Claude workshop and coworking session",
     "level": "All levels",
     "cost": "Free",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Coffee to start",
     "registration_url": "https://luma.com/claude-2ugt",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/api-uploads/qn/2f333e84-5ab1-46ec-a4a1-6ee3c91e552d.png",
     "source": "https://luma.com/claude-2ugt"
@@ -2200,6 +2303,10 @@
     "audience": "Five women from the Madrid AI community demo what they've built with AI",
     "level": "All levels",
     "cost": "Free",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Drinks after",
     "registration_url": "https://luma.com/98ccfocp",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/zh/4eb8a84b-4daf-44d9-939a-01f8bbd7c73e.png",
     "source": "https://luma.com/98ccfocp"
@@ -2325,6 +2432,11 @@
     "audience": "Mentorship for women and LGBTQIA+ folks building with AI; no tech background needed",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Free credits",
+      "Food & drinks"
+    ],
+    "perks_detail": "Free Lovable credits for every participant; refreshments",
     "registration_url": "https://luma.com/fgsyrg80",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/wo/5b1ba4af-b512-4364-9446-1dbd741b4a53.png",
     "source": "https://luma.com/fgsyrg80"
@@ -2402,6 +2514,10 @@
     "audience": "Women and nonbinary people of all experience levels are welcome; no prior AI or coding experience needed",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Food provided",
     "registration_url": "https://luma.com/neurips-women-who-codex",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/dn/1efce7c2-758f-4a9e-a90d-71f8b18e7e87.png",
     "source": "https://luma.com/neurips-women-who-codex"
@@ -2426,6 +2542,10 @@
     "audience": "A morning exclusively for women in tech",
     "level": "All levels",
     "cost": "Free",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Good coffee",
     "registration_url": "https://luma.com/claude-k2tk",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/na/b8403a82-cbdc-4562-bb62-f6844098a015.jpg",
     "source": "https://luma.com/claude-k2tk"
@@ -2451,6 +2571,10 @@
     "audience": "Women Techmakers community event on careers and AI agent teams",
     "level": "All levels",
     "cost": "Free",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Drinks and snacks",
     "registration_url": "https://luma.com/jrxjnp6z",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/gallery-images/image-gen/invites/campsite-2026-11-09-invite-17.png",
     "source": "https://luma.com/jrxjnp6z"
@@ -2476,6 +2600,10 @@
     "audience": "Women Techmakers meetup; from tech novices to experienced builders",
     "level": "All levels",
     "cost": "Free",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Drinks provided (bring your own food)",
     "registration_url": "https://luma.com/ku9f751k",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/7d/2eb4ad85-84c4-44e1-9bbd-877aaef456be.png",
     "source": "https://luma.com/ku9f751k"
@@ -2551,6 +2679,10 @@
     "audience": "A local community for women who want to move from AI-curious to AI-confident",
     "level": "All levels",
     "cost": "Free",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Light bites and drinks",
     "registration_url": "https://luma.com/edipixp6",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/event-covers/fv/e0012d90-5f2c-402b-bb29-d6a850867e9e.png",
     "source": "https://luma.com/edipixp6"
@@ -2601,6 +2733,10 @@
     "audience": "Women builders, makers, designers, and founders, plus anyone interested in creating with AI. No experience necessary.",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Mentoring"
+    ],
+    "perks_detail": "Beginners get guidance and a challenge from the facilitator",
     "registration_url": "https://luma.com/gxu0fxw5",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/hm/a0358ed0-b7d9-4162-8c6c-3013f009c7df.jpg",
     "source": "https://luma.com/gxu0fxw5"
@@ -2624,6 +2760,10 @@
     "level": "All levels",
     "cost": "Paid",
     "prize": "$1,000 in cash prizes plus a year of Leeg",
+    "perks": [
+      "Prizes"
+    ],
+    "perks_detail": "$1,000 in cash prizes plus a year of Leeg",
     "registration_url": "https://luma.com/toast-gpjm",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/d7/c146f053-1a22-4288-9f4a-258f274bd319.png",
     "source": "https://luma.com/toast-gpjm"
@@ -2650,6 +2790,10 @@
     "audience": "Mujeres vinculadas al deporte, la comunicación, las marcas, el emprendimiento y la tecnología, con distintos niveles de experiencia en IA",
     "level": "All levels",
     "cost": "Free",
+    "perks": [
+      "Free credits"
+    ],
+    "perks_detail": "One month of Lovable Pro and ElevenLabs credits",
     "registration_url": "https://luma.com/j9hmlaqk",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/43/42e78232-a4bd-4df0-9a37-3d97c91a8740.png",
     "source": "https://luma.com/j9hmlaqk"
@@ -2675,6 +2819,11 @@
     "audience": "Created for women and non-binary people. Come as you are, no experience needed.",
     "level": "Beginner friendly",
     "cost": "Paid",
+    "perks": [
+      "Mentoring",
+      "Food & drinks"
+    ],
+    "perks_detail": "Helpers in the room so nobody gets stuck, food and drinks, and a follow-up call",
     "registration_url": "https://www.isadoraandco.com/workshops",
     "source": "https://www.isadoraandco.com/workshops"
   },
@@ -2700,6 +2849,10 @@
     "audience": "A hands-on workshop where women of all ages discover how to turn their ideas into real things with Lovable. No coding experience? Perfect.",
     "level": "Beginner friendly",
     "cost": "Paid",
+    "perks": [
+      "Free credits"
+    ],
+    "perks_detail": "100 free Lovable credits",
     "registration_url": "https://shesgotyou.com/events/vibe-code-lovable-21-nov/",
     "image_url": "https://uvlyxzmstjpgekpwgctj.supabase.co/storage/v1/object/public/event-images/55055a59-de2e-4799-a8b0-a94793f540a5.webp",
     "source": "https://shesgotyou.com/events/vibe-code-lovable-21-nov/"
@@ -2726,6 +2879,11 @@
     "level": "Beginner friendly",
     "cost": "Free",
     "deadline": "2026-11-20",
+    "perks": [
+      "Mentoring",
+      "Prizes"
+    ],
+    "perks_detail": "Mentoring from tech professionals; three €500 challenge prizes",
     "registration_url": "https://www.eventbrite.com/e/adahack-code-for-change-tickets-2003306018228",
     "image_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1195703899%2F2740972818681%2F1%2Foriginal.20261013-163226?crop=focalpoint&fit=crop&w=940&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=4e00831a070ed62efad57f6f2bee5299",
     "source": "https://hack.klub-ada.si/en"
@@ -2777,6 +2935,11 @@
     "level": "All levels",
     "cost": "Free",
     "deadline": "2026-11-22",
+    "perks": [
+      "Prizes",
+      "Job opportunities"
+    ],
+    "perks_detail": "On-site interviews with Cretan companies, a prize for the best team, and free access to a GenAI course",
     "registration_url": "https://www.gethired.gr/program/get-into-ai-hackathon-nov-2026",
     "source": "https://www.gethired.gr/program/get-into-ai-hackathon-nov-2026"
   },
@@ -2801,6 +2964,13 @@
     "audience": "Free build nights where Lovable gives you the tools, a technical lead sits beside you, and you build it in a room of women doing the same.",
     "level": "All levels",
     "cost": "Free",
+    "perks": [
+      "Free credits",
+      "Mentoring",
+      "Food & drinks",
+      "Prizes"
+    ],
+    "perks_detail": "Lovable credits, a technical lead at your side, dinner, and a brand consultation for the Build of the Night",
     "registration_url": "https://thetabledinnerseries.com/",
     "source": "https://thetabledinnerseries.com/"
   },
@@ -2825,6 +2995,13 @@
     "audience": "Free build nights where Lovable gives you the tools, a technical lead sits beside you, and you build it in a room of women doing the same.",
     "level": "All levels",
     "cost": "Free",
+    "perks": [
+      "Free credits",
+      "Mentoring",
+      "Food & drinks",
+      "Prizes"
+    ],
+    "perks_detail": "Lovable credits, a technical lead at your side, dinner, and a brand consultation for the Build of the Night",
     "registration_url": "https://thetabledinnerseries.com/",
     "source": "https://thetabledinnerseries.com/"
   },
@@ -2849,6 +3026,13 @@
     "audience": "Free build nights where Lovable gives you the tools, a technical lead sits beside you, and you build it in a room of women doing the same.",
     "level": "All levels",
     "cost": "Free",
+    "perks": [
+      "Free credits",
+      "Mentoring",
+      "Food & drinks",
+      "Prizes"
+    ],
+    "perks_detail": "Lovable credits, a technical lead at your side, dinner, and a brand consultation for the Build of the Night",
     "registration_url": "https://thetabledinnerseries.com/",
     "source": "https://thetabledinnerseries.com/"
   },
@@ -2871,6 +3055,10 @@
     "audience": "Canada's largest hackathon for women and gender-diverse students",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Job opportunities"
+    ],
+    "perks_detail": "Workshops and a chance to connect with recruiters",
     "registration_url": "https://ellehacks.com/",
     "source": "https://ellehacks.com/"
   },
@@ -2895,6 +3083,11 @@
     "audience": "Helping women make a start on the idea they’ve been carrying around. You don’t need to know anything about tech.",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Free credits",
+      "Mentoring"
+    ],
+    "perks_detail": "Free Lovable credits on the day, help from start to finish",
     "registration_url": "https://luma.com/aa48koo6",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/qj/0f6188fb-10d1-4e67-9396-6bd633fb5df5.webp",
     "source": "https://luma.com/aa48koo6"
@@ -2920,6 +3113,12 @@
     "audience": "Women across domains including design, product management, creative work and beyond. No coding experience needed.",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Free credits",
+      "Mentoring",
+      "Food & drinks"
+    ],
+    "perks_detail": "Lovable credits, support from the team, and cake",
     "registration_url": "https://luma.com/3kisfxsl",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/o4/faa9bbce-4ed3-4dde-bab2-77db4921c31e.png",
     "source": "https://luma.com/3kisfxsl"
@@ -2945,6 +3144,10 @@
     "audience": "We're bringing together 50 women who love building things, sharing ideas and making new friends. No coding skills or technical experience needed.",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Welcome drinks",
     "registration_url": "https://luma.com/t41v2111",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/8n/7b4499d0-1588-4cc8-9ef2-545ef88e3538.png",
     "source": "https://luma.com/t41v2111"
@@ -2971,6 +3174,10 @@
     "audience": "A full-day, hands-on event for women to turn their ideas into working apps using Lovable. No coding needed!",
     "level": "Beginner friendly",
     "cost": "Free",
+    "perks": [
+      "Mentoring"
+    ],
+    "perks_detail": "Guided throughout the day with practical support",
     "registration_url": "https://www.eventbrite.co.uk/e/the-ai-social-buildathon-isle-of-man-tickets-2004525679267",
     "image_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1197499264%2F2184625615773%2F1%2Foriginal.20261107-175610?crop=focalpoint&fit=crop&w=940&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=869ca93cd8fdabfb87b6b77501fb1a47",
     "source": "https://www.eventbrite.co.uk/e/the-ai-social-buildathon-isle-of-man-tickets-2004525679267"

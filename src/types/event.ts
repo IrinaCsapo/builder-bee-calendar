@@ -9,6 +9,8 @@ export const REGIONS = ['Europe', 'North America', 'LatAm', 'Africa', 'Asia', 'O
 export const THEMES = ['AI', 'Fintech', 'Health', 'Climate', 'Web3', 'Design', 'No-code', 'Hardware', 'Social impact', 'Marketing', 'Gaming', 'Arts'] as const;
 export const LEVELS = ['Beginner friendly', 'All levels', 'Advanced'] as const;
 export const COSTS = ['Free', 'Paid'] as const;
+// Extras participants get, only when the organiser's page says so. "Prizes" is also implied by `prize`.
+export const PERKS = ['Free credits', 'Mentoring', 'Prizes', 'Food & drinks', 'Childcare', 'Travel support', 'Job opportunities'] as const;
 
 export type EventType = (typeof EVENT_TYPES)[number];
 export type Format = (typeof FORMATS)[number];
@@ -16,6 +18,7 @@ export type Region = (typeof REGIONS)[number];
 export type Theme = (typeof THEMES)[number];
 export type Level = (typeof LEVELS)[number];
 export type Cost = (typeof COSTS)[number];
+export type Perk = (typeof PERKS)[number];
 
 export interface CalendarEvent {
   id: string;              // slug, e.g. "femmehacks-2027"
@@ -39,6 +42,15 @@ export interface CalendarEvent {
   registration_url: string;
   deadline?: string;       // ISO date
   prize?: string;          // short, as the organiser states it, e.g. "$10,000 in prizes"
+  perks?: Perk[];          // extras for participants, as stated on the event page
+  perks_detail?: string;   // the organiser's own words about them, short, e.g. "1 month of Lovable Pro, pizza"
   image_url?: string;
   source: string;          // where we found it, or "placeholder"
+}
+
+/** An event's perks, with "Prizes" added when it states a prize */
+export function perksOf(e: Pick<CalendarEvent, 'perks' | 'prize'>): Perk[] {
+  const list = [...(e.perks ?? [])];
+  if (e.prize && !list.includes('Prizes')) list.push('Prizes');
+  return PERKS.filter((p) => list.includes(p));   // always in the same order
 }

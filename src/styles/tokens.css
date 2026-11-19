@@ -17,6 +17,7 @@
   --color-mint-soft: #e3ffe9;   /* "time left" badges */
   --color-free: #a3ffb8;        /* "Free" tags (mint) */
   --color-paid: #ffe3cc;        /* "Paid" tags (soft peach) */
+  --color-perk: #f3e9ff;        /* "Perks" tags (soft lilac) */
 
   /* Older component tokens, now mapped onto the new palette */
   --color-plum: #000000;

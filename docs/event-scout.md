@@ -176,6 +176,14 @@ Follow `src/types/event.ts` exactly (allowed values are listed there; the README
 - `deadline`: the registration/application deadline if the page states one (YYYY-MM-DD)
 - `prize`: only if the page states a prize (prize pool, cash, credits, funding), in a few words as the organiser
   puts it, e.g. `$10,000 in prizes` or `€5,000 + mentoring`. Leave it out otherwise.
+- `perks`: extras for participants, **only if the event's page says so**, from this list: `Free credits`
+  (tool credits or a free plan, e.g. Lovable Pro, Claude, ElevenLabs, cloud credits), `Mentoring` (mentors,
+  coaches or helpers in the room), `Prizes`, `Food & drinks` (a meal, lunch, dinner, drinks or snacks),
+  `Childcare` (a crèche or kids' corner), `Travel support` (travel grants, reimbursement, bursaries),
+  `Job opportunities` (interviews, recruiters, hiring). Leave it out when the page mentions none. A stated
+  `prize` counts as Prizes automatically, so you don't need to add it to `perks` too.
+- `perks_detail`: the organiser's own words about the perks, briefly, e.g. `1 month of Lovable Pro and
+  ElevenLabs credits`. Only with `perks`.
 - `image_url`: the event's own image. **Luma**: the page's `cover_url`, served whole as
   `https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/<path after images.lumacdn.com/>`
   (never cropped). Others: the page's `og:image`. Must return 200. Leave it out if there isn't one.

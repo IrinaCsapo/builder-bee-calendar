@@ -2,7 +2,7 @@
 // a region (/europe) or a city (/city/london). Used by the app (CollectionPage) and by scripts/prerender.ts,
 // which gives each one its own HTML file, title and description, and lists it in the sitemap.
 
-import type { CalendarEvent, Region } from '../types/event';
+import { perksOf, type CalendarEvent, type Region } from '../types/event';
 
 export interface Collection {
   path: string;          // "/hackathons"
@@ -67,6 +67,13 @@ export const TOPICS: Collection[] = [
     title: 'Free tech events for women and non-binary people',
     intro: 'Hackathons, workshops and meetups for women and non-binary people in tech that cost nothing to join.',
     match: (e) => e.cost === 'Free',
+  },
+  {
+    path: '/free-credits', kind: 'Topic', label: 'Free credits', kicker: 'Free credits', colour: C.pink,
+    heading: 'Tech events for women with free AI credits',
+    title: 'Tech events for women with free AI credits',
+    intro: 'Hackathons and workshops for women and non-binary people where you get free credits for tools like Lovable, Claude or ElevenLabs, so you can keep building after the event.',
+    match: (e) => perksOf(e).includes('Free credits'),
   },
   {
     path: '/beginners', kind: 'Topic', label: 'Beginner friendly', kicker: 'Beginner friendly', colour: C.orange,
@@ -150,7 +157,7 @@ function noun(c: Collection): string {
   const NOUNS: Record<string, string> = {
     '/hackathons': 'hackathons and buildathons', '/workshops': 'workshops and bootcamps', '/meetups': 'meetups',
     '/conferences': 'conferences', '/online': 'online and hybrid events', '/ai': 'AI events', '/free': 'free events',
-    '/beginners': 'beginner-friendly events', '/gaming-and-arts': 'game jams and creative tech events',
+    '/beginners': 'beginner-friendly events', '/free-credits': 'events with free AI credits', '/gaming-and-arts': 'game jams and creative tech events',
   };
   return NOUNS[c.path] ?? `events in ${c.label}`;
 }

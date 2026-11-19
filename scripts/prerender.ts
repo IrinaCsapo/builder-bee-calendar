@@ -12,7 +12,7 @@
 // Each file is the normal app; the browser takes over as usual once it loads.
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import type { CalendarEvent } from '../src/types/event';
+import { perksOf, type CalendarEvent } from '../src/types/event';
 import { buildFeed } from '../src/lib/ics';
 import { ALL_COMMUNITIES, communitySlug } from '../src/data/communities';
 import { communityEvents } from '../src/lib/communityEvents';
@@ -194,6 +194,7 @@ for (const e of events) {
 <p>${esc(e.event_type)} by ${esc(e.organiser)}</p>
 <p>${dateRange(e.start_date, e.end_date)} · ${esc(place(e))}${e.venue ? ` · ${esc(e.venue)}` : ''}</p>
 <p>${esc(e.audience)}</p>
+${perksOf(e).length ? `<p>What you get: ${perksOf(e).map(esc).join(', ')}${e.perks_detail ? `. ${esc(e.perks_detail)}` : ''}</p>` : ''}
 <p>${[e.level, e.cost, ...e.themes].map(esc).join(' · ')}${e.prize ? ` · Prize: ${esc(e.prize)}` : ''}${e.deadline ? ` · Register by ${dateRange(e.deadline, e.deadline)}` : ''}</p>
 <p><a href="${esc(e.registration_url)}">Register on the organiser's site</a></p></article>
 <h2>More events like this</h2>${eventItems(similarEvents(e, events))}`,

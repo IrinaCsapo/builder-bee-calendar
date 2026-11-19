@@ -1,6 +1,6 @@
 // Runs before every build. Any invalid event fails the build with a clear message.
 import { readFileSync } from 'node:fs';
-import { EVENT_TYPES, FORMATS, REGIONS, THEMES, LEVELS, COSTS } from '../src/types/event';
+import { EVENT_TYPES, FORMATS, REGIONS, THEMES, LEVELS, COSTS, PERKS } from '../src/types/event';
 
 const FILE = new URL('../src/data/events.json', import.meta.url);
 const data: unknown = JSON.parse(readFileSync(FILE, 'utf8'));
@@ -11,7 +11,7 @@ const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const KNOWN_FIELDS = new Set([
   'id', 'title', 'organiser', 'event_type', 'format', 'start_date', 'end_date', 'timezone',
   'city', 'country', 'region', 'venue', 'lat', 'lng', 'themes', 'audience', 'level', 'cost',
-  'registration_url', 'deadline', 'prize', 'image_url', 'source',
+  'registration_url', 'deadline', 'prize', 'perks', 'perks_detail', 'image_url', 'source',
 ]);
 
 const isDate = (v: unknown) => typeof v === 'string' && ISO_DATE.test(v) && !Number.isNaN(Date.parse(v));
@@ -41,7 +41,7 @@ if (!Array.isArray(data)) {
     else seen.add(e.id);
 
     str('title'); str('organiser'); str('audience'); str('source');
-    str('venue', false); str('image_url', false); str('prize', false);
+    str('venue', false); str('image_url', false); str('prize', false); str('perks_detail', false);
     oneOf('event_type', EVENT_TYPES);
     oneOf('format', FORMATS);
     oneOf('region', REGIONS);
@@ -61,6 +61,10 @@ if (!Array.isArray(data)) {
 
     if (!Array.isArray(e.themes)) fail('themes must be an array');
     else for (const t of e.themes) if (!THEMES.includes(t)) fail(`theme "${t}" must be one of: ${THEMES.join(', ')}`);
+    if (e.perks !== undefined) {
+      if (!Array.isArray(e.perks)) fail('perks must be an array');
+      else for (const p of e.perks) if (!PERKS.includes(p)) fail(`perk "${p}" must be one of: ${PERKS.join(', ')}`);
+    }
 
     if (!isUrl(e.registration_url)) fail('registration_url must be a full http(s) URL');
     if (e.image_url !== undefined && !isUrl(e.image_url)) fail('image_url must be a full http(s) URL');
