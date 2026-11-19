@@ -6,6 +6,7 @@
 //
 //   npx tsx scripts/brevo-templates.ts --preview   writes confirm.html and welcome.html, sends nothing
 //   npx tsx scripts/brevo-templates.ts             creates or updates both templates in Brevo
+//   npx tsx scripts/brevo-templates.ts --send-test also sends the welcome email to the first test address
 //
 // The welcome email lists the next few events, so the workflow runs it every morning to keep them current.
 //
@@ -162,14 +163,25 @@ async function brevo(method: string, path: string, body?: unknown) {
 
 // Update the template with the same name if it exists, otherwise create it
 const existing: { id: number; name: string }[] = (await brevo('GET', '/smtp/templates?limit=1000')).templates ?? [];
+const ids: Record<string, number> = {};
 for (const t of TEMPLATES) {
   const body = { templateName: t.name, subject: t.subject, htmlContent: t.html, sender: SENDER, replyTo: SENDER.email, isActive: true, tag: t.tag };
   const found = existing.find((e) => e.name === t.name);
   if (found) {
     await brevo('PUT', `/smtp/templates/${found.id}`, body);
+    ids[t.tag] = found.id;
     console.log(`Updated "${t.name}" (template ${found.id})`);
   } else {
     const made = await brevo('POST', '/smtp/templates', body);
+    ids[t.tag] = made.id;
     console.log(`Created "${t.name}" (template ${made.id})`);
   }
+}
+
+// --send-test: send the welcome email to the first address in BREVO_TEST_EMAILS (never printed: the logs are public)
+if (process.argv.includes('--send-test')) {
+  const to = (process.env.BREVO_TEST_EMAILS ?? '').split(',')[0]?.trim();
+  if (!to) throw new Error('BREVO_TEST_EMAILS is empty');
+  await brevo('POST', `/smtp/templates/${ids.welcome}/sendTest`, { emailTo: [to] });
+  console.log('Sent a test of the welcome email to the first test address.');
 }
