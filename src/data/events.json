@@ -2974,5 +2974,30 @@
     "registration_url": "https://www.eventbrite.co.uk/e/the-ai-social-buildathon-isle-of-man-tickets-2004525679267",
     "image_url": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1197499264%2F2184625615773%2F1%2Foriginal.20261107-175610?crop=focalpoint&fit=crop&w=940&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=869ca93cd8fdabfb87b6b77501fb1a47",
     "source": "https://www.eventbrite.co.uk/e/the-ai-social-buildathon-isle-of-man-tickets-2004525679267"
+  },
+  {
+    "id": "march-and-make-lovable-iwd-berlin-2027",
+    "title": "March & Make with Lovable on International Women's Day 2027",
+    "organiser": "Lovable Ambassador City Leads of Berlin",
+    "event_type": "Hackathon",
+    "format": "In person",
+    "start_date": "2027-03-08",
+    "end_date": "2027-03-08",
+    "timezone": "Europe/Berlin",
+    "city": "Berlin",
+    "country": "Germany",
+    "region": "Europe",
+    "lat": 52.52,
+    "lng": 13.405,
+    "themes": [
+      "AI",
+      "No-code"
+    ],
+    "audience": "Celebrate International Women’s Day by turning a bright idea into something you can actually show off.",
+    "level": "All levels",
+    "cost": "Free",
+    "registration_url": "https://luma.com/8c6vyj2h",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/sg/4e101681-576d-40cd-af96-8abe8ff5fbf8.png",
+    "source": "https://luma.com/8c6vyj2h"
   }
 ]
