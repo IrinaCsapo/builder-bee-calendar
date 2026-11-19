@@ -26,8 +26,10 @@ Include an event only if **all** of these are true:
   or learning a practical skill in those areas. Types: Hackathon, Buildathon, Workshop, Bootcamp, Meetup,
   Conference, Pitch night.
 - **Audience:** it is *for* women and/or non-binary people: women-only, women & non-binary, "women in X"
-  groups, or an organiser whose stated mission is gender diversity in tech. A general event with a
-  diversity statement does **not** count.
+  groups, or an organiser whose stated mission is gender diversity in tech. **Also counts:** an event
+  that celebrates women and takes place on or around International Women's Day (8 March), e.g. an
+  IWD build day or hackathon, even if the page doesn't say "women only"; quote its IWD wording in
+  `audience`. A general event with a diversity statement does **not** count.
 - **Open to join:** public registration or application. Leave out sold-out/waitlist-only, invite-only,
   members-only and private events, and closed dinners or receptions.
 - **When:** hasn't ended and starts within the next 6 months.
