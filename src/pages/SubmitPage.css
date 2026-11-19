@@ -1,0 +1,92 @@
+/* Submit an event: builds on HowItWorksPage.css. The form sits in a white card; beside it (below on
+   phones) what we list, what happens next, and a note for people who've already sent one. */
+.submit { padding-bottom: var(--space-8); }
+
+.submit__promises { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-5) 0 0; padding: 0; list-style: none; }
+.submit__promises li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-mint);
+  font-weight: 700;
+}
+.submit__promises svg { width: 1.2rem; height: 1.2rem; }
+
+.submit__layout { display: grid; gap: var(--space-6); align-items: start; margin-top: var(--space-7); }
+@media (min-width: 60rem) {
+  .submit__layout { grid-template-columns: minmax(0, 1fr) 22rem; }
+  .submit__side { position: sticky; top: var(--space-4); }
+}
+
+/* The form card, with a purple top edge like the other cards */
+.submit__form-card {
+  min-width: 0;
+  padding: var(--space-5) var(--space-5) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-top: 6px solid #7B00DA;
+  border-radius: 28px;
+}
+@media (min-width: 40rem) { .submit__form-card { padding: var(--space-6) var(--space-7) var(--space-5); } }
+.submit-form { display: block; width: 100%; min-height: 40rem; border: 0; }
+.submit__small { display: flex; gap: var(--space-2); align-items: flex-start; margin-top: var(--space-4) !important; font-size: var(--text-sm); }
+.submit__small .icon { flex: none; margin-top: 2px; }
+
+/* Thank-you, shown instead of Tally's end screen */
+.submit-thanks { padding: var(--space-6) 0; text-align: center; }
+/* Focus moves here after sending (so screen readers read it); it isn't clickable, so no focus ring */
+.submit-thanks:focus, .submit-thanks:focus-visible { outline: none; }
+.submit-thanks__bee {
+  display: grid;
+  place-items: center;
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto;
+  border-radius: 28px;
+  background: var(--color-mint);
+}
+.submit-thanks h2 {
+  margin-top: var(--space-5);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 2vw + 1rem, 2.5rem);
+  line-height: 1.1;
+}
+.submit-thanks p { max-width: 34rem; margin: var(--space-3) auto 0; }
+.submit-thanks .how__actions { justify-content: center; }
+.submit-thanks button.how__button { font: inherit; font-weight: 700; cursor: pointer; }
+
+/* Side panels */
+.submit__side { display: grid; gap: var(--space-4); min-width: 0; }
+.submit__panel { padding: var(--space-5); border: 1px solid var(--color-border); border-radius: 20px; }
+.submit__panel--soft { border-color: #f6f6f8; background: #f6f6f8; }
+.submit__panel h2 { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; }
+.submit__panel p { margin-top: var(--space-2); font-size: var(--text-sm); }
+
+.submit__checks, .submit__steps { display: grid; gap: var(--space-3); margin: var(--space-4) 0 0; padding: 0; list-style: none; }
+.submit__checks li, .submit__steps li { display: flex; gap: var(--space-3); align-items: flex-start; margin: 0; }
+.submit__checks .icon {
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--color-mint);
+}
+.submit__num {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  background: var(--step);
+  color: #fff;
+  font-weight: 800;
+  font-size: var(--text-sm);
+}
+.submit__steps strong { display: block; }
+.submit__steps li > span:last-child { font-size: var(--text-sm); }
+.submit__more { display: inline-flex; align-items: center; gap: 4px; margin-top: var(--space-4); font-weight: 700; }
