@@ -3,3 +3,7 @@ dist
 .DS_Store
 *.local
 *.tsbuildinfo
+
+# Resized event pictures (made at build time by scripts/optimise-images.ts)
+.image-cache/
+public/img/events/

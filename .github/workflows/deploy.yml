@@ -29,6 +29,12 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Resized event pictures from earlier builds (scripts/optimise-images.ts), so only new ones are fetched
+      - uses: actions/cache@v4
+        with:
+          path: .image-cache
+          key: event-images-${{ hashFiles('src/data/events.json') }}
+          restore-keys: event-images-
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

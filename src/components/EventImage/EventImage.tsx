@@ -9,13 +9,14 @@ import './EventImage.css';
 
 const PLACEHOLDERS = [p1, p2, p3, p4, p5, p6];
 
-// Luma serves its images through a resizing CDN, so we can ask for the size each screen needs:
-// sharp on high-resolution screens, light on phones. Other hosts are used as they are.
-const LUMA_WIDTH = /^(https:\/\/images\.lumacdn\.com\/cdn-cgi\/image\/[^/]*\bwidth=)\d+/;
-function srcSetFor(src: string) {
-  if (!LUMA_WIDTH.test(src)) return undefined;
-  return [400, 800, 1200, 1600].map((w) => `${src.replace(LUMA_WIDTH, `$1${w}`)} ${w}w`).join(', ');
-}
+// Every event picture has our own web-sized copies (made at build time by scripts/optimise-images.ts):
+// /img/events/<id>-480.webp and -960.webp, served from builderbee.club instead of the organiser's site.
+// If they're missing (a brand-new event in local development, or a picture that couldn't be fetched),
+// the original address is used instead.
+const ownCopies = (id: string) => ({
+  src: `/img/events/${id}-960.webp`,
+  srcSet: `/img/events/${id}-480.webp 480w, /img/events/${id}-960.webp 960w`,
+});
 // How wide each image shows: cards are a quarter of the page (half on tablets, most of a phone),
 // the featured image is at most 24rem, the event page banner spans the page.
 const SIZES = {
@@ -44,6 +45,7 @@ interface EventImageProps {
  */
 export function EventImage({ id, title, src, variant = 'card' }: EventImageProps) {
   const [failed, setFailed] = useState(false);
+  const [useOriginal, setUseOriginal] = useState(false);   // our copy didn't load: try the organiser's
   const [fit, setFit] = useState<'fill' | 'whole'>('fill');
   const showImage = src && !failed;
 
@@ -57,9 +59,9 @@ export function EventImage({ id, title, src, variant = 'card' }: EventImageProps
       {showImage ? (
         <img
           className={`event-image__img event-image__img--${fit}`}
-          src={src}
-          srcSet={srcSetFor(src)}
-          sizes={srcSetFor(src) ? SIZES[variant] : undefined}
+          src={useOriginal ? src : ownCopies(id).src}
+          srcSet={useOriginal ? undefined : ownCopies(id).srcSet}
+          sizes={useOriginal ? undefined : SIZES[variant]}
           alt=""
           loading={variant === 'banner' ? 'eager' : 'lazy'}
           decoding="async"
@@ -72,7 +74,7 @@ export function EventImage({ id, title, src, variant = 'card' }: EventImageProps
             const ratio = w / h;
             setFit(ratio >= 0.75 && ratio <= 1.34 ? 'fill' : 'whole');
           }}
-          onError={() => setFailed(true)}
+          onError={() => (useOriginal ? setFailed(true) : setUseOriginal(true))}
         />
       ) : (
         <div className="event-image__placeholder" style={{ backgroundImage: `url(${placeholderFor(id)})` }}>

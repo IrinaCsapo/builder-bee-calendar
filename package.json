@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run validate && tsc --noEmit && vite build && tsx scripts/prerender.ts",
+    "build": "npm run validate && tsc --noEmit && tsx scripts/optimise-images.ts && vite build && tsx scripts/prerender.ts",
     "preview": "vite preview",
     "validate": "tsx scripts/validate-events.ts",
     "import-csv": "tsx scripts/csv-to-json.ts"
@@ -19,6 +19,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.2.1",
+    "sharp": "^0.33.5",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vite": "^8.3.6"
