@@ -2627,5 +2627,31 @@
     "registration_url": "https://luma.com/toast-gpjm",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/d7/c146f053-1a22-4288-9f4a-258f274bd319.png",
     "source": "https://luma.com/toast-gpjm"
+  },
+  {
+    "id": "duenas-del-juego-mujeres-ia-deporte-2026",
+    "title": "Dueñas del juego: Mujeres reescribiendo con IA el playbook del deporte",
+    "organiser": "AI Founders & Startup Grind Madrid",
+    "event_type": "Workshop",
+    "format": "In person",
+    "start_date": "2026-11-25",
+    "end_date": "2026-11-25",
+    "timezone": "Europe/Madrid",
+    "city": "Madrid",
+    "country": "Spain",
+    "region": "Europe",
+    "venue": "Letslaw, P.º de la Castellana, 116, 10ª planta",
+    "lat": 40.4168,
+    "lng": -3.7038,
+    "themes": [
+      "AI",
+      "No-code"
+    ],
+    "audience": "Mujeres vinculadas al deporte, la comunicación, las marcas, el emprendimiento y la tecnología, con distintos niveles de experiencia en IA",
+    "level": "All levels",
+    "cost": "Free",
+    "registration_url": "https://luma.com/j9hmlaqk",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/43/42e78232-a4bd-4df0-9a37-3d97c91a8740.png",
+    "source": "https://luma.com/j9hmlaqk"
   }
 ]
