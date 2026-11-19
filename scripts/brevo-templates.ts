@@ -87,7 +87,7 @@ const WELCOME = {
   html: layout(
     'Welcome to BuilderBee',
     'You’re subscribed. Here’s what lands in your inbox every Monday.',
-    4,
+    0,   // "Find your next hackathon"
     `<tr><td class="bb-pad" style="padding:8px 32px 8px">
       ${h1('You’re subscribed!')}
       ${p('Thanks for joining the <strong>BuilderBee weekly email</strong>. Every Monday morning you’ll get one short email with:')}
