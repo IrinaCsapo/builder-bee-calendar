@@ -3,6 +3,7 @@
 // Outlook and Apple Mail.
 
 import type { CalendarEvent } from '../src/types/event';
+import { FOUNDERS } from '../src/lib/site';
 
 export const SITE = 'https://builderbee.club';
 
@@ -92,3 +93,8 @@ export const CARD_CSS = `
     .bb-mthumb { display: block !important; max-height: none !important; overflow: visible !important; }
   }
 `;
+
+/** "Irina and Tracey", each linked to their LinkedIn (same as the site's footer) */
+export const FOUNDERS_HTML = FOUNDERS.map((f) => (f.linkedin
+  ? `<a href="${f.linkedin}" style="color:#55555e;font-weight:700">${f.name}</a>`
+  : f.name)).join(' and ');

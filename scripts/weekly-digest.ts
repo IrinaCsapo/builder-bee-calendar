@@ -12,7 +12,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import type { CalendarEvent } from '../src/types/event';
-import { button, card, CARD_CSS, day, esc, mon, SANS, SERIF, short } from './email-parts';
+import { button, card, CARD_CSS, day, esc, FOUNDERS_HTML, mon, SANS, SERIF, short } from './email-parts';
 
 import { SITE } from './email-parts';
 const SENDER = { name: 'BuilderBee', email: 'hello@builderbee.club' };
@@ -133,6 +133,7 @@ const html = `<!doctype html>
   </td></tr>
 
   <tr><td class="bb-pad" style="padding:0 32px 32px;font:400 12px/1.6 ${SANS};color:#55555e">
+    Made by builders ${FOUNDERS_HTML}, for builders.<br>
     You’re getting this because you signed up at <a href="${SITE}/" style="color:#55555e">builderbee.club</a>. We never sell your data or give it to anyone else.
     Prefer your calendar? <a href="${SITE}/subscribe#calendar" style="color:#55555e">Subscribe there</a>.<br>
     <a href="{{ unsubscribe }}" style="color:#55555e">Unsubscribe</a> · <a href="${SITE}/privacy" style="color:#55555e">Privacy policy</a> · Questions? Just reply.

@@ -16,13 +16,8 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import type { CalendarEvent } from '../src/types/event';
-import { card, CARD_CSS, SANS, SERIF, SITE } from './email-parts';
-import { FOUNDERS } from '../src/lib/site';
+import { card, CARD_CSS, FOUNDERS_HTML, SANS, SERIF, SITE } from './email-parts';
 
-// "Irina and Tracey", each linked to their LinkedIn (same as the site's footer)
-const founders = FOUNDERS.map((f) => (f.linkedin
-  ? `<a href="${f.linkedin}" style="color:#55555e;font-weight:700">${f.name}</a>`
-  : f.name)).join(' and ');
 
 const SENDER = { name: 'BuilderBee', email: 'hello@builderbee.club' };
 
@@ -137,7 +132,7 @@ const WELCOME = {
           ${button(`${SITE}/submit`, 'Submit an event', '#000000', '#ffffff')}
         </td></tr></table>
     </td></tr>`,
-    `Made by builders ${founders}, for builders. Add hello@builderbee.club to your contacts so we don’t land in spam, and reply any time: we read every email. Every weekly email has an unsubscribe link. <a href="${SITE}/privacy" style="color:#55555e">Privacy policy</a>`,
+    `Made by builders ${FOUNDERS_HTML}, for builders. Add hello@builderbee.club to your contacts so we don’t land in spam, and reply any time: we read every email. Every weekly email has an unsubscribe link. <a href="${SITE}/privacy" style="color:#55555e">Privacy policy</a>`,
   ),
 };
 
