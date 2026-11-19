@@ -67,6 +67,8 @@ turns up events that have already happened.
 | https://girldevelopit.com/events | Girl Develop It |
 | https://rewritingthecode.org/events/ | Rewriting the Code |
 | https://events.humanitix.com/host/wict | Women in Creative Technologies (Power Her Up, Adelaide; workshops are hybrid) |
+| https://2026.conference.pyladies.com/en/ | PyLadiesCon (online, 5–7 Dec 2026). Add it once tickets open at https://pretix.eu/pyladiescon/2026 and the price is shown |
+| https://pyladies.com | PyLadies chapters (Python meetups and workshops for women, worldwide) |
 
 List a Luma calendar's upcoming events like this (prints date and event link):
 

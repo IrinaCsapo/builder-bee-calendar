@@ -32,6 +32,19 @@ export const COMMUNITY_GROUPS: CommunityGroup[] = [
         search: 'Django',
       },
       {
+        name: 'Girls Who Code',
+        url: 'https://girlswhocode.com',
+        about: 'Free clubs and summer programs teaching girls and non-binary students to code, with a mission to close the gender gap in tech.',
+        where: 'US and online',
+      },
+      {
+        name: 'PyLadies',
+        url: 'https://pyladies.com',
+        about: 'An international mentorship group helping more women become active participants and leaders in the Python community. Local chapters worldwide, and the online PyLadiesCon every December.',
+        where: 'Worldwide and online',
+        search: 'PyLadies',
+      },
+      {
         name: 'Girl Develop It',
         url: 'https://girldevelopit.com',
         about: 'Skill-based courses, career development and events, including a virtual hackathon.',
