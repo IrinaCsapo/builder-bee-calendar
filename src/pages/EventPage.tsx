@@ -1,8 +1,8 @@
 import type { ComponentType, ReactNode, SVGProps } from 'react';
 import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon, CalendarDaysIcon, ClockIcon, MapPinIcon, TicketIcon } from '@heroicons/react/20/solid';
 import {
-  AcademicCapIcon, BuildingOfficeIcon, CalendarIcon, ClockIcon as ClockOutline, GlobeAltIcon, MapPinIcon as MapPinOutline,
-  SparklesIcon, TagIcon, TicketIcon as TicketOutline, TrophyIcon, UserGroupIcon,
+  AcademicCapIcon, CalendarIcon, ClockIcon as ClockOutline, GlobeAltIcon, MapPinIcon as MapPinOutline,
+  SparklesIcon, TicketIcon as TicketOutline, TrophyIcon, UserGroupIcon,
 } from '@heroicons/react/24/outline';
 import { allEvents } from '../lib/events';
 import { formatFull, formatRange, todayISO } from '../lib/dates';
@@ -28,10 +28,10 @@ const TYPE_COLOURS: Record<string, string> = {
 };
 
 /** One "Good to know" card. Rendered only when it has something to say. */
-function Fact({ icon: Icon, term, children, wide = false }: { icon: Icon; term: string; children: ReactNode; wide?: boolean }) {
+function Fact({ icon: Icon, term, children }: { icon: Icon; term: string; children: ReactNode }) {
   if (children === undefined || children === null || children === '' || children === false) return null;
   return (
-    <div className={`event-fact${wide ? ' event-fact--wide' : ''}`}>
+    <div className="event-fact">
       <Icon className="event-fact__icon" aria-hidden="true" />
       <dt>{term}</dt>
       <dd>{children}</dd>
@@ -53,7 +53,13 @@ export function EventPage({ id }: { id: string }) {
   const place = event.format === 'Online'
     ? 'Online'
     : [event.city, event.country].filter(Boolean).join(', ') + (event.format === 'Hybrid' ? ' and online' : '');
-  const fullPlace = event.format === 'Online' ? 'Online' : [event.venue, event.city, event.country].filter(Boolean).join(', ');
+  // "Where": the venue's name on its own line (not the whole street address), then the city and country
+  const venueName = event.venue?.split(',')[0].trim();
+  const cityCountry = [event.city, event.country].filter(Boolean).join(', ');
+  const venueLine = event.format === 'Online' ? 'Online' : venueName || cityCountry;
+  const whereSub = event.format === 'Online'
+    ? 'Join from anywhere'
+    : [venueName ? cityCountry : '', event.format === 'Hybrid' ? 'In person and online' : 'In person'].filter(Boolean).join(' · ');
   const colour = TYPE_COLOURS[event.event_type] ?? '#7B00DA';
   const similar = similarEvents(event, allEvents);
 
@@ -115,17 +121,19 @@ export function EventPage({ id }: { id: string }) {
       <div className="event-page__layout">
         <section aria-labelledby="details-heading" className="event-page__details">
           <h2 id="details-heading" className="event-page__h2">Good to know</h2>
+          <figure className="event-page__for">
+            <UserGroupIcon className="event-fact__icon" aria-hidden="true" />
+            <figcaption>Who it’s for</figcaption>
+            <blockquote><p>“{event.audience}”</p></blockquote>
+          </figure>
           <dl className="event-facts">
-            <Fact icon={UserGroupIcon} term="Who it’s for" wide>
-              <q className="event-page__audience">{event.audience}</q>
-            </Fact>
             <Fact icon={CalendarIcon} term="When">
               <time dateTime={event.start_date}>{formatRange(event.start_date, event.end_date)}</time>
               <span className="event-fact__sub">{event.timezone.replace(/_/g, ' ')} time</span>
             </Fact>
             <Fact icon={MapPinOutline} term="Where">
-              {fullPlace}
-              <span className="event-fact__sub">{event.format}{event.format !== 'Online' ? ` · ${event.region}` : ''}</span>
+              {venueLine}
+              <span className="event-fact__sub">{whereSub}</span>
             </Fact>
             <Fact icon={ClockOutline} term="Apply by">
               {event.deadline && (
@@ -137,10 +145,8 @@ export function EventPage({ id }: { id: string }) {
             </Fact>
             <Fact icon={TicketOutline} term="Cost">{event.cost}</Fact>
             <Fact icon={AcademicCapIcon} term="Level">{event.level}</Fact>
-            <Fact icon={TagIcon} term="Type">{event.event_type}</Fact>
             <Fact icon={TrophyIcon} term="Prize">{event.prize}</Fact>
             <Fact icon={SparklesIcon} term="Themes">{event.themes.length ? event.themes.join(', ') : ''}</Fact>
-            <Fact icon={BuildingOfficeIcon} term="Organiser">{event.organiser}</Fact>
           </dl>
           {event.source !== 'placeholder' && (
             <p className="event-page__source">

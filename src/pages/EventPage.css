@@ -97,32 +97,48 @@
 }
 .event-page__h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.6rem, 1.5vw + 1rem, 2.2rem); }
 .event-facts {
+  /* One panel; the 1px gaps over a grey background draw the lines between the facts */
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-3);
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1px;
   margin: var(--space-4) 0 0;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  background: var(--color-border);
+  overflow: hidden;
 }
-@media (min-width: 72rem) { .event-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 40rem) {
+  .event-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* An odd one out at the end spans the row, so there's no empty grey cell */
+  .event-fact:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
 .event-fact {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   column-gap: var(--space-3);
   align-content: start;
-  padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: 18px;
+  padding: var(--space-4) var(--space-5);
+  background: #fff;
 }
-/* Phones: two small cards per row, icon above the words */
-@media (max-width: 35.99rem) {
-  .event-fact { display: block; padding: var(--space-3); }
-  .event-fact__icon { display: block; margin-bottom: var(--space-2); }
+.event-fact__icon { grid-row: span 3; width: 1.5rem; height: 1.5rem; color: var(--event); }
+.event-fact dt { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #55555e; }
+.event-fact dd { margin: 2px 0 0; font-weight: 700; overflow-wrap: anywhere; }
+.event-fact__sub { display: block; margin-top: 2px; font-size: var(--text-sm); font-weight: 400; }
+
+/* Who it's for: the organiser's own words, as a quote above the facts */
+.event-page__for {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--space-3);
+  margin: var(--space-4) 0 0;
+  padding: var(--space-4) var(--space-5);
+  border-radius: 20px;
+  background: #f6f6f8;
 }
-.event-fact--wide { grid-column: 1 / -1; background: #f6f6f8; border-color: #f6f6f8; }
-.event-fact__icon { grid-row: span 2; width: 1.6rem; height: 1.6rem; color: var(--event); }
-.event-fact dt { font-size: var(--text-sm); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
-.event-fact dd { margin: 2px 0 0; font-weight: 600; overflow-wrap: anywhere; }
-.event-fact__sub { display: block; font-size: var(--text-sm); font-weight: 400; }
-.event-page__audience { font-family: var(--font-display); font-size: 1.25rem; font-weight: 400; }
+.event-page__for .event-fact__icon { grid-row: span 2; }
+.event-page__for figcaption { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #55555e; }
+.event-page__for blockquote { margin: 2px 0 0; }
+.event-page__for blockquote p { font-family: var(--font-display); font-size: 1.3rem; line-height: 1.3; }
 .event-page__source { display: flex; gap: var(--space-2); align-items: flex-start; margin-top: var(--space-4) !important; font-size: var(--text-sm); }
 .event-page__source .icon { flex: none; margin-top: 2px; }
 
