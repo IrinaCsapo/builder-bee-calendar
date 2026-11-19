@@ -1,5 +1,5 @@
 """
-Draws public/og-image.jpg, the 1200x630 picture shown when a BuilderBee link is shared (LinkedIn,
+Draws public/og-image-2.jpg (the old og-image.jpg is kept for links already shared), the 1200x630 picture shown when a BuilderBee link is shared (LinkedIn,
 WhatsApp, Slack…), in the hero's style: white with the dotted honeycomb, "Find your next hackathon" with
 the purple word and underline, and two pixel bees. Reuses the drawing code of scripts/email-hero.py.
 
@@ -48,6 +48,6 @@ b2 = eh.bee(eh.OPEN, 7, -28)
 img.alpha_composite(b1, (W - b1.width - 50, 30))
 img.alpha_composite(b2, (70, 300))   # left of the purple word
 
-out = HERE.parent / 'public' / 'og-image.jpg'
+out = HERE.parent / 'public' / 'og-image-2.jpg'   # new name whenever the design changes, so apps fetch it fresh
 img.convert('RGB').save(out, quality=88, optimize=True)
 print(out, f'{out.stat().st_size // 1024} KB')
