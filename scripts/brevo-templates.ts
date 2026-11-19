@@ -7,16 +7,17 @@
 //   npx tsx scripts/brevo-templates.ts --preview   writes confirm.html and welcome.html, sends nothing
 //   npx tsx scripts/brevo-templates.ts             creates or updates both templates in Brevo
 //
+// The welcome email lists the next few events, so the workflow runs it every morning to keep them current.
+//
 // Then, once, in Brevo: Contacts → Forms → the weekly email form → Settings, pick these two templates and
 // set the address after confirmation to https://builderbee.club/subscribed (see README).
 // Needs BREVO_API_KEY (the GitHub secret; run through .github/workflows/brevo-templates.yml).
 
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
+import type { CalendarEvent } from '../src/types/event';
+import { card, CARD_CSS, SANS, SERIF, SITE } from './email-parts';
 
-const SITE = 'https://builderbee.club';
 const SENDER = { name: 'BuilderBee', email: 'hello@builderbee.club' };
-const SANS = `'DM Sans',Helvetica,Arial,sans-serif`;
-const SERIF = `'Newsreader',Georgia,'Times New Roman',serif`;
 
 const button = (href: string, label: string, bg: string, color: string, border = bg) =>
   `<table role="presentation" cellspacing="0" cellpadding="0" style="display:inline-table;margin:0 8px 8px 0"><tr>
@@ -31,7 +32,10 @@ function layout(title: string, preheader: string, hero: number, body: string, fo
 <meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light">
 <title>${title}</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&family=Newsreader:opsz@6..72&display=swap" rel="stylesheet">
-<style>@media (max-width: 480px) { .bb-pad { padding-left: 18px !important; padding-right: 18px !important; } }</style>
+<style>
+  @media (max-width: 480px) { .bb-pad { padding-left: 18px !important; padding-right: 18px !important; } }
+  ${CARD_CSS}
+</style>
 </head>
 <body style="margin:0;padding:0;background:#f4f1f7">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:#f4f1f7">${preheader}</div>
@@ -74,6 +78,26 @@ const CONFIRM = {
 };
 
 // ---- 2. Welcome (after confirming) ----
+// It shows the next few events, so new subscribers get something useful straight away instead of waiting
+// for Monday. The daily job (.github/workflows/brevo-templates.yml) re-uploads it every morning after the
+// event scout, so the events are always current.
+const events = JSON.parse(readFileSync(new URL('../src/data/events.json', import.meta.url), 'utf8')) as CalendarEvent[];
+const today = new Date().toISOString().slice(0, 10);
+const in14 = new Date(Date.now() + 14 * 864e5).toISOString().slice(0, 10);
+const upcoming = events.filter((e) => e.end_date >= today).sort((a, b) => a.start_date.localeCompare(b.start_date));
+// Online and hybrid first (anyone can join), then in person; soonest first, starting in the next two weeks
+const soon = upcoming.filter((e) => e.start_date <= in14);
+const next = [...soon.filter((e) => e.format !== 'In person'), ...soon.filter((e) => e.format === 'In person')].slice(0, 5);
+const comingUp = next.length ? `<tr><td class="bb-pad" style="padding:22px 32px 4px">
+      <span style="display:inline-block;padding:4px 12px;border-radius:999px;background:#a3ffb8;font:700 12px/1.4 ${SANS};letter-spacing:0.06em;text-transform:uppercase;color:#000">Coming up</span>
+      <h2 style="margin:10px 0 16px;font:400 28px/1.15 ${SERIF};color:#000">Something to join right now</h2>
+      ${next.map((e) => card(e)).join('')}
+      <p style="margin:4px 0 0">${button(`${SITE}/`, `See all ${upcoming.length} events`, '#000000', '#ffffff')}${button(`${SITE}/subscribe#calendar`, 'Add the calendar', '#ffffff', '#000000', '#000000')}</p>
+    </td></tr>` : `<tr><td class="bb-pad" style="padding:14px 32px 8px">
+      ${p('Can’t wait until Monday? Everything’s on the site already:')}
+      ${button(`${SITE}/`, 'Browse events', '#000000', '#ffffff')}${button(`${SITE}/subscribe#calendar`, 'Add the calendar', '#ffffff', '#000000', '#000000')}
+    </td></tr>`;
+
 const what = (colour: string, title: string, text: string) =>
   `<tr><td style="padding:0 0 10px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>
     <td bgcolor="${colour}" style="border-radius:16px;padding:14px 18px">
@@ -97,10 +121,7 @@ const WELCOME = {
         ${what('#f3e9ff', 'Online', 'Events you can join from anywhere in the next two weeks.')}
       </table>
     </td></tr>
-    <tr><td class="bb-pad" style="padding:14px 32px 8px">
-      ${p('Can’t wait until Monday? Everything’s on the site already:')}
-      ${button(`${SITE}/`, 'Browse events', '#000000', '#ffffff')}${button(`${SITE}/subscribe#calendar`, 'Add the calendar', '#ffffff', '#000000', '#000000')}
-    </td></tr>
+    ${comingUp}
     <tr><td class="bb-pad" style="padding:20px 32px 28px">
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>
         <td bgcolor="#a3ffb8" style="border-radius:20px;padding:22px">

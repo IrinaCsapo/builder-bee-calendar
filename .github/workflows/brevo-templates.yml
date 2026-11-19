@@ -1,8 +1,14 @@
 name: Brevo signup emails
 
 # Creates or updates the "confirm" and "welcome" emails in Brevo (scripts/brevo-templates.ts).
-# Run by hand after changing them: Actions → Brevo signup emails → Run workflow.
+# The welcome email lists the next few events, so it's refreshed whenever the events change (e.g. right
+# after the morning event scout) and once a day, so events that have passed drop off.
 on:
+  push:
+    branches: [main]
+    paths: ['src/data/events.json', 'scripts/brevo-templates.ts', 'scripts/email-parts.ts']
+  schedule:
+    - cron: '41 0 * * *'   # just after midnight UTC, off the hour (GitHub drops busy on-the-hour runs)
   workflow_dispatch:
 
 permissions:
