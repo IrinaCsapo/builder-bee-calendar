@@ -37,7 +37,7 @@ export function EventCard({ event, now, headingLevel = 3 }: EventCardProps) {
           <ClockIcon className="icon" aria-hidden="true" /> {left.label}
         </li>
         <li className="event-card__badge">{event.level}</li>
-        <li className="event-card__badge">{event.cost}</li>
+        <li className={`event-card__badge event-card__badge--${event.cost === 'Free' ? 'free' : 'paid'}`}>{event.cost}</li>
       </ul>
 
       <Title className="event-card__title">

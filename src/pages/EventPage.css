@@ -44,7 +44,8 @@
 }
 .event-hero__tag + .event-hero__tag { margin-top: 0; }
 .event-hero__tag--type { border-color: var(--event); background: var(--event); color: #fff; }
-.event-hero__tag--free { border-color: var(--color-mint); background: var(--color-mint); }
+.event-hero__tag--free { border-color: var(--color-free); background: var(--color-free); }
+.event-hero__tag--paid { border-color: var(--color-paid); background: var(--color-paid); }
 .event-hero__title {
   margin-top: var(--space-4);
   font-family: var(--font-display);
@@ -152,7 +153,6 @@
 }
 .event-page__actions-title { margin: 0; font-family: var(--font-display); font-size: 1.4rem; }
 /* The calendar and share buttons in the lab style: black, and white with a black outline */
-.event-page .add-to-calendar__button { border-color: #000; background: #000; }
 .event-page .share-link__button { justify-self: stretch; justify-content: center; border: 1.5px solid #000; color: #000; }
 .event-page__details { min-width: 0; }
 

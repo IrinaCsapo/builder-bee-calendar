@@ -1,30 +1,57 @@
-import { CalendarDaysIcon } from '@heroicons/react/20/solid';
+import { ArrowDownTrayIcon, ArrowUpRightIcon } from '@heroicons/react/20/solid';
 import { useState } from 'react';
 import type { CalendarEvent } from '../../types/event';
-import { downloadIcs } from '../../lib/ics';
+import { downloadIcs, googleCalendarUrl, outlookCalendarUrl } from '../../lib/ics';
 import './AddToCalendar.css';
 
+/**
+ * Add one event to your calendar. Google and Outlook open their own "new event" screen already filled
+ * in (one click on Save, no file). Apple Calendar has no such link, so it gets the .ics file, which on an
+ * iPhone or Mac opens straight into the Calendar app.
+ */
 export function AddToCalendar({ event }: { event: CalendarEvent }) {
   const [message, setMessage] = useState('');
+  const pageUrl = window.location.origin + window.location.pathname;
 
-  const add = () => {
+  const download = () => {
     try {
-      downloadIcs(event, window.location.origin + window.location.pathname);
-      setMessage(`Downloaded ${event.id}.ics. Open it to add the event to your calendar.`);
+      downloadIcs(event, pageUrl);
+      setMessage('Opening it in your calendar app. If nothing happens, open the downloaded file.');
     } catch {
       setMessage('Sorry, the calendar file could not be created.');
     }
     window.setTimeout(() => setMessage(''), 6000);
   };
 
+  const opens = <span className="visually-hidden"> (opens in a new tab)</span>;
   return (
     <div className="add-to-calendar">
-      <button type="button" className="add-to-calendar__button hive-hover" onClick={add} aria-describedby="add-to-calendar-hint">
-        <CalendarDaysIcon className="icon" aria-hidden="true" /> Add to calendar
-      </button>
-      <p id="add-to-calendar-hint" className="add-to-calendar__hint">
-        Downloads a .ics file for Apple, Google or Outlook Calendar. Added as an all-day event.
-        Want them all? <a href="/subscribe">Subscribe to the calendar</a>.
+      <p className="add-to-calendar__label" id="add-to-calendar-label">Add to your calendar</p>
+      <ul className="add-to-calendar__options" aria-labelledby="add-to-calendar-label">
+        <li>
+          <a className="add-to-calendar__option" href={googleCalendarUrl(event, pageUrl)} target="_blank" rel="noopener noreferrer">
+            Google <ArrowUpRightIcon className="icon" aria-hidden="true" />{opens}
+          </a>
+        </li>
+        <li>
+          <a className="add-to-calendar__option" href={outlookCalendarUrl(event, pageUrl)} target="_blank" rel="noopener noreferrer">
+            Outlook <ArrowUpRightIcon className="icon" aria-hidden="true" />{opens}
+          </a>
+        </li>
+        <li>
+          <button type="button" className="add-to-calendar__option" onClick={download}>
+            Apple <ArrowDownTrayIcon className="icon" aria-hidden="true" />
+          </button>
+        </li>
+        <li>
+          <a className="add-to-calendar__option" href={outlookCalendarUrl(event, pageUrl, true)} target="_blank" rel="noopener noreferrer">
+            Microsoft 365 <ArrowUpRightIcon className="icon" aria-hidden="true" /><span className="visually-hidden"> (work or school Outlook, opens in a new tab)</span>
+          </a>
+        </li>
+      </ul>
+      <p className="add-to-calendar__hint">
+        Added as an all-day event. Other apps: use Apple, it downloads a calendar file.
+        Want every event? <a href="/subscribe#calendar">Subscribe to the calendar</a>.
       </p>
       <p className="add-to-calendar__status" role="status">{message}</p>
     </div>

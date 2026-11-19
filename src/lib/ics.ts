@@ -28,19 +28,52 @@ const nextDay = (iso: string) => {
 };
 const stamp = () => new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); // 20261107T101500Z
 
+const locationOf = (event: CalendarEvent) => event.format === 'Online'
+  ? 'Online'
+  : [event.venue, event.city, event.country].filter(Boolean).join(', ');
+const descriptionOf = (event: CalendarEvent, pageUrl: string) => [
+  `Organised by ${event.organiser}.`,
+  `Who it's for: ${event.audience}`,
+  `${event.event_type} · ${event.format} · ${event.cost} · ${event.level}`,
+  `Register: ${event.registration_url}`,
+  `Times and details may change, so check the organiser's page.`,
+  `Found on BuilderBee: ${pageUrl}`,
+].join('\n');
+
+/**
+ * Google Calendar's "new event" screen, filled in: one click, then Save. All-day, end date exclusive.
+ * (Apple Calendar has no such link; it uses the .ics file, which opens straight into the Calendar app.)
+ */
+export function googleCalendarUrl(event: CalendarEvent, pageUrl: string): string {
+  const q = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: event.title,
+    dates: `${compactDate(event.start_date)}/${compactDate(nextDay(event.end_date))}`,
+    details: descriptionOf(event, pageUrl),
+    location: locationOf(event),
+  });
+  return `https://calendar.google.com/calendar/render?${q}`;
+}
+
+/** Outlook's "new event" screen, filled in. work = Microsoft 365 (work or school), else Outlook.com. */
+export function outlookCalendarUrl(event: CalendarEvent, pageUrl: string, work = false): string {
+  const q = new URLSearchParams({
+    path: '/calendar/action/compose',
+    rru: 'addevent',
+    subject: event.title,
+    startdt: event.start_date,
+    enddt: nextDay(event.end_date),
+    allday: 'true',
+    body: descriptionOf(event, pageUrl),
+    location: locationOf(event),
+  });
+  return `https://${work ? 'outlook.office.com' : 'outlook.live.com'}/calendar/0/action/compose?${q}`;
+}
+
 /** The VEVENT lines for one event (all-day, since we only know dates). */
 function eventLines(event: CalendarEvent, pageUrl: string, stampNow: string): string[] {
-  const location = event.format === 'Online'
-    ? 'Online'
-    : [event.venue, event.city, event.country].filter(Boolean).join(', ');
-  const description = [
-    `Organised by ${event.organiser}.`,
-    `Who it's for: ${event.audience}`,
-    `${event.event_type} · ${event.format} · ${event.cost} · ${event.level}`,
-    `Register: ${event.registration_url}`,
-    `Times and details may change, so check the organiser's page.`,
-    `Found on BuilderBee: ${pageUrl}`,
-  ].join('\n');
+  const location = locationOf(event);
+  const description = descriptionOf(event, pageUrl);
   return [
     'BEGIN:VEVENT',
     `UID:${event.id}@builder-bee-calendar`,

@@ -54,7 +54,7 @@ export function card(e: CalendarEvent, note = ''): string {
   const tags = [
     note ? pill(note, '#ffe3cc', '#ffe3cc') : '',
     pill(e.format, '#ffffff', '#e4e4e7'),
-    e.cost === 'Free' ? pill('Free', '#a3ffb8') : '',
+    e.cost === 'Free' ? pill('Free', '#a3ffb8') : pill('Paid', '#ffe3cc'),
     pill(e.event_type, '#f3e9ff', '#f3e9ff'),
   ].join('');
   const thumb = e.image_url

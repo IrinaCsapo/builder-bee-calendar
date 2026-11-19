@@ -82,7 +82,7 @@ export function EventPage({ id }: { id: string }) {
           <ul className="event-hero__tags" aria-label="Highlights">
             <li className="event-hero__tag event-hero__tag--type">{event.event_type}</li>
             <li className="event-hero__tag">{event.format}</li>
-            {event.cost === 'Free' && <li className="event-hero__tag event-hero__tag--free">Free</li>}
+            <li className={`event-hero__tag event-hero__tag--${event.cost === 'Free' ? 'free' : 'paid'}`}>{event.cost}</li>
             {event.level === 'Beginner friendly' && <li className="event-hero__tag">Beginner friendly</li>}
           </ul>
           <h1 className="event-hero__title">{event.title}</h1>
