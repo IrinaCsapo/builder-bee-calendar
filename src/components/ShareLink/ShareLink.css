@@ -1,29 +1,21 @@
-.share-link { display: grid; gap: var(--space-2); }
+/* Copy event link: one white pill with a black outline; it says "Link copied" for a moment after a click */
+.share-link { display: grid; }
 .share-link__button {
-  justify-self: start;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-2);
+  width: 100%;
   min-height: var(--tap-target);
   padding: 0 var(--space-4);
-  border: 2px solid var(--color-plum);
+  border: 1.5px solid #000;
   border-radius: var(--radius-pill);
-  background: var(--color-surface);
-  color: var(--color-plum);
+  background: #fff;
+  color: #000;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
 }
-.share-link__url {
-  width: 100%;
-  min-height: var(--tap-target);
-  padding: 0 var(--space-3);
-  border: 2px solid var(--color-field-border);
-  border-radius: var(--radius-pill);
-  background: var(--color-bg);
-  color: var(--color-muted);
-  font: inherit;
-  font-size: var(--text-sm);
-}
-.share-link__status { min-height: 1.5em; font-weight: 700; color: var(--color-plum); }
-.share-link__url { min-width: 0; }
+.share-link__button:hover { background: #000; color: #fff; }
+.share-link__status:empty { display: none; }
+.share-link__status:not(:empty) { margin-top: var(--space-2); font-size: var(--text-sm); overflow-wrap: anywhere; }
