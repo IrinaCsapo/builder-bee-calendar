@@ -69,6 +69,7 @@ turns up events that have already happened.
 | https://events.humanitix.com/host/wict | Women in Creative Technologies (Power Her Up, Adelaide; workshops are hybrid) |
 | https://2026.conference.pyladies.com/en/ | PyLadiesCon (online, 5–7 Dec 2026). Add it once tickets open at https://pretix.eu/pyladiescon/2026 and the price is shown |
 | https://pyladies.com | PyLadies chapters (Python meetups and workshops for women, worldwide) |
+| https://www.isadoraandco.com/workshops | Isadora & Co vibe coding workshops for women and non-binary people (DC, Fredericksburg, Charlottesville in Jan 2027; full day at Rixey Manor in spring 2027): add each once its date is set |
 
 List a Luma calendar's upcoming events like this (prints date and event link):
 

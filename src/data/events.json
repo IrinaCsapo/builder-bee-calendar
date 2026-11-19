@@ -2653,5 +2653,29 @@
     "registration_url": "https://luma.com/j9hmlaqk",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/43/42e78232-a4bd-4df0-9a37-3d97c91a8740.png",
     "source": "https://luma.com/j9hmlaqk"
+  },
+  {
+    "id": "isadora-and-co-vibe-coding-culpeper-2026",
+    "title": "Vibe coding workshop for women and non-binary people: Culpeper evening at Rixey Manor",
+    "organiser": "Isadora & Co",
+    "event_type": "Workshop",
+    "format": "In person",
+    "start_date": "2026-12-08",
+    "end_date": "2026-12-08",
+    "timezone": "America/New_York",
+    "city": "Culpeper",
+    "country": "United States",
+    "region": "North America",
+    "venue": "Rixey Manor",
+    "lat": 38.4732,
+    "lng": -77.9967,
+    "themes": [
+      "AI"
+    ],
+    "audience": "Created for women and non-binary people. Come as you are, no experience needed.",
+    "level": "Beginner friendly",
+    "cost": "Paid",
+    "registration_url": "https://www.isadoraandco.com/workshops",
+    "source": "https://www.isadoraandco.com/workshops"
   }
 ]
