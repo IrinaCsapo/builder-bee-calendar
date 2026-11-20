@@ -85,6 +85,12 @@ export const COMMUNITY_GROUPS: CommunityGroup[] = [
         where: 'US and online',
       },
       {
+        name: 'WMN&',
+        url: 'https://joinwmn.com',
+        about: 'A curated membership community for women working in tech in Europe: dinners, roundtables, workshops and vibe-coding build nights, plus referrals and peer support.',
+        where: 'Amsterdam and online',
+      },
+      {
         name: 'Technovation and Women Techmakers',
         url: 'https://www.technovation.org',
         about: 'Skills, mentors and a global network for builders in 160+ countries, now home to Women Techmakers.',
