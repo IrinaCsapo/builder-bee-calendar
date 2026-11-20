@@ -129,7 +129,7 @@
     animation: menu-item-drop 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
     animation-delay: calc(60ms + var(--i, 0) * 55ms);
   }
-  .header__menu-icon { animation: menu-icon-spin 300ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .header__menu.is-used .header__menu-icon { animation: menu-icon-spin 300ms cubic-bezier(0.34, 1.56, 0.64, 1); }
 }
 @media (max-width: 40rem) {
   .header__nav.is-open .header__link { display: flex; align-items: center; gap: var(--space-3); }

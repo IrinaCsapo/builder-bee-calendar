@@ -22,6 +22,5 @@
   .flying-bee__frame { animation: none; }
   .flying-bee__frame--closed { visibility: hidden; }
 }
-/* Phones: the text fills the whole width, so there's nowhere free to fly.
-   The bees go behind the content instead, so they never cover a word. */
-@media (max-width: 40rem) { .flying-bee { z-index: 0; } }
+/* Phones too: the bees fly in front of everything. They never stop on text and hurry across it
+   (see FlyingBee.tsx), so a word is only covered for a moment. */

@@ -51,6 +51,7 @@ export function Header() {
   }, []);
   // Phones: the page links sit behind a Menu button
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuUsed, setMenuUsed] = useState(false);   // the icon only spins once the button has been tapped
   useEffect(() => {
     if (!menuOpen) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false); };
@@ -94,8 +95,8 @@ export function Header() {
             <span className="header__submit-short" aria-hidden="true">Submit</span>
           </a>
           <button
-            type="button" className="header__menu" aria-expanded={menuOpen} aria-controls="main-menu"
-            aria-label="Menu" onClick={() => setMenuOpen((o) => !o)}>
+            type="button" className={`header__menu${menuUsed ? ' is-used' : ''}`} aria-expanded={menuOpen} aria-controls="main-menu"
+            aria-label="Menu" onClick={() => { setMenuUsed(true); setMenuOpen((o) => !o); }}>
             {menuOpen
               ? <XMarkIcon key="x" className="icon header__menu-icon" aria-hidden="true" />
               : <Bars3Icon key="bars" className="icon header__menu-icon" aria-hidden="true" />}
