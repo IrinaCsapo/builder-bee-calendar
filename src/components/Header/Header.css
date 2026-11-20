@@ -115,3 +115,43 @@
   }
   .header__nav.is-open .header__link { padding-inline: var(--space-2); font-size: 1.1rem; }
 }
+
+/* Phone menu animation: the panel unrolls from the header, the links drop in one after another
+   with a little bounce, each with a dot in one of the hero colours, and the icon spins between ☰ and ✕ */
+@media (max-width: 40rem) and (prefers-reduced-motion: no-preference) {
+  .header__nav.is-open { animation: menu-unroll 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .header__nav.is-open li {
+    animation: menu-item-drop 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation-delay: calc(60ms + var(--i, 0) * 55ms);
+  }
+  .header__menu-icon { animation: menu-icon-spin 300ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+}
+@media (max-width: 40rem) {
+  .header__nav.is-open .header__link { display: flex; align-items: center; gap: var(--space-3); }
+  .header__nav.is-open .header__link::before {
+    content: '';
+    flex: none;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--dot, #7B00DA);
+    transition: transform 200ms ease;
+  }
+  .header__nav.is-open .header__link:hover::before { transform: scale(1.5); }
+  .header__nav.is-open li:nth-child(4n + 1) { --dot: #7B00DA; }
+  .header__nav.is-open li:nth-child(4n + 2) { --dot: #FF6600; }
+  .header__nav.is-open li:nth-child(4n + 3) { --dot: #009BE9; }
+  .header__nav.is-open li:nth-child(4n + 4) { --dot: #21B700; }
+}
+@keyframes menu-unroll {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 -40px 0); }   /* room for the shadow */
+}
+@keyframes menu-item-drop {
+  from { opacity: 0; transform: translateY(-14px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes menu-icon-spin {
+  from { transform: rotate(-90deg) scale(0.6); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}

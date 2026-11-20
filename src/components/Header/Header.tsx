@@ -73,8 +73,8 @@ export function Header() {
         </a>
         <nav aria-label="Main" className="header__navbar">
           <ul id="main-menu" className={`header__nav${menuOpen ? ' is-open' : ''}`}>
-            {links.map((item) => (
-              <li key={item.href}>
+            {links.map((item, i) => (
+              <li key={item.href} style={{ ['--i' as string]: i }}>
                 <a className="header__link" href={item.href} aria-current={section === item.path ? 'page' : undefined}>
                   {item.label}
                 </a>
@@ -90,7 +90,9 @@ export function Header() {
           <button
             type="button" className="header__menu" aria-expanded={menuOpen} aria-controls="main-menu"
             aria-label="Menu" onClick={() => setMenuOpen((o) => !o)}>
-            {menuOpen ? <XMarkIcon className="icon" aria-hidden="true" /> : <Bars3Icon className="icon" aria-hidden="true" />}
+            {menuOpen
+              ? <XMarkIcon key="x" className="icon header__menu-icon" aria-hidden="true" />
+              : <Bars3Icon key="bars" className="icon header__menu-icon" aria-hidden="true" />}
           </button>
         </nav>
       </div>
