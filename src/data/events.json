@@ -3206,5 +3206,49 @@
     "registration_url": "https://luma.com/8c6vyj2h",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/sg/4e101681-576d-40cd-af96-8abe8ff5fbf8.png",
     "source": "https://luma.com/8c6vyj2h"
+  },
+  {
+    "id": "buildtogether-portfolio-website-wdai-2026",
+    "title": "BuildTogetHER: Build Your Portfolio Website & Digital Business Card with AI",
+    "organiser": "Women Defining AI",
+    "event_type": "Workshop",
+    "format": "Online",
+    "start_date": "2026-12-04",
+    "end_date": "2026-12-04",
+    "timezone": "America/New_York",
+    "city": "",
+    "country": "",
+    "region": "Global",
+    "themes": [
+      "AI"
+    ],
+    "audience": "Women in AI and tech (Women Defining AI community)",
+    "level": "All levels",
+    "cost": "Free",
+    "registration_url": "https://luma.com/women-nsh3",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/api-uploads/pe/30032dcf-9456-4df4-aec1-2ca0fed9e4b9.jpg",
+    "source": "https://luma.com/women-nsh3"
+  },
+  {
+    "id": "claude-smb-workshop-audacious-2026",
+    "title": "Claude SMB Workshop with Audacious AI Friends",
+    "organiser": "Audacious AF",
+    "event_type": "Workshop",
+    "format": "Online",
+    "start_date": "2026-12-02",
+    "end_date": "2026-12-02",
+    "timezone": "America/New_York",
+    "city": "",
+    "country": "",
+    "region": "Global",
+    "themes": [
+      "AI"
+    ],
+    "audience": "Women-identifying individuals who want to learn how to do more with AI (Audacious AF community)",
+    "level": "All levels",
+    "cost": "Free",
+    "registration_url": "https://luma.com/7jfttwsq",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/dv/29073328-6cfd-4455-8c68-cd57dcafd7f2.jpg",
+    "source": "https://luma.com/7jfttwsq"
   }
 ]
