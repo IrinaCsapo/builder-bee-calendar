@@ -72,6 +72,7 @@ turns up events that have already happened.
 | https://2026.conference.pyladies.com/en/ | PyLadiesCon (online, 5–7 Dec 2026). Add it once tickets open at https://pretix.eu/pyladiescon/2026 and the price is shown |
 | https://pyladies.com | PyLadies chapters (Python meetups and workshops for women, worldwide) |
 | https://www.isadoraandco.com/workshops | Isadora & Co vibe coding workshops for women and non-binary people (DC, Fredericksburg, Charlottesville in Jan 2027; full day at Rixey Manor in spring 2027): add each once its date is set |
+| https://joinwmn.com | WMN& (women in tech, Amsterdam and online). Most events are members-only: skip those. Add only events anyone can sign up for (e.g. vibe-coding build nights, hackathons, workshops with partners like Miro or Lovable), found on their site, LinkedIn page or a public Luma/Eventbrite page. Organiser name: WMN& |
 
 List a Luma calendar's upcoming events like this (prints date and event link):
 
