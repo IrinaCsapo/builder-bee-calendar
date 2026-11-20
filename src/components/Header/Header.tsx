@@ -89,8 +89,8 @@ export function Header() {
           </a>
           <button
             type="button" className="header__menu" aria-expanded={menuOpen} aria-controls="main-menu"
-            onClick={() => setMenuOpen((o) => !o)}>
-            {menuOpen ? <XMarkIcon className="icon" aria-hidden="true" /> : <Bars3Icon className="icon" aria-hidden="true" />} Menu
+            aria-label="Menu" onClick={() => setMenuOpen((o) => !o)}>
+            {menuOpen ? <XMarkIcon className="icon" aria-hidden="true" /> : <Bars3Icon className="icon" aria-hidden="true" />}
           </button>
         </nav>
       </div>

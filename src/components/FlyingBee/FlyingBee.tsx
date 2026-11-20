@@ -85,6 +85,11 @@ export function FlyingBee({ start: startAt = { x: 0.15, y: 0.2 }, scale = 1, spe
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     let W = stage.clientWidth, H = stage.clientHeight;
     const margin = 90;                       // keeps the big bee fully inside the hero
+    // The hero runs up under the header: keep the bees below it, so they never hide behind the menu
+    let top = 0;
+    // (the hero's negative top margin is exactly how far it runs under the header)
+    const readTop = () => { top = Math.max(0, -parseFloat(getComputedStyle(stage).marginTop) || 0); };
+    readTop();
     const rand = (a: number, b: number) => a + Math.random() * (b - a);
     // Spots to fly to are always outside the text; if there's no free spot, any spot will do
     let zones: Zone[] = [];
@@ -93,14 +98,15 @@ export function FlyingBee({ start: startAt = { x: 0.15, y: 0.2 }, scale = 1, spe
     let sinceTarget = 0;                     // seconds since the current spot was picked
     const newTarget = () => {
       sinceTarget = 0;
+      readTop();
       for (let i = 0; i < 40; i++) {
-        const p = { x: rand(margin / 2, W - margin / 2), y: rand(margin / 2, H - margin / 2) };
+        const p = { x: rand(margin / 2, W - margin / 2), y: rand(top + margin / 2, H - margin / 2) };
         if (!zones.some((z) => inside(z, p.x, p.y))) return p;
       }
-      return { x: rand(margin / 2, W - margin / 2), y: rand(margin / 2, H - margin / 2) };
+      return { x: rand(margin / 2, W - margin / 2), y: rand(top + margin / 2, H - margin / 2) };
     };
 
-    let x = W * startAt.x, y = H * startAt.y;  // position (moved off the text on the first frames)
+    let x = W * startAt.x, y = Math.max(top + margin / 2, H * startAt.y);  // position (moved off the text on the first frames)
     let vx = 0, vy = 0;                      // velocity (px/s)
     let heading = 0;                         // radians, 0 = facing right
     let target = newTarget();
@@ -150,7 +156,7 @@ export function FlyingBee({ start: startAt = { x: 0.15, y: 0.2 }, scale = 1, spe
       if (hoverLeft <= 0 && sinceTarget > 6) target = newTarget();
       x += vx * dt; y += vy * dt;
       x = Math.max(margin / 2, Math.min(W - margin / 2, x));
-      y = Math.max(margin / 2, Math.min(H - margin / 2, y));
+      y = Math.max(top + margin / 2, Math.min(H - margin / 2, y));
 
       // Turn smoothly towards the direction of travel (keep heading while hovering)
       if (Math.hypot(vx, vy) > 20) {
@@ -169,7 +175,7 @@ export function FlyingBee({ start: startAt = { x: 0.15, y: 0.2 }, scale = 1, spe
       raf = requestAnimationFrame(step);
     };
 
-    const ro = new ResizeObserver(() => { W = stage.clientWidth; H = stage.clientHeight; refreshZones(); });
+    const ro = new ResizeObserver(() => { W = stage.clientWidth; H = stage.clientHeight; readTop(); refreshZones(); });
     ro.observe(stage);
     refreshZones();
     // Start somewhere free too (this is also where it rests with reduced motion)

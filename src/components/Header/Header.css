@@ -77,8 +77,10 @@
   display: none;
   align-items: center;
   gap: var(--space-2);
+  justify-content: center;
+  width: var(--tap-target);
   min-height: var(--tap-target);
-  padding: 0 var(--space-3);
+  padding: 0;
   border: 0;
   border-radius: var(--radius-pill);
   background: transparent;
@@ -86,6 +88,7 @@
   font: inherit;
   cursor: pointer;
 }
+.header__menu .icon { width: 1.6rem; height: 1.6rem; }
 .header__menu:hover { background: var(--color-mint-soft); }
 .header__menu:focus-visible, .header__link:focus-visible { outline: 3px solid #000; outline-offset: 2px; }
 

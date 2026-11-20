@@ -94,7 +94,7 @@ function HeroSubscribe() {
         ? <p className="hero-subscribe__small" role="alert">Something went wrong. Please try again in a moment.</p>
         : (
           <p className="hero-subscribe__small">
-            <span>Free</span><span aria-hidden="true">·</span><span>Every Monday</span><span aria-hidden="true">·</span><span>Unsubscribe any time</span>
+            <span>New events</span><span aria-hidden="true">·</span><span>Every Monday</span><span aria-hidden="true">·</span><span>Unsubscribe anytime</span>
           </p>
         )}
     </form>
