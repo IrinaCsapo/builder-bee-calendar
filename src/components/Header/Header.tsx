@@ -80,6 +80,12 @@ export function Header() {
                 </a>
               </li>
             ))}
+            {/* Phones: Submit lives in the menu instead of the header bar */}
+            <li className="header__nav-submit" style={{ ['--i' as string]: links.length }}>
+              <a className="header__link" href={submit.href} aria-current={section === submit.path ? 'page' : undefined}>
+                {submit.label}
+              </a>
+            </li>
           </ul>
           <a
             className="header__link header__link--button hive-hover hive-hover--on-light"

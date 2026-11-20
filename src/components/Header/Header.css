@@ -92,8 +92,13 @@
 .header__menu:hover { background: var(--color-mint-soft); }
 .header__menu:focus-visible, .header__link:focus-visible { outline: 3px solid #000; outline-offset: 2px; }
 
-/* Phones: one row (logo, Submit, Menu). The links open in a panel under the header. */
+/* Submit an event: a button in the header bar on bigger screens, the last link of the menu on phones */
+.header__nav-submit { display: none; }
+
+/* Phones: one row (logo and the menu button). The links, Submit included, open in a panel under the header. */
 @media (max-width: 40rem) {
+  .header__navbar > .header__link--button { display: none; }
+  .header__nav.is-open .header__nav-submit { display: block; margin-top: var(--space-2); padding-top: var(--space-2); border-top: 1px solid var(--color-border); }
   .header__inner { flex-wrap: nowrap; gap: var(--space-2); }
   .header__menu { display: inline-flex; }
   .header__link--button { margin-left: 0; padding-inline: var(--space-3); }
@@ -155,3 +160,4 @@
   from { transform: rotate(-90deg) scale(0.6); opacity: 0; }
   to { transform: none; opacity: 1; }
 }
+@media (max-width: 40rem) { .header__nav.is-open li.header__nav-submit { --dot: #FE06E5; } }
