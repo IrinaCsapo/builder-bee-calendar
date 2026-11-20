@@ -104,7 +104,11 @@
     border-radius: 18px;
     background: rgba(255, 255, 255, 0.92);
     box-shadow: 0 10px 30px rgba(80, 20, 120, 0.12);
+    color: #000;
+    text-decoration: none;
   }
+  .newsletter__mini:hover .newsletter__mini-title { text-decoration: underline; }
+  .newsletter__mini:focus-visible { outline: 3px solid #7B00DA; outline-offset: 3px; }
   .newsletter__mini:nth-child(1) { transform: rotate(-2deg) translateX(-8px); }
   .newsletter__mini:nth-child(2) { transform: rotate(1.5deg) translateX(14px); }
   .newsletter__mini:nth-child(3) { transform: rotate(-1deg); }
@@ -125,6 +129,7 @@
 @media (prefers-reduced-motion: no-preference) {
   .newsletter__mini { transition: transform 200ms ease; }
   .newsletter:hover .newsletter__mini { transform: none; }
+  .newsletter .newsletter__mini:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(80, 20, 120, 0.2); }
 }
 .content-page .newsletter-wrap { margin-top: var(--space-5); }
 

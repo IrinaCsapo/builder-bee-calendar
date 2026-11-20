@@ -16,7 +16,7 @@ export function NewsletterSignup({ heading = 'Get new events every Monday' }: { 
   const id = useId();
   const [email, setEmail] = useState('');
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
-  // A peek at what the email looks like: the next few events, as mini cards (decorative)
+  // A peek at what the email looks like: the next few events, as mini cards linking to their pages
   const preview = useMemo(() => getUpcoming(allEvents).slice(0, 3), []);
   if (!NEWSLETTER_FORM_URL) return null;
 
@@ -76,15 +76,15 @@ export function NewsletterSignup({ heading = 'Get new events every Monday' }: { 
       </div>
 
       {preview.length > 0 && (
-        <div className="newsletter__preview" aria-hidden="true">
+        <div className="newsletter__preview" aria-label="Coming up next">
           {preview.map((e) => (
-            <div key={e.id} className="newsletter__mini">
+            <a key={e.id} className="newsletter__mini" href={`/event/${e.id}`}>
               <DateBlock start={e.start_date} end={e.end_date} />
               <div>
                 <p className="newsletter__mini-title">{e.title}</p>
                 <p className="newsletter__mini-org">{e.organiser}</p>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       )}

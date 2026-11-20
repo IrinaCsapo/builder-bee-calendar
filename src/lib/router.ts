@@ -68,6 +68,9 @@ export function interceptLinks() {
 
 /** Links shared before the switch (builderbee.club/#/event/…) still work: they become /event/… */
 export function redirectOldHashLinks() {
+  // A common guess: /events/<id> (plural) means the event page /event/<id>
+  const plural = window.location.pathname.match(/^\/events\/([a-z0-9-]+)\/?$/);
+  if (plural) history.replaceState(null, '', `/event/${plural[1]}${window.location.search}${window.location.hash}`);
   const fix = () => {
     const { hash } = window.location;
     if (!hash.startsWith('#/')) return false;

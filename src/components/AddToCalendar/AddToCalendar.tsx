@@ -1,4 +1,3 @@
-import { ArrowDownTrayIcon, ArrowUpRightIcon } from '@heroicons/react/20/solid';
 import { useState } from 'react';
 import type { CalendarEvent } from '../../types/event';
 import { downloadIcs, googleCalendarUrl, outlookCalendarUrl } from '../../lib/ics';
@@ -30,22 +29,22 @@ export function AddToCalendar({ event }: { event: CalendarEvent }) {
       <ul className="add-to-calendar__options" aria-labelledby="add-to-calendar-label">
         <li>
           <a className="add-to-calendar__option" href={googleCalendarUrl(event, pageUrl)} target="_blank" rel="noopener noreferrer">
-            Google <ArrowUpRightIcon className="icon" aria-hidden="true" />{opens}
+            Google{opens}
           </a>
         </li>
         <li>
           <a className="add-to-calendar__option" href={outlookCalendarUrl(event, pageUrl)} target="_blank" rel="noopener noreferrer">
-            Outlook <ArrowUpRightIcon className="icon" aria-hidden="true" />{opens}
+            Outlook{opens}
           </a>
         </li>
         <li>
           <button type="button" className="add-to-calendar__option" onClick={download}>
-            Apple <ArrowDownTrayIcon className="icon" aria-hidden="true" />
+            Apple
           </button>
         </li>
         <li>
           <a className="add-to-calendar__option" href={outlookCalendarUrl(event, pageUrl, true)} target="_blank" rel="noopener noreferrer">
-            Microsoft 365 <ArrowUpRightIcon className="icon" aria-hidden="true" /><span className="visually-hidden"> (work or school Outlook, opens in a new tab)</span>
+            Microsoft 365<span className="visually-hidden"> (work or school Outlook, opens in a new tab)</span>
           </a>
         </li>
       </ul>
