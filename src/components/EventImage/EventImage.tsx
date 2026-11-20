@@ -47,15 +47,18 @@ export function EventImage({ id, title, src, variant = 'card' }: EventImageProps
   const [failed, setFailed] = useState(false);
   const [useOriginal, setUseOriginal] = useState(false);   // our copy didn't load: try the organiser's
   const [fit, setFit] = useState<'fill' | 'whole'>('fill');
+  const [loaded, setLoaded] = useState('');   // the address that loaded, for the blurred backdrop
   const showImage = src && !failed;
 
   return (
     <div
       className={`event-image event-image--${variant}`}
       aria-hidden="true"
-      // Wide or tall images leave space around them: fill it with this event's placeholder gradient
-      style={showImage && fit === 'whole' ? { backgroundImage: `url(${placeholderFor(id)})` } : undefined}
     >
+      {/* Wide or tall images leave space around them: fill it with a soft, blurred copy of the same picture */}
+      {showImage && fit === 'whole' && loaded && (
+        <span className="event-image__backdrop" style={{ backgroundImage: `url(${loaded})` }} />
+      )}
       {showImage ? (
         <img
           className={`event-image__img event-image__img--${fit}`}
@@ -69,10 +72,15 @@ export function EventImage({ id, title, src, variant = 'card' }: EventImageProps
           width={1000}
           height={1000}
           onLoad={(e) => {
-            // Square-ish images fill the card; very wide or tall ones are shown whole
-            const { naturalWidth: w, naturalHeight: h } = e.currentTarget;
-            const ratio = w / h;
-            setFit(ratio >= 0.75 && ratio <= 1.34 ? 'fill' : 'whole');
+            // Pictures the same shape as their box fill it (cropping at most a sliver); any other shape
+            // is shown whole, so posters never lose their text. Boxes are square, except the featured
+            // card on phones (16:9).
+            const img = e.currentTarget;
+            const box = img.parentElement!.getBoundingClientRect();
+            const boxRatio = box.height ? box.width / box.height : 1;
+            const off = (img.naturalWidth / img.naturalHeight) / boxRatio;
+            setFit(off >= 0.93 && off <= 1.07 ? 'fill' : 'whole');
+            setLoaded(img.currentSrc || img.src);
           }}
           onError={() => (useOriginal ? setFailed(true) : setUseOriginal(true))}
         />

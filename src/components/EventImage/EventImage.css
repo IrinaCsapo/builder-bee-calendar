@@ -3,12 +3,20 @@
   overflow: hidden;
   aspect-ratio: 1 / 1;          /* square, fixed shape: no layout jump while images load */
   border-radius: var(--radius-md);
-  background: #f4f4f5 center / cover no-repeat;   /* image set inline for wide or tall pictures */
+  background: #f4f4f5;
 }
-/* Square-ish images fill the card; wide or tall ones are shown whole, never cropped or stretched */
-.event-image__img { width: 100%; height: 100%; display: block; }
+/* Pictures the shape of their box fill it; other shapes are shown whole, never cropped or stretched */
+.event-image__img { position: relative; width: 100%; height: 100%; display: block; }
 .event-image__img--fill { object-fit: cover; }
-.event-image__img--whole { object-fit: contain; }   /* the placeholder gradient shows around it */
+.event-image__img--whole { object-fit: contain; }
+/* Behind a whole picture: the same picture, blurred and enlarged, so the gaps look intentional */
+.event-image__backdrop {
+  position: absolute;
+  inset: -12%;
+  background: center / cover no-repeat;
+  filter: blur(22px) saturate(1.2);
+  opacity: 0.85;
+}
 
 .event-image--banner { aspect-ratio: 3 / 1; margin-top: var(--space-5); }
 @media (max-width: 40rem) { .event-image--banner { aspect-ratio: 2 / 1; } }
