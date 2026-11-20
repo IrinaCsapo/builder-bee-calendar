@@ -1,5 +1,5 @@
 import { useId, type ReactNode } from 'react';
-import { CheckCircleIcon } from '@heroicons/react/20/solid';
+import { CheckCircleIcon, EnvelopeIcon } from '@heroicons/react/20/solid';
 import { CONFIRM_MESSAGE, useNewsletterSignup } from '../../lib/newsletter';
 import { HivePattern, WakeHivePattern } from '../HivePattern/HivePattern';
 import { FlyingBees } from '../FlyingBee/FlyingBee';
@@ -80,6 +80,7 @@ function HeroSubscribe() {
     <form className="hero-subscribe" onSubmit={submit} data-bee-avoid>
       <label className="visually-hidden" htmlFor={`${id}-email`}>Email address for the weekly email</label>
       <div className="hero-subscribe__field">
+        <EnvelopeIcon className="hero-subscribe__icon" aria-hidden="true" />
         <input
           id={`${id}-email`} className="hero-subscribe__input" type="email" name="EMAIL" required autoComplete="email"
           data-1p-ignore data-lpignore="true"
@@ -91,7 +92,11 @@ function HeroSubscribe() {
       </div>
       {state === 'error'
         ? <p className="hero-subscribe__small" role="alert">Something went wrong. Please try again in a moment.</p>
-        : <p className="hero-subscribe__small">New events in your inbox every Monday. Unsubscribe any time.</p>}
+        : (
+          <p className="hero-subscribe__small">
+            <span>Free</span><span aria-hidden="true">·</span><span>Every Monday</span><span aria-hidden="true">·</span><span>Unsubscribe any time</span>
+          </p>
+        )}
     </form>
   );
 }
