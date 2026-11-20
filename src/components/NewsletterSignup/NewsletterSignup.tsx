@@ -1,6 +1,6 @@
-import { useId, useMemo, useState } from 'react';
+import { useId, useMemo } from 'react';
 import { ArrowsRightLeftIcon, CheckCircleIcon, ComputerDesktopIcon, MapPinIcon, UserGroupIcon } from '@heroicons/react/20/solid';
-import { NEWSLETTER_FORM_URL } from '../../lib/site';
+import { CONFIRM_MESSAGE, useNewsletterSignup } from '../../lib/newsletter';
 import { allEvents } from '../../lib/events';
 import { getUpcoming } from '../../lib/dates';
 import { DateBlock } from '../DateBlock/DateBlock';
@@ -16,27 +16,9 @@ const FORMAT_ICON = { Online: ComputerDesktopIcon, 'In person': UserGroupIcon, H
  */
 export function NewsletterSignup({ heading = 'Get new events every Monday' }: { heading?: string }) {
   const id = useId();
-  const [email, setEmail] = useState('');
-  const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
-  // A peek at what the email looks like: the next few events, as mini cards linking to their pages
+  const { email, setEmail, state, submit, enabled } = useNewsletterSignup();
   const preview = useMemo(() => getUpcoming(allEvents).slice(0, 3), []);
-  if (!NEWSLETTER_FORM_URL) return null;
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setState('sending');
-    const body = new FormData();
-    body.append('EMAIL', email.trim());
-    body.append('email_address_check', '');   // Brevo's spam trap: must stay empty
-    body.append('locale', 'en');
-    try {
-      // Brevo doesn't allow reading the reply from another site, so a sent request counts as success
-      await fetch(NEWSLETTER_FORM_URL, { method: 'POST', body, mode: 'no-cors' });
-      setState('done');
-    } catch {
-      setState('error');
-    }
-  };
+  if (!enabled) return null;
 
   return (
     <div className="newsletter-wrap">
@@ -52,7 +34,7 @@ export function NewsletterSignup({ heading = 'Get new events every Monday' }: { 
         {state === 'done' ? (
           <p className="newsletter__done" role="status">
             <CheckCircleIcon className="icon" aria-hidden="true" />
-            <span>Nearly there! Check your inbox for an email from BuilderBee (hello@builderbee.club) and click “Yes, send me the weekly email”. It can take a minute, so check spam too.</span>
+            <span>{CONFIRM_MESSAGE}</span>
           </p>
         ) : (
           <form className="newsletter__form" onSubmit={submit}>

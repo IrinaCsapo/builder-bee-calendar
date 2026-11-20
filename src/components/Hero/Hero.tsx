@@ -1,4 +1,6 @@
-import type { ReactNode } from 'react';
+import { useId, type ReactNode } from 'react';
+import { CheckCircleIcon } from '@heroicons/react/20/solid';
+import { CONFIRM_MESSAGE, useNewsletterSignup } from '../../lib/newsletter';
 import { HivePattern, WakeHivePattern } from '../HivePattern/HivePattern';
 import { FlyingBees } from '../FlyingBee/FlyingBee';
 import heroBg from '../../assets/hero-bg.jpg';
@@ -43,17 +45,53 @@ export function Hero({ onBrowse, featured, variant = 'live' }: HeroProps) {
             the technology industry.
             {' '}Online and around the world.
           </p>
-          <div className="hero__actions" data-bee-avoid>
-            <button type="button" className="hero__button hero__button--browse hive-hover" onClick={onBrowse}>
-              Browse events
-            </button>
-            <a className={`hero__button hero__button--submit hive-hover${variant === 'lab' ? ' hive-hover--on-light' : ''}`} href="/submit">Submit event</a>
-          </div>
+          {variant === 'lab' ? <HeroSubscribe /> : (
+            <div className="hero__actions" data-bee-avoid>
+              <button type="button" className="hero__button hero__button--browse hive-hover" onClick={onBrowse}>
+                Browse events
+              </button>
+              <a className="hero__button hero__button--submit hive-hover" href="/submit">Submit event</a>
+            </div>
+          )}
         </div>
       </div>
 
       <div className="container hero__featured" data-bee-avoid>{featured}</div>
 
     </section>
+  );
+}
+
+/** The weekly email signup, in place of the Browse and Submit buttons (the events start right below,
+    and Submit is in the menu). Renders nothing if the signup form isn't set up. */
+function HeroSubscribe() {
+  const id = useId();
+  const { email, setEmail, state, submit, enabled } = useNewsletterSignup();
+  if (!enabled) return null;
+  if (state === 'done') {
+    return (
+      <p className="hero-subscribe__done" role="status" data-bee-avoid>
+        <CheckCircleIcon className="icon" aria-hidden="true" />
+        <span>{CONFIRM_MESSAGE}</span>
+      </p>
+    );
+  }
+  return (
+    <form className="hero-subscribe" onSubmit={submit} data-bee-avoid>
+      <label className="visually-hidden" htmlFor={`${id}-email`}>Email address for the weekly email</label>
+      <div className="hero-subscribe__field">
+        <input
+          id={`${id}-email`} className="hero-subscribe__input" type="email" name="EMAIL" required autoComplete="email"
+          data-1p-ignore data-lpignore="true"
+          placeholder="Your email" value={email} onChange={(e) => setEmail(e.target.value)}
+        />
+        <button type="submit" className="hero-subscribe__button" disabled={state === 'sending'}>
+          {state === 'sending' ? 'Subscribing…' : 'Subscribe'}
+        </button>
+      </div>
+      {state === 'error'
+        ? <p className="hero-subscribe__small" role="alert">Something went wrong. Please try again in a moment.</p>
+        : <p className="hero-subscribe__small">New events in your inbox every Monday. Unsubscribe any time.</p>}
+    </form>
   );
 }
