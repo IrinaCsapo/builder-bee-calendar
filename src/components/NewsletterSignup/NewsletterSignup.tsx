@@ -1,11 +1,13 @@
 import { useId, useMemo, useState } from 'react';
-import { CheckCircleIcon } from '@heroicons/react/20/solid';
+import { ArrowsRightLeftIcon, CheckCircleIcon, ComputerDesktopIcon, MapPinIcon, UserGroupIcon } from '@heroicons/react/20/solid';
 import { NEWSLETTER_FORM_URL } from '../../lib/site';
 import { allEvents } from '../../lib/events';
 import { getUpcoming } from '../../lib/dates';
 import { DateBlock } from '../DateBlock/DateBlock';
 import heroBg from '../../assets/hero-bg.jpg';
 import './NewsletterSignup.css';
+
+const FORMAT_ICON = { Online: ComputerDesktopIcon, 'In person': UserGroupIcon, Hybrid: ArrowsRightLeftIcon } as const;
 
 /**
  * Email box for the weekly round-up. It sends the address straight to our Brevo signup form
@@ -83,6 +85,15 @@ export function NewsletterSignup({ heading = 'Get new events every Monday' }: { 
               <div>
                 <p className="newsletter__mini-title">{e.title}</p>
                 <p className="newsletter__mini-org">{e.organiser}</p>
+                <p className="newsletter__mini-tags">
+                  {(() => { const Icon = FORMAT_ICON[e.format]; return <span className="newsletter__mini-tag"><Icon className="icon" aria-hidden="true" />{e.format}</span>; })()}
+                  {e.format !== 'Online' && (e.city || e.country) && (
+                    <span className="newsletter__mini-tag">
+                      <MapPinIcon className="icon" aria-hidden="true" />
+                      {[e.city, e.country].filter(Boolean).join(', ')}
+                    </span>
+                  )}
+                </p>
               </div>
             </a>
           ))}

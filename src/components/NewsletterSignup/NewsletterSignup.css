@@ -125,6 +125,19 @@
     overflow: hidden;
   }
   .newsletter__mini-org { margin: 2px 0 0; font-size: var(--text-sm); }
+  .newsletter__mini-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
+  .newsletter__mini-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 10px;
+    border-radius: var(--radius-pill);
+    background: #f3e9ff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .newsletter__mini-tag .icon { width: 0.95rem; height: 0.95rem; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .newsletter__mini { transition: transform 200ms ease; }
