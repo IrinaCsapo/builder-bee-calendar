@@ -3250,5 +3250,98 @@
     "registration_url": "https://luma.com/7jfttwsq",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/dv/29073328-6cfd-4455-8c68-cd57dcafd7f2.jpg",
     "source": "https://luma.com/7jfttwsq"
+  },
+  {
+    "id": "built-by-her-ai-edition-2026",
+    "title": "Built by Her: AI Edition",
+    "organiser": "VOICES - Women Who Speak",
+    "event_type": "Meetup",
+    "format": "Online",
+    "start_date": "2026-11-24",
+    "end_date": "2026-11-24",
+    "timezone": "Europe/London",
+    "city": "",
+    "country": "",
+    "region": "Global",
+    "themes": [
+      "AI"
+    ],
+    "audience": "This event is for women only. For women in tech and business, and any woman with an idea",
+    "level": "All levels",
+    "cost": "Free",
+    "registration_url": "https://www.eventbrite.co.uk/e/built-by-her-ai-edition-tickets-2005045531158",
+    "source": "https://www.eventbrite.co.uk/e/built-by-her-ai-edition-tickets-2005045531158"
+  },
+  {
+    "id": "claude-women-meetup-paris-2026",
+    "title": "Paris | Claude Community x Insidrs Women Meetup",
+    "organiser": "Claude Community Events x Insidrs",
+    "event_type": "Meetup",
+    "format": "In person",
+    "start_date": "2026-12-01",
+    "end_date": "2026-12-01",
+    "timezone": "Europe/Paris",
+    "city": "Paris",
+    "country": "France",
+    "region": "Europe",
+    "lat": 48.8566,
+    "lng": 2.3522,
+    "themes": [
+      "AI"
+    ],
+    "audience": "A women-only evening for founders and women in tech who use AI every day",
+    "level": "All levels",
+    "cost": "Free",
+    "registration_url": "https://luma.com/claude-fowo",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/eh/01b353e9-0893-4c35-9ea6-dac786858024.png",
+    "source": "https://luma.com/claude-fowo"
+  },
+  {
+    "id": "she-builds-irl-london-2026",
+    "title": "She Builds - Women In Tech (SheBuilds IRL: Connect, Build & Showcase)",
+    "organiser": "SheBuilds London",
+    "event_type": "Meetup",
+    "format": "In person",
+    "start_date": "2026-12-03",
+    "end_date": "2026-12-03",
+    "timezone": "Europe/London",
+    "city": "London",
+    "country": "United Kingdom",
+    "region": "Europe",
+    "lat": 51.5072,
+    "lng": -0.1276,
+    "themes": [
+      "AI"
+    ],
+    "audience": "Women building with AI (or who want to start) who would love to meet other women doing it",
+    "level": "All levels",
+    "cost": "Free",
+    "registration_url": "https://luma.com/cvu4k03v",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/n5/36019949-1179-4e42-8dd8-30f018023a2f.jpg",
+    "source": "https://luma.com/cvu4k03v"
+  },
+  {
+    "id": "claude-coffee-women-barcelona-2026",
+    "title": "Barcelona | Claude & Coffee (Women in Tech) / Holiday Edition",
+    "organiser": "Claude Community Events",
+    "event_type": "Meetup",
+    "format": "In person",
+    "start_date": "2026-12-19",
+    "end_date": "2026-12-19",
+    "timezone": "Europe/Madrid",
+    "city": "Barcelona",
+    "country": "Spain",
+    "region": "Europe",
+    "lat": 41.3874,
+    "lng": 2.1686,
+    "themes": [
+      "AI"
+    ],
+    "audience": "Exclusively for women in tech",
+    "level": "Beginner friendly",
+    "cost": "Free",
+    "registration_url": "https://luma.com/claude-ip78",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/k8/2bb87e02-095f-4292-9ab0-b488e1b13925.png",
+    "source": "https://luma.com/claude-ip78"
   }
 ]
