@@ -44,13 +44,16 @@ const inDays = (n: number) => iso(new Date(Date.now() + n * 864e5));
 const upcoming = events.filter((e) => e.end_date >= today).sort((a, b) => a.start_date.localeCompare(b.start_date));
 
 const before = idsWeekAgo();
-const fresh = before ? upcoming.filter((e) => !before.has(e.id)) : [];
-const shown = new Set(fresh.map((e) => e.id));
+const allNew = before ? upcoming.filter((e) => !before.has(e.id)) : [];
+// Sections, in the order they appear: online events anyone can join (first), new this week, closing soon.
+// Each event shows once, in the first section it fits.
+const online = upcoming.filter((e) => e.format === 'Online' && e.start_date <= inDays(14));
+const shown = new Set(online.map((e) => e.id));
+const fresh = allNew.filter((e) => !shown.has(e.id));
+fresh.forEach((e) => shown.add(e.id));
 const closing = upcoming
   .filter((e) => e.deadline && e.deadline >= today && e.deadline <= inDays(14) && !shown.has(e.id))
   .sort((a, b) => a.deadline!.localeCompare(b.deadline!));
-closing.forEach((e) => shown.add(e.id));
-const online = upcoming.filter((e) => e.format === 'Online' && e.start_date <= inDays(14) && !shown.has(e.id));
 
 // ---- The email --------------------------------------------------------------------
 // Looks like the website: logo, the hero's pink gradient, black date tiles, pill tags, the orange and
@@ -72,8 +75,9 @@ function section(kicker: string, kickerBg: string, title: string, list: Calendar
 }
 
 const total = fresh.length + closing.length + online.length;
-const subject = fresh.length
-  ? `${fresh.length} new ${fresh.length === 1 ? 'event' : 'events'} for women and non-binary builders this week`
+// The subject counts every new event, including new online ones shown in the first section
+const subject = allNew.length
+  ? `${allNew.length} new ${allNew.length === 1 ? 'event' : 'events'} for women and non-binary builders this week`
   : closing.length
     ? `Registration closing soon: ${closing[0].title}${closing.length > 1 ? ` and ${closing.length - 1} more` : ''}`
     : 'Online events coming up this fortnight';
@@ -83,7 +87,7 @@ const subject = fresh.length
 const HERO_WORDS = ['hackathon', 'workshop', 'buildathon', 'meetup', 'bootcamp', 'conference'];
 const heroIndex = Math.floor(Date.now() / (7 * 864e5)) % HERO_WORDS.length;
 // Shown as the grey preview line in inbox lists
-const preheader = [...fresh, ...closing, ...online].slice(0, 3).map((e) => e.title).join(', ') + (total > 3 ? ' and more' : '');
+const preheader = [...online, ...fresh, ...closing].slice(0, 3).map((e) => e.title).join(', ') + (total > 3 ? ' and more' : '');
 const weekOf = `Week of ${day(today)} ${mon(today)} ${today.slice(0, 4)}`;
 
 const html = `<!doctype html>
@@ -119,9 +123,9 @@ const html = `<!doctype html>
     ${button(`${SITE}/`, 'Browse events', '#000000', '#ffffff')}${button(`${SITE}/submit`, 'Submit an event', '#ffffff', '#000000', '#000000')}
   </td></tr>
 
+  ${section('Online', '#f3e9ff', 'Join from anywhere in the next two weeks', online)}
   ${section('New this week', '#a3ffb8', `${fresh.length} just added to the calendar`, fresh)}
   ${section('Closing soon', '#ffe3cc', 'Last chance to register', closing, (e) => `Register by ${short(e.deadline!)}`)}
-  ${section('Online', '#f3e9ff', 'Join from anywhere in the next two weeks', online)}
 
   <tr><td class="bb-pad" style="padding:36px 32px 32px">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr>
