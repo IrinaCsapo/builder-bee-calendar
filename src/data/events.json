@@ -3343,5 +3343,81 @@
     "registration_url": "https://luma.com/claude-ip78",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/k8/2bb87e02-095f-4292-9ab0-b488e1b13925.png",
     "source": "https://luma.com/claude-ip78"
+  },
+  {
+    "id": "women-in-ai-pitch-competition-sf-2026",
+    "title": "The Women in AI Pitch Competition (SF Winter '26) + Holiday Party",
+    "organiser": "Oasis Collective × AI After 5",
+    "event_type": "Pitch night",
+    "format": "In person",
+    "start_date": "2026-12-03",
+    "end_date": "2026-12-03",
+    "timezone": "America/Los_Angeles",
+    "city": "San Francisco",
+    "country": "United States",
+    "region": "North America",
+    "lat": 37.7749,
+    "lng": -122.4194,
+    "themes": [
+      "AI"
+    ],
+    "audience": "Six women-led AI startups pitch to investors; founding teams at least 50% women",
+    "level": "All levels",
+    "cost": "Paid",
+    "registration_url": "https://luma.com/womeninai-pitch-sf26",
+    "deadline": "2026-11-21",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Bites and drinks throughout; cash prize plus perks like coworking space and VC advising for winners",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/7p/e8155818-9613-4165-a810-bd4d443e5db8.png",
+    "source": "https://luma.com/womeninai-pitch-sf26"
+  },
+  {
+    "id": "women-tech-leaders-summit-2027",
+    "title": "Women+ Tech Leaders Summit 2027",
+    "organiser": "London Tech Leaders",
+    "event_type": "Conference",
+    "format": "In person",
+    "start_date": "2027-02-24",
+    "end_date": "2027-02-24",
+    "timezone": "Europe/London",
+    "city": "London",
+    "country": "United Kingdom",
+    "region": "Europe",
+    "venue": "White Rabbit",
+    "lat": 51.5074,
+    "lng": -0.1278,
+    "themes": [],
+    "audience": "Our women+ community in tech: a full day of panels, keynotes and workshops led by leading women+ figures in technology",
+    "level": "All levels",
+    "cost": "Free",
+    "registration_url": "https://luma.com/ydi79d7n",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/6h/1790835e-ce97-4be0-8a60-4f366e6c473c.png",
+    "source": "https://luma.com/ydi79d7n"
+  },
+  {
+    "id": "resting-pitch-face-women-ai-2026",
+    "title": "Resting Pitch Face | Women Building the Future of AI",
+    "organiser": "Generationship",
+    "event_type": "Pitch night",
+    "format": "In person",
+    "start_date": "2026-12-08",
+    "end_date": "2026-12-08",
+    "timezone": "America/Los_Angeles",
+    "city": "San Francisco",
+    "country": "United States",
+    "region": "North America",
+    "lat": 37.7749,
+    "lng": -122.4194,
+    "themes": [
+      "AI"
+    ],
+    "audience": "Women+ founders building in AI infrastructure and adjacent deep-tech sectors",
+    "level": "All levels",
+    "cost": "Free",
+    "registration_url": "https://luma.com/4ck9r72g",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/eu/72322cc0-9a00-4ae2-ac42-1f4d9d817458.png",
+    "source": "https://luma.com/4ck9r72g"
   }
 ]
