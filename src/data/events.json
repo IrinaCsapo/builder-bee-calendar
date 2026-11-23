@@ -3419,5 +3419,53 @@
     "registration_url": "https://luma.com/4ck9r72g",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/eu/72322cc0-9a00-4ae2-ac42-1f4d9d817458.png",
     "source": "https://luma.com/4ck9r72g"
+  },
+  {
+    "id": "curious-women-in-ai-jan-2027",
+    "title": "Curious Women in AI (January)",
+    "organiser": "Curious Women in AI",
+    "event_type": "Meetup",
+    "format": "In person",
+    "start_date": "2027-01-05",
+    "end_date": "2027-01-05",
+    "timezone": "Europe/London",
+    "city": "London",
+    "country": "United Kingdom",
+    "region": "Europe",
+    "lat": 51.5074,
+    "lng": -0.1278,
+    "themes": [
+      "AI"
+    ],
+    "audience": "Women who want to figure out AI together, whatever their starting point",
+    "level": "All levels",
+    "cost": "Free",
+    "registration_url": "https://luma.com/2idageuy",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/2f/85599e9b-9233-4495-a9b6-ee0c964077bf.png",
+    "source": "https://luma.com/2idageuy"
+  },
+  {
+    "id": "behind-the-decks-dj-workshop-2026",
+    "title": "Soft Landing: Behind the Decks - Beginner DJ Workshop for Women in Tech",
+    "organiser": "Soft Landing NYC",
+    "event_type": "Workshop",
+    "format": "In person",
+    "start_date": "2026-12-02",
+    "end_date": "2026-12-02",
+    "timezone": "America/New_York",
+    "city": "New York",
+    "country": "United States",
+    "region": "North America",
+    "lat": 40.7128,
+    "lng": -74.006,
+    "themes": [
+      "Arts"
+    ],
+    "audience": "Women in tech, AI, startups, and creative work, with zero prior experience required",
+    "level": "Beginner friendly",
+    "cost": "Free",
+    "registration_url": "https://luma.com/ubqkkz2h",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/8x/f781676f-be4b-402e-b957-43d86fb7bd54.png",
+    "source": "https://luma.com/ubqkkz2h"
   }
 ]
