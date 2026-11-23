@@ -186,6 +186,21 @@ async function brevo(path: string, body?: unknown) {
 
 const campaignName = `Weekly digest ${today}${testOnly ? ' (test)' : ''}`;
 
+if (checkOnly) {
+  // Report on the most recent weekly emails: status, recipients and delivery counts (no addresses)
+  const recent = await brevo('/emailCampaigns?type=classic&limit=5&sort=desc&statistics=globalStats') as { campaigns?: { id: number; name: string; status: string; sentDate?: string; statistics?: { globalStats?: Record<string, number> } }[] };
+  for (const c of recent.campaigns ?? []) {
+    const g = c.statistics?.globalStats ?? {};
+    console.log(`campaign ${c.id} "${c.name}": ${c.status}${c.sentDate ? `, sent ${c.sentDate}` : ''}; sent ${g.sent ?? '?'}, delivered ${g.delivered ?? '?'}, opens ${g.uniqueViews ?? '?'}, soft bounces ${g.softBounces ?? '?'}, hard bounces ${g.hardBounces ?? '?'}, blocked ${g.blocked ?? '?'}, deferred ${g.deferred ?? '?'}`);
+  }
+  try {
+    const list = await brevo(`/contacts/lists/${listId}`) as { totalSubscribers?: number; uniqueSubscribers?: number; totalBlacklisted?: number };
+    console.log(`list ${listId}: ${list.uniqueSubscribers ?? list.totalSubscribers} contacts, ${list.totalBlacklisted ?? 0} unsubscribed or blocked`);
+  } catch (e) {
+    console.log(`list ${listId}: can't read it with this key (${(e as Error).message.slice(0, 80)})`);
+  }
+}
+
 if (scheduled) {
   // GitHub runs the schedule at two UTC times (see the workflow); send only from 7am London time onwards
   const londonHour = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', hour: 'numeric', hourCycle: 'h23' }).format(new Date()));
