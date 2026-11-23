@@ -1,23 +1,33 @@
 name: Weekly email
 
-# Every Monday at 08:00 UTC: new events from the last 7 days, registrations closing soon and
+# Every Monday at 7am London time: new events from the last 7 days, registrations closing soon and
 # online events coming up, sent through Brevo to everyone on the BuilderBee list.
 # Run it by hand from the Actions tab: "test" sends only to BREVO_TEST_EMAILS.
 
 on:
+  # Mondays at 7am London time. GitHub's schedule only knows UTC, and London is UTC+0 in winter and UTC+1 in
+  # summer, so it starts at both 06:02 and 07:02 UTC; the script sends only once it's 7am or later in London.
+  # 09:17 UTC is a backup in case GitHub skips a run (it did on 23 Nov 2026). The script checks Brevo first
+  # and never sends a second email on the same day.
   schedule:
-    # Mondays 07:17 UTC. Off the hour on purpose: GitHub delays or drops scheduled runs at :00 when it's busy
-    - cron: '17 7 * * 1'
+    - cron: '2 6 * * 1'
+    - cron: '2 7 * * 1'
+    - cron: '17 9 * * 1'
   workflow_dispatch:
     inputs:
       mode:
-        description: 'test = only to the test addresses, send = everyone on the list'
+        description: 'test = only to the test addresses, send = everyone on the list, check = say whether the Monday job would send now (sends nothing)'
         type: choice
-        options: [test, send]
+        options: [test, send, check]
         default: test
 
 permissions:
   contents: read
+
+# Runs one at a time, so a late run and the next one can't both send before either has checked Brevo
+concurrency:
+  group: weekly-email
+  cancel-in-progress: false
 
 jobs:
   digest:
@@ -43,6 +53,10 @@ jobs:
           fi
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.mode }}" = "test" ]; then
             npx tsx scripts/weekly-digest.ts --test
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.mode }}" = "check" ]; then
+            npx tsx scripts/weekly-digest.ts --scheduled --check
+          elif [ "${{ github.event_name }}" = "schedule" ]; then
+            npx tsx scripts/weekly-digest.ts --scheduled
           else
             npx tsx scripts/weekly-digest.ts
           fi

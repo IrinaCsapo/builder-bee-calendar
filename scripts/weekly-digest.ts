@@ -4,6 +4,8 @@
 //   npx tsx scripts/weekly-digest.ts --preview digest.html   writes the email to a file, sends nothing
 //   npx tsx scripts/weekly-digest.ts --test                  sends it only to BREVO_TEST_EMAILS
 //   npx tsx scripts/weekly-digest.ts                         sends it to the whole list
+//   npx tsx scripts/weekly-digest.ts --scheduled [--check]   the Monday job (--check only reports, sends nothing): sends to the whole list only if it's
+//                                                            7am or later in London and nothing went out today
 //
 // Needs (GitHub secrets / variables): BREVO_API_KEY, BREVO_LIST_ID, and for --test BREVO_TEST_EMAILS
 // (comma-separated). "New this week" compares events.json with its version from 7 days ago in git,
@@ -21,6 +23,8 @@ const MAX_PER_SECTION = 8;
 const args = process.argv.slice(2);
 const previewFile = args.includes('--preview') ? args[args.indexOf('--preview') + 1] || 'digest.html' : '';
 const testOnly = args.includes('--test');
+const scheduled = args.includes('--scheduled');
+const checkOnly = args.includes('--check');   // with --scheduled: report what the Monday job would do, send nothing
 
 // ---- Which events ----------------------------------------------------------------
 
@@ -169,19 +173,40 @@ if (!key || !listId) {
   process.exit(1);
 }
 
-async function brevo(path: string, body: unknown) {
+async function brevo(path: string, body?: unknown) {
   const res = await fetch(`https://api.brevo.com/v3${path}`, {
-    method: 'POST',
+    method: body === undefined ? 'GET' : 'POST',
     headers: { 'api-key': key!, 'content-type': 'application/json', accept: 'application/json' },
-    body: JSON.stringify(body),
+    body: body === undefined ? undefined : JSON.stringify(body),
   });
   const text = await res.text();
   if (!res.ok) throw new Error(`Brevo ${path} failed (${res.status}): ${text}`);
   return text ? JSON.parse(text) : {};
 }
 
+const campaignName = `Weekly digest ${today}${testOnly ? ' (test)' : ''}`;
+
+if (scheduled) {
+  // GitHub runs the schedule at two UTC times (see the workflow); send only from 7am London time onwards
+  const londonHour = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', hour: 'numeric', hourCycle: 'h23' }).format(new Date()));
+  if (londonHour < 7) {
+    console.log(`It's ${londonHour}:00 in London, before 7am. Not sending yet.`);
+    process.exit(0);
+  }
+  // A later run (or a hand-started send) must never email the list twice on the same day
+  const recent = await brevo('/emailCampaigns?type=classic&limit=50&sort=desc') as { campaigns?: { name: string; status: string }[] };
+  if (recent.campaigns?.some((c) => c.name === campaignName && c.status !== 'draft')) {
+    console.log(`"${campaignName}" was already sent. Nothing to do.`);
+    process.exit(0);
+  }
+  if (checkOnly) {
+    console.log(`Check only: it's ${londonHour}:00 in London and "${campaignName}" hasn't been sent, so the Monday job would send now.`);
+    process.exit(0);
+  }
+}
+
 const campaign = await brevo('/emailCampaigns', {
-  name: `Weekly digest ${today}${testOnly ? ' (test)' : ''}`,
+  name: campaignName,
   subject,
   sender: SENDER,
   replyTo: SENDER.email,
