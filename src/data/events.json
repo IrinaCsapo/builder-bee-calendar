@@ -3467,5 +3467,120 @@
     "registration_url": "https://luma.com/ubqkkz2h",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/8x/f781676f-be4b-402e-b957-43d86fb7bd54.png",
     "source": "https://luma.com/ubqkkz2h"
+  },
+  {
+    "timezone": "America/New_York",
+    "city": "Boston",
+    "country": "United States",
+    "region": "North America",
+    "lat": 42.3601,
+    "lng": -71.0589,
+    "event_type": "Workshop",
+    "format": "In person",
+    "start_date": "2026-11-29",
+    "end_date": "2026-11-29",
+    "level": "Beginner friendly",
+    "cost": "Free",
+    "organiser": "Ajala Digital (Women Build With AI)",
+    "audience": "Women Build With AI: women building AI agents hands-on, no coding needed",
+    "perks": [
+      "Free credits"
+    ],
+    "id": "women-build-with-ai-content-seo-agent-boston-2026",
+    "title": "Build Your AI Content & SEO Agent | Women Build With AI Boston",
+    "venue": "Boston Public Library",
+    "themes": [
+      "AI",
+      "Marketing",
+      "No-code"
+    ],
+    "registration_url": "https://luma.com/41x7724r",
+    "perks_detail": "Optional landing page built with Lovable, with free Lovable credits",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/mm/b6bb0f69-4e44-4ec7-b5da-27f39dab70ee.png",
+    "source": "https://luma.com/41x7724r"
+  },
+  {
+    "timezone": "America/New_York",
+    "city": "Boston",
+    "country": "United States",
+    "region": "North America",
+    "lat": 42.3601,
+    "lng": -71.0589,
+    "event_type": "Workshop",
+    "format": "In person",
+    "start_date": "2026-11-29",
+    "end_date": "2026-11-29",
+    "level": "Beginner friendly",
+    "cost": "Free",
+    "organiser": "Ajala Digital (Women Build With AI)",
+    "audience": "Women Build With AI: women building AI agents hands-on, no coding needed",
+    "perks": [
+      "Free credits"
+    ],
+    "id": "women-build-with-ai-ai-cfo-agent-boston-2026",
+    "title": "Build Your Own AI CFO Agent | Women Build With AI Boston",
+    "themes": [
+      "AI",
+      "No-code"
+    ],
+    "registration_url": "https://luma.com/ldau2oin",
+    "perks_detail": "Optional visual version built with Lovable, with free Lovable credits",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/mg/b336602e-f1a5-47f0-8d75-d84dcfe7e854.png",
+    "source": "https://luma.com/ldau2oin"
+  },
+  {
+    "id": "women-in-robotics-deepgram-sf-2026",
+    "title": "Women in Robotics x Deepgram",
+    "organiser": "Women in Robotics Bay Area & Deepgram",
+    "event_type": "Workshop",
+    "format": "In person",
+    "start_date": "2026-12-15",
+    "end_date": "2026-12-15",
+    "timezone": "America/Los_Angeles",
+    "city": "San Francisco",
+    "country": "United States",
+    "region": "North America",
+    "venue": "Deepgram SF Collab Hub, 505 Howard St",
+    "lat": 37.7749,
+    "lng": -122.4194,
+    "themes": [
+      "AI",
+      "Hardware"
+    ],
+    "audience": "Women in Robotics Bay Area community; everyone welcome",
+    "level": "Beginner friendly",
+    "cost": "Free",
+    "registration_url": "https://luma.com/xzsffrdw",
+    "perks": [
+      "Food & drinks"
+    ],
+    "perks_detail": "Appetizers and networking",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/89/94184574-6ac2-4802-a297-ac345d1b952e.png",
+    "source": "https://luma.com/xzsffrdw"
+  },
+  {
+    "id": "women-in-ai-france-forum-awards-2026",
+    "title": "Women in AI France Forum & Awards 2026",
+    "organiser": "Women in AI France",
+    "event_type": "Conference",
+    "format": "In person",
+    "start_date": "2026-12-01",
+    "end_date": "2026-12-01",
+    "timezone": "Europe/Paris",
+    "city": "Paris",
+    "country": "France",
+    "region": "Europe",
+    "venue": "CNIT Forest",
+    "lat": 48.8566,
+    "lng": 2.3522,
+    "themes": [
+      "AI"
+    ],
+    "audience": "Women advancing AI: architects, product builders, leaders and career changers",
+    "level": "All levels",
+    "cost": "Free",
+    "registration_url": "https://luma.com/npkm8kam",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/4y/c9473407-e315-4401-9d2b-cf7f38720f34.png",
+    "source": "https://luma.com/npkm8kam"
   }
 ]
