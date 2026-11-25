@@ -48,10 +48,7 @@ export function FeaturedCarousel({ events }: { events: CalendarEvent[] }) {
       onFocus={() => setFocused(true)}
       onBlur={(e) => { if (!rootRef.current?.contains(e.relatedTarget as Node)) setFocused(false); }}
     >
-      <div className="featured__head">
-        <h2 id="featured-title" className="featured__heading">Online events: join from anywhere</h2>
-        <a className="featured__all" href="/online">See all {count}<span className="visually-hidden"> online events</span> <ArrowRightIcon className="icon" aria-hidden="true" /></a>
-      </div>
+      <h2 id="featured-title" className="visually-hidden">Featured events</h2>
 
       <div
         className="featured__viewport"
@@ -89,15 +86,15 @@ export function FeaturedCarousel({ events }: { events: CalendarEvent[] }) {
                 <div className="featured__controls">
                   <button type="button" className="featured__round" onClick={() => setPlaying(!playing)}>
                     {playing ? <PauseIcon className="icon" aria-hidden="true" /> : <PlayIcon className="icon" aria-hidden="true" />}
-                    <span className="visually-hidden">{playing ? 'Pause online events' : 'Play online events'}</span>
+                    <span className="visually-hidden">{playing ? 'Pause featured events' : 'Play featured events'}</span>
                   </button>
                   <button type="button" className="featured__round" onClick={() => go(index - 1)}>
                     <ArrowLeftIcon className="icon" aria-hidden="true" />
-                    <span className="visually-hidden">Previous online event</span>
+                    <span className="visually-hidden">Previous featured event</span>
                   </button>
                   <button type="button" className="featured__round" onClick={() => go(index + 1)}>
                     <ArrowRightIcon className="icon" aria-hidden="true" />
-                    <span className="visually-hidden">Next online event</span>
+                    <span className="visually-hidden">Next featured event</span>
                   </button>
                 </div>
               )}
