@@ -1,6 +1,6 @@
 import { allEvents } from '../../lib/events';
 import { getUpcoming } from '../../lib/dates';
-import { cityCollections, MIN_EVENTS, REGIONS, siteSummary, TOPICS, type Collection } from '../../lib/collections';
+import { cityCollections, countryCollections, MIN_EVENTS, REGIONS, siteSummary, TOPICS, type Collection } from '../../lib/collections';
 import './BrowseLinks.css';
 
 const upcoming = getUpcoming(allEvents);
@@ -11,6 +11,7 @@ const worth = (list: Collection[]) => list.map((c) => ({ c, n: count(c) })).filt
 const GROUPS = [
   { title: 'By type', items: worth(TOPICS) },
   { title: 'By region', items: worth(REGIONS) },
+  { title: 'By country', items: worth(countryCollections(allEvents)).sort((a, b) => b.n - a.n) },
   { title: 'By city', items: worth(cityCollections(allEvents)).sort((a, b) => b.n - a.n) },
 ];
 

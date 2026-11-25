@@ -4,7 +4,8 @@
 //   dist/event/<id>.html   → builderbee.club/event/<id>   (plus Google "Event" structured data)
 //   dist/about.html        → builderbee.club/about        (and the other pages)
 //   dist/community/<slug>.html    → a community and its upcoming events
-//   dist/hackathons.html, dist/europe.html, dist/city/<slug>.html → topic, region and city pages
+//   dist/hackathons.html, dist/europe.html, dist/country/<slug>.html, dist/city/<slug>.html → topic, region, country and city pages
+//   dist/guides.html, dist/guides/<slug>.html → the guides (plus Google "Article" structured data)
 // Every page also carries a plain HTML version of its content inside #root, for crawlers that don't
 // run JavaScript (Bing, AI search tools). Browsers hide it and show the app (see index.html).
 //   dist/404.html          → anything else; the app shows its own "not found" page
@@ -17,8 +18,9 @@ import { buildFeed } from '../src/lib/ics';
 import { ALL_COMMUNITIES, communitySlug } from '../src/data/communities';
 import { communityEvents } from '../src/lib/communityEvents';
 import { similarEvents } from '../src/lib/similar';
-import { allCollections, MIN_EVENTS, TOPICS, REGIONS, cityCollections, collectionFaq, collectionSummary, siteSummary, type Collection, type Faq } from '../src/lib/collections';
+import { allCollections, MIN_EVENTS, TOPICS, REGIONS, cityCollections, countryCollections, collectionFaq, collectionSummary, siteSummary, type Collection, type Faq } from '../src/lib/collections';
 import { CONTACT_EMAIL, FOUNDERS, REPO_URL } from '../src/lib/site';
+import { GUIDES, inlineParts, plainText, type Guide } from '../src/data/guides';
 
 const SITE = 'https://builderbee.club';
 const DIST = new URL('../dist/', import.meta.url);
@@ -77,10 +79,10 @@ const upcoming = events.filter((e) => e.end_date >= today).sort((a, b) => a.star
 const upcomingIn = (c: Collection) => upcoming.filter(c.match);
 const linkable = (list: Collection[]) => list.filter((c) => upcomingIn(c).length >= MIN_EVENTS);
 
-const NAV = [['/', 'Events'], ['/communities', 'Communities'], ['/how-it-works', 'How it works'], ['/about', 'About'], ['/submit', 'Submit an event'], ['/subscribe', 'Subscribe']];
+const NAV = [['/', 'Events'], ['/communities', 'Communities'], ['/how-it-works', 'How it works'], ['/about', 'About'], ['/guides', 'Guides'], ['/submit', 'Submit an event'], ['/subscribe', 'Subscribe']];
 
 function staticPage(main: string): string {
-  const browse = [['By type', linkable(TOPICS)], ['By region', linkable(REGIONS)], ['By city', linkable(cityCollections(events))]] as const;
+  const browse = [['By type', linkable(TOPICS)], ['By region', linkable(REGIONS)], ['By country', linkable(countryCollections(events))], ['By city', linkable(cityCollections(events))]] as const;
   return `<div class="static-page">
 <header><p><a href="/"><strong>BuilderBee</strong></a>: hackathons and tech events for women, non-binary people and allies</p>
 <nav><ul>${NAV.map(([href, text]) => `<li><a href="${href}">${text}</a></li>`).join('')}</ul></nav></header>
@@ -258,10 +260,65 @@ for (const c of COLLECTIONS) {
     title: `${c.title} · BuilderBee`,
     description: `${c.intro}${n ? ` ${n} upcoming ${n === 1 ? 'event' : 'events'}.` : ''}`,
     jsonLd: graph(itemList(c.title, upcomingIn(c)), faqPage(faq)),
-    body: `<h1>${esc(c.heading)}</h1><p>${esc(c.intro)}</p><p>${esc(collectionSummary(c, upcoming))}</p>
+    body: `<h1>${esc(c.heading)}</h1><p>${esc(c.intro)}</p><p>${esc(collectionSummary(c, upcoming))}</p>${['/hackathons', '/beginners'].includes(c.path) ? '<p><a href="/guides/what-is-a-hackathon">New to hackathons? Read our first-timer’s guide</a></p>' : ''}
 <h2>Coming up</h2>${eventItems(upcomingIn(c))}${faqHtml(faq)}`,
   }));
 }
+
+// Guides (/guides and /guides/<slug>)
+const inlineHtml = (text: string) => inlineParts(text).map((p) => (p.href ? `<a href="${esc(p.href)}">${esc(p.text)}</a>` : esc(p.text))).join('');
+const guideEvents = (g: Guide) => {
+  const matching = upcoming.filter(g.events);
+  return matching.length ? { heading: g.eventsHeading, list: matching.slice(0, 6) } : { heading: 'Coming up on BuilderBee', list: upcoming.slice(0, 6) };
+};
+for (const g of GUIDES) {
+  const path = `/guides/${g.slug}`;
+  const { heading, list } = guideEvents(g);
+  const related = g.related.map((p) => COLLECTIONS.find((c) => c.path === p)).filter((c) => c !== undefined);
+  write(`guides/${g.slug}.html`, render({
+    path,
+    title: `${g.title} · BuilderBee`,
+    description: g.description,
+    jsonLd: graph(
+      {
+        '@type': 'Article',
+        headline: g.title,
+        description: g.description,
+        url: SITE + path,
+        mainEntityOfPage: SITE + path,
+        datePublished: g.published,
+        dateModified: g.updated,
+        image: `${SITE}/og-image.jpg`,
+        author: { '@id': `${SITE}/#organization` },
+        publisher: { '@id': `${SITE}/#organization` },
+        articleSection: 'Guides',
+        wordCount: g.sections.flatMap((s) => s.blocks.flat()).map(plainText).join(' ').split(/\s+/).length,
+      },
+      ORGANIZATION,
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'BuilderBee', item: `${SITE}/` },
+          { '@type': 'ListItem', position: 2, name: 'Guides', item: `${SITE}/guides` },
+          { '@type': 'ListItem', position: 3, name: g.title, item: SITE + path },
+        ],
+      },
+    ),
+    body: `<article><p><a href="/guides">Guides</a></p><h1>${esc(g.title)}</h1><p>${esc(g.description)}</p>
+<p>By the BuilderBee team · Updated ${dateRange(g.updated, g.updated)}</p>
+${g.sections.map((s) => `<h2>${esc(s.heading)}</h2>${s.blocks.map((b) => (typeof b === 'string' ? `<p>${inlineHtml(b)}</p>` : `<ul>${b.map((i) => `<li>${inlineHtml(i)}</li>`).join('')}</ul>`)).join('')}`).join('\n')}
+${related.length ? `<p>Browse: ${related.map((c) => `<a href="${c.path}">${esc(c.title)}</a>`).join(' · ')}</p>` : ''}</article>
+<h2>${esc(heading)}</h2>${eventItems(list)}`,
+  }));
+}
+const guidesDescription = 'Short, practical guides for women and non-binary people in tech: what to expect at your first hackathon, and the days that celebrate women in tech, with the events that go with them.';
+write('guides.html', render({
+  path: '/guides',
+  title: 'Guides · BuilderBee',
+  description: guidesDescription,
+  body: `<h1>Guides for women and non-binary builders</h1><p>${esc(guidesDescription)}</p>
+<ul>${GUIDES.map((g) => `<li><a href="/guides/${g.slug}">${esc(g.title)}</a>: ${esc(g.description)}</li>`).join('')}</ul>`,
+}));
 
 // The home page: canonical address and the full list of upcoming events. Anything unknown falls back to the app.
 const homeDescription = 'Hackathons, buildathons, meetups and workshops for women, non-binary people and allies in tech. Online and around the world.';
@@ -289,6 +346,8 @@ const urls = [
   { loc: `${SITE}/`, changefreq: 'daily', priority: '1.0' },
   ...PAGES.map((p) => ({ loc: SITE + p.path, changefreq: 'monthly', priority: '0.5' })),
   ...COMMUNITY_PAGES.map((p) => ({ loc: SITE + p.path, changefreq: 'weekly', priority: '0.6' })),
+  { loc: `${SITE}/guides`, changefreq: 'weekly', priority: '0.6' },
+  ...GUIDES.map((g) => ({ loc: `${SITE}/guides/${g.slug}`, changefreq: 'monthly', priority: '0.7' })),
   ...linkable(COLLECTIONS).map((c) => ({ loc: SITE + c.path, changefreq: 'daily', priority: c.kind === 'Topic' ? '0.9' : '0.7' })),
   ...upcoming.map((e) => ({ loc: `${SITE}/event/${e.id}`, changefreq: 'weekly', priority: '0.8' })),
 ];
@@ -309,8 +368,11 @@ ${siteSummary(upcoming)} Every event is for women and/or non-binary people in te
 - [All upcoming events](${SITE}/)
 ${linkable(TOPICS).map(linkLine).join('\n')}
 
-## By region and city
-${[...linkable(REGIONS), ...linkable(cityCollections(events))].map(linkLine).join('\n')}
+## By region, country and city
+${[...linkable(REGIONS), ...linkable(countryCollections(events)), ...linkable(cityCollections(events))].map(linkLine).join('\n')}
+
+## Guides
+${GUIDES.map((g) => `- [${g.title}](${SITE}/guides/${g.slug}): ${g.description}`).join('\n')}
 
 ## About
 - [About BuilderBee](${SITE}/about)
@@ -327,4 +389,4 @@ Contact: ${CONTACT_EMAIL}
 `);
 write('robots.txt', `User-agent: *\nAllow: /\nDisallow: /hero-lab\nDisallow: /hero-old\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
-console.log(`prerender: ${events.length} event pages, ${PAGES.length} other pages, ${COMMUNITY_PAGES.length} community pages, ${COLLECTIONS.length} topic/region/city pages (${linkable(COLLECTIONS).length} in the sitemap), sitemap with ${urls.length} addresses, calendar feed with ${feedEvents.length} events`);
+console.log(`prerender: ${events.length} event pages, ${PAGES.length} other pages, ${GUIDES.length} guides, ${COMMUNITY_PAGES.length} community pages, ${COLLECTIONS.length} topic/region/city pages (${linkable(COLLECTIONS).length} in the sitemap), sitemap with ${urls.length} addresses, calendar feed with ${feedEvents.length} events`);

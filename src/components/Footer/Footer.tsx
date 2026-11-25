@@ -18,7 +18,7 @@ export function Footer() {
           , for builders.
         </p>
         <p>
-          Know an event? <a href="/submit">Submit it</a>. Never miss one: <a href="/subscribe">subscribe</a>.
+          Know an event? <a href="/submit">Submit it</a>. Never miss one: <a href="/subscribe">subscribe</a>. New to hackathons? <a href="/guides">Read our guides</a>.
         </p>
         <p className="footer__legal">
           <a href="/privacy">Privacy policy</a> · <a href="/cookies">Cookie policy</a>

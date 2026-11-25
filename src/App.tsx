@@ -14,6 +14,8 @@ import { SubscribePage } from './pages/SubscribePage';
 import { SubscribedPage } from './pages/SubscribedPage';
 import { CommunityPage } from './pages/CommunityPage';
 import { CollectionPage } from './pages/CollectionPage';
+import { GuidePage, GuidesPage } from './pages/GuidePage';
+import { GUIDES } from './data/guides';
 import { useRoute } from './lib/router';
 import { allEvents } from './lib/events';
 import { allCollections } from './lib/collections';
@@ -24,6 +26,7 @@ export function App() {
   const { path } = useRoute();
   const eventMatch = path.match(/^\/event\/([a-z0-9-]+)\/?$/);
   const communityMatch = path.match(/^\/community\/([a-z0-9-]+)\/?$/);
+  const guideMatch = path.match(/^\/guides\/([a-z0-9-]+)\/?$/);
   const collection = COLLECTIONS.find((c) => c.path === path.replace(/\/$/, ''));
 
   let page;
@@ -35,6 +38,8 @@ export function App() {
   else if (path === '/submit') page = <SubmitPage />;
   else if (path === '/communities') page = <CommunitiesPage />;
   else if (communityMatch) page = <CommunityPage slug={communityMatch[1]} />;
+  else if (path === '/guides') page = <GuidesPage guides={GUIDES} />;
+  else if (guideMatch) page = <GuidePage key={guideMatch[1]} slug={guideMatch[1]} />;
   else if (path === '/how-it-works') page = <HowItWorksPage />;
   else if (path === '/about') page = <AboutPage />;
   else if (path === '/subscribe') page = <SubscribePage />;

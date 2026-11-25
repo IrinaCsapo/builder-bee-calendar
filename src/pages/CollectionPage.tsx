@@ -14,6 +14,12 @@ import './CollectionPage.css';
 
 const upcoming = getUpcoming(allEvents);
 
+// Pages that point to a guide (keep in step with scripts/prerender.ts)
+const GUIDE_LINKS: Record<string, { href: string; text: string }> = {
+  '/hackathons': { href: '/guides/what-is-a-hackathon', text: 'New to hackathons? Read our first-timer’s guide' },
+  '/beginners': { href: '/guides/what-is-a-hackathon', text: 'Going to your first hackathon? Read our first-timer’s guide' },
+};
+
 /** A landing page for one kind of event, region or city (/hackathons, /europe, /city/london) */
 export function CollectionPage({ collection: c }: { collection: Collection }) {
   useDocumentTitle(c.title);
@@ -31,6 +37,11 @@ export function CollectionPage({ collection: c }: { collection: Collection }) {
           <h1>{c.heading}</h1>
           <p className="community-page__about">{c.intro}</p>
           <p className="collection-page__summary">{collectionSummary(c, upcoming)}</p>
+          {GUIDE_LINKS[c.path] && (
+            <p className="collection-page__guide">
+              <a href={GUIDE_LINKS[c.path].href}>{GUIDE_LINKS[c.path].text}</a>
+            </p>
+          )}
           <div className="community-page__meta">
             <span className="community-page__where">
               {events.length} upcoming {events.length === 1 ? 'event' : 'events'}

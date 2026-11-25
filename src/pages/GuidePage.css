@@ -1,0 +1,70 @@
+/* Guides (/guides and /guides/<slug>): a readable article column, then events in the home page grid */
+.guide-page { padding-block: var(--space-6) var(--space-8); }
+.guide-page__head { max-width: 46rem; margin-top: var(--space-4); }
+.guide-page__kicker {
+  display: inline-block;
+  margin: 0;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-mint);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.guide-page h1 {
+  margin-top: var(--space-3);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 3vw + 1rem, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.guide-page__lede { margin-top: var(--space-4); font-size: var(--text-lg); }
+.guide-page__meta { margin-top: var(--space-3); font-size: var(--text-sm); }
+
+.guide-page__article {
+  max-width: 46rem;
+  padding-bottom: var(--space-6);
+}
+.guide-page__article .guide-page__head {
+  padding-bottom: var(--space-5);
+  border-bottom: 6px solid var(--group);
+}
+.guide-page__article h2 {
+  margin-top: var(--space-7);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 1.5vw + 1rem, 2.2rem);
+  line-height: 1.15;
+}
+.guide-page__article p,
+.guide-page__article ul { margin-top: var(--space-3); line-height: var(--leading-normal); }
+.guide-page__article ul { padding-left: 1.25rem; }
+.guide-page__article li + li { margin-top: var(--space-2); }
+.guide-page__related {
+  margin-top: var(--space-6) !important;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: #f3f3f6;
+}
+
+/* The list on /guides */
+.guide-list { list-style: none; padding: 0; margin-top: var(--space-6); display: grid; gap: var(--space-4); }
+@media (min-width: 48rem) { .guide-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.guide-list li {
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-top: 6px solid var(--group);
+  border-radius: 28px;
+}
+.guide-list h2 {
+  margin-top: var(--space-3);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.15;
+}
+.guide-list h2 a { text-decoration: none; }
+.guide-list h2 a:hover { text-decoration: underline; }
+.guide-list p:last-child { margin-top: var(--space-2); }

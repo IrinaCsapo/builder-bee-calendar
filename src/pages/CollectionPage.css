@@ -12,3 +12,4 @@
   cursor: pointer;
 }
 .collection-page__faq details p { margin: 0 0 var(--space-4); max-width: 46rem; }
+.collection-page__guide { margin-top: var(--space-2); font-weight: 600; }

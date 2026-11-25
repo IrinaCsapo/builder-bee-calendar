@@ -1,12 +1,12 @@
 // Landing pages for the searches people make: a type of event (/hackathons), a format (/online), a theme (/ai),
-// a region (/europe) or a city (/city/london). Used by the app (CollectionPage) and by scripts/prerender.ts,
+// a region (/europe), a country (/country/united-kingdom) or a city (/city/london). Used by the app (CollectionPage) and by scripts/prerender.ts,
 // which gives each one its own HTML file, title and description, and lists it in the sitemap.
 
 import { perksOf, type CalendarEvent, type Region } from '../types/event';
 
 export interface Collection {
   path: string;          // "/hackathons"
-  kind: 'Topic' | 'Region' | 'City';
+  kind: 'Topic' | 'Region' | 'Country' | 'City';
   label: string;         // short name for links: "Hackathons", "Europe", "London"
   kicker: string;        // small label above the heading
   heading: string;       // the page's h1
@@ -123,14 +123,34 @@ export function cityCollections(events: CalendarEvent[]): Collection[] {
   return [...cities].sort(([a], [b]) => a.localeCompare(b)).map(([slug, { city, country }], i) => ({
     path: `/city/${slug}`, kind: 'City', label: city, kicker: country || city, colour: CITY_COLOURS[i % CITY_COLOURS.length],
     heading: `Women in tech events in ${city}`,
-    title: `Women in tech events in ${city}`,
+    // People search "hackathons in new york" and "tech events in new york", so the title names both
+    title: `Women in tech events in ${city}: hackathons, meetups, workshops`,
     intro: `Hackathons, workshops and meetups for women and non-binary people in tech in ${city}${country && country !== city ? `, ${country}` : ''}.`,
     match: (e) => !!e.city && citySlug(e.city) === slug,
   }));
 }
 
+// Countries that read naturally with "the": "events in the United Kingdom"
+const WITH_THE = new Set(['United States', 'United Kingdom', 'Netherlands', 'Philippines', 'United Arab Emirates', 'Czech Republic']);
+const countryName = (country: string) => (WITH_THE.has(country) ? `the ${country}` : country);
+
+/** One page for every country that has (or had) an in-person or hybrid event (/country/united-kingdom) */
+export function countryCollections(events: CalendarEvent[]): Collection[] {
+  const countries = new Map<string, string>();
+  for (const e of events) {
+    if (e.country && e.format !== 'Online' && !countries.has(citySlug(e.country))) countries.set(citySlug(e.country), e.country);
+  }
+  return [...countries].sort(([a], [b]) => a.localeCompare(b)).map(([slug, country], i) => ({
+    path: `/country/${slug}`, kind: 'Country', label: country, kicker: country, colour: CITY_COLOURS[(i + 2) % CITY_COLOURS.length],
+    heading: `Women in tech events in ${countryName(country)}`,
+    title: `Women in tech events and hackathons in ${countryName(country)}`,
+    intro: `Hackathons, workshops, meetups and conferences for women and non-binary people in tech across ${countryName(country)}.`,
+    match: (e) => !!e.country && e.format !== 'Online' && citySlug(e.country) === slug,
+  }));
+}
+
 export function allCollections(events: CalendarEvent[]): Collection[] {
-  return [...TOPICS, ...REGIONS, ...cityCollections(events)];
+  return [...TOPICS, ...REGIONS, ...countryCollections(events), ...cityCollections(events)];
 }
 
 /** Collections worth linking to and listing in the sitemap: at least this many upcoming events */
@@ -159,7 +179,7 @@ function noun(c: Collection): string {
     '/conferences': 'conferences', '/online': 'online and hybrid events', '/ai': 'AI events', '/free': 'free events',
     '/beginners': 'beginner-friendly events', '/free-credits': 'events with free AI credits', '/gaming-and-arts': 'game jams and creative tech events',
   };
-  return NOUNS[c.path] ?? `events in ${c.label}`;
+  return NOUNS[c.path] ?? `events in ${c.kind === 'Country' ? countryName(c.label) : c.label}`;
 }
 
 /** One quotable sentence about a collection: "BuilderBee lists 10 upcoming hackathons … The next is …" */
