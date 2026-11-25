@@ -3582,5 +3582,30 @@
     "registration_url": "https://luma.com/npkm8kam",
     "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/uploads/4y/c9473407-e315-4401-9d2b-cf7f38720f34.png",
     "source": "https://luma.com/npkm8kam"
+  },
+  {
+    "id": "women-non-binary-hack-night-sudoroom-2026-12-08",
+    "title": "Women & Non Binary Hack and do whatever night",
+    "organiser": "SudoRoom",
+    "event_type": "Meetup",
+    "format": "Hybrid",
+    "start_date": "2026-12-08",
+    "end_date": "2026-12-08",
+    "timezone": "America/Los_Angeles",
+    "city": "Oakland",
+    "country": "United States",
+    "region": "North America",
+    "venue": "Sudo Room, 4799 Shattuck Ave",
+    "lat": 37.8044,
+    "lng": -122.2712,
+    "themes": [
+      "Hardware"
+    ],
+    "audience": "Monday evenings with women and non-binary folks, any skill level and any programming language",
+    "level": "Beginner friendly",
+    "cost": "Free",
+    "registration_url": "https://luma.com/ry5n6ucy",
+    "image_url": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=scale-down,width=800/event-covers/kr/8071c8dc-6a0d-4008-84be-4e5f6385ea35.jpg",
+    "source": "https://luma.com/ry5n6ucy"
   }
 ]
